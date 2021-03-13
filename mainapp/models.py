@@ -23,7 +23,7 @@ class Order(models.Model):
     )
 
     selected_driver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,
-                               related_name='orders', verbose_name='Водитель')
+                                        related_name='orders', verbose_name='Водитель')
     user_ip = models.CharField('IP адрес пользователя', max_length=100)
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='orders', verbose_name='Город')
     from_address = models.CharField('Откуда', max_length=255)
@@ -40,12 +40,15 @@ class Order(models.Model):
     def __str__(self):
         return self.phone_number
 
+
 class OfferOrder(models.Model):
     order = models.ForeignKey(Order, related_name='offers', on_delete=models.CASCADE, verbose_name='Заказ')
-    driver_offer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='offers', verbose_name='Предложения водителя')
+    driver_offer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='offers',
+                                     verbose_name='Предложения водителя')
     price = models.IntegerField('Цена', default=0)
     comment = models.TextField('Комментария', max_length=500)
     time = models.IntegerField('Время (минутах)')
+    is_selected = models.BooleanField('Выбран', default=False)
 
     def __str__(self):
-        return self.driver_offer
+        return str(self.driver_offer)

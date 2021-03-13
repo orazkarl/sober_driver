@@ -360,7 +360,7 @@ body{
 }
 
 .orders-index-1 {
-    width: 300px;
+    width: 350px;
     height: 100px;
     border: solid 1px #ccc;
     border-radius: 25px;
@@ -376,7 +376,7 @@ body{
     font-size: 14px;
 
     position: absolute;
-    top: 30px;
+    top: 27px;
     left: 20px;
 }
 
@@ -386,7 +386,7 @@ body{
 
     position: absolute;
     left: 20px;
-    top: 55px;
+    top: 50px;
 }
 
 
@@ -395,7 +395,7 @@ body{
     font-size: 14px;
 
     position: absolute;
-    top: 30px;
+    top: 27px;
     left: 90px;
 }
 
@@ -404,7 +404,7 @@ body{
     font-size: 14px;
 
     position: absolute;
-    top: 55px;
+    top: 50px;
     left: 90px;
 }
 
@@ -463,9 +463,9 @@ body{
 
 .div-for-img {
     width: 65px;
-    height: 55px;
+    height: 58px;
     border-radius: 50%;
-    overflow: hodden
+    overflow: hidden    ;
 }
 
 .table-block-1 {
@@ -474,13 +474,15 @@ body{
     align-items: center;
     border-right: 1px solid #ccc;
     padding: 5px 12px 5px 5px;
+    /*width: 50px;*/
 }
 
 
 .table-block-2 {
     display: flex;
     align-items: center;
-    padding-left: 10px;
+    width: 180px;
+    /*padding-left: 10px;*/
     border-right: 1px solid #ccc;
     padding: 5px 3px 5px 3px;
 }

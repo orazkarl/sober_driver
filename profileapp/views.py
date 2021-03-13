@@ -7,6 +7,7 @@ from user_auth.models import User
 from mainapp.models import City, Order, OfferOrder
 from datetime import timedelta, datetime
 from django.http import JsonResponse
+from django.db import models
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
@@ -18,8 +19,53 @@ class ProfileView(generic.TemplateView):
         d0 = datetime.now().date()
         d1 = request.user.subscription_day.date()
         subscription_days = (d1 - d0).days
+        count_orders_day = Order.objects.filter(selected_driver=request.user, status='finished',
+                                                created__gte=datetime.today() - timedelta(days=1)).count()
+        count_orders_week = Order.objects.filter(selected_driver=request.user, status='finished',
+                                                 created__gte=datetime.today() - timedelta(days=7)).count()
+        count_orders_month = Order.objects.filter(selected_driver=request.user, status='finished',
+                                                  created__gte=datetime.today() - timedelta(days=30)).count()
+        count_orders_all = Order.objects.filter(selected_driver=request.user, status='finished').count()
+        # print(OfferOrder.objects.values('price').annotate(price=models.Count('price').filter(driver_offer=request.user, order__created__gte=datetime.today() - timedelta(days=1), order__status='finished')))
+        # amount_income_day = OfferOrder.objects.filter(driver_offer=request.user, order__created__gte=datetime.today() - timedelta(days=1), order__status='finished')
+        amount_income_day = \
+            OfferOrder.objects.values('price').annotate(amount_day=models.Sum('price')).filter(
+                driver_offer=request.user,
+                order__created__gte=datetime.today() - timedelta(
+                    days=1),
+                order__status='finished')[0][
+                'amount_day']
+        amount_income_week = \
+            OfferOrder.objects.values('price').annotate(amount_day=models.Sum('price')).filter(
+                driver_offer=request.user,
+                order__created__gte=datetime.today() - timedelta(
+                    days=7),
+                order__status='finished')[0][
+                'amount_day']
+        amount_income_month = \
+            OfferOrder.objects.values('price').annotate(amount_day=models.Sum('price')).filter(
+                driver_offer=request.user,
+                order__created__gte=datetime.today() - timedelta(
+                    days=30),
+                order__status='finished')[0][
+                'amount_day']
+        amount_income_all = \
+            OfferOrder.objects.values('price').annotate(amount_day=models.Sum('price')).filter(
+                driver_offer=request.user,
+                order__status='finished')[0][
+                'amount_day']
+
         self.extra_context = {
             'subscription_days': subscription_days,
+            'count_orders_day': count_orders_day,
+            'count_orders_week': count_orders_week,
+            'count_orders_month': count_orders_month,
+            'count_orders_all': count_orders_all,
+            'amount_income_day': amount_income_day,
+            'amount_income_week': amount_income_week,
+            'amount_income_month': amount_income_month,
+            'amount_income_all': amount_income_all,
+
         }
         return super().get(request, *args, **kwargs)
 
@@ -46,17 +92,32 @@ class OrdersView(generic.ListView):
 
     def get(self, request, *args, **kwargs):
         user = request.user
-        orders = Order.objects.filter(city=user.city, status='request')
+        if user.is_free:
+            orders = Order.objects.filter(city=user.city, selected_driver=None).exclude(status='finished').exclude(
+                status='canceled')
+
+        else:
+            orders = Order.objects.filter(selected_driver=user).exclude(status='finished').exclude(status='canceled')
         self.extra_context = {
             'orders': orders,
         }
 
         return super().get(request, *args, **kwargs)
 
-    # def post(self, request, *args, **kwargs):
-    #     order = Order.objects.get(id=int(request.POST['order_id']))
-    #     OfferOrder.objects.create()
-    #     return redirect('orders_view')
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        order = Order.objects.get(id=int(request.POST['order_id']))
+        if 'in_progress' in request.POST:
+            order.status = 'in_progress'
+            order.save()
+
+        elif 'finished' in request.POST:
+            order.status = 'finished'
+            order.save()
+            user.is_free = True
+            user.save()
+
+        return redirect('orders_view')
 
 
 # def getOrders(request):
@@ -68,12 +129,26 @@ class OrderDetailView(generic.DetailView):
     model = Order
     template_name = 'profileapp/order_detail.html'
 
+    def get(self, request, *args, **kwargs):
+        order = Order.objects.get(id=self.kwargs['pk'])
+
+        if order.status == 'request':
+            offer = ''
+            if order.offers.filter(driver_offer=request.user).exists():
+                offer = order.offers.filter(driver_offer=request.user)[0]
+            self.extra_context = {
+                'offer': offer,
+            }
+            return super().get(request, *args, **kwargs)
+        else:
+            return redirect('orders_view')
+
     def post(self, request, *args, **kwargs):
         order = Order.objects.get(id=self.kwargs['pk'])
         price = request.POST['price']
         time = request.POST['time']
         comment = request.POST['comment']
-        OfferOrder.objects.create(order=order, driver_offer=request.user, comment=comment, time=time)
+        OfferOrder.objects.create(order=order, driver_offer=request.user, comment=comment, time=time, price=price)
         return redirect('orders_view')
 
 

@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django.core.cache import cache
+import datetime
+from sober_driver import settings
 from mainapp.models import City
 
 
@@ -18,9 +20,23 @@ class User(AbstractUser):
     balance = models.IntegerField('Баланс', default=0)
     active_subscription = models.BooleanField('Есть подписка?', default=False)
     subscription_day = models.DateTimeField('Дата окончание подписки', null=True, blank=True)
-
+    is_free = models.BooleanField(default=True)
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['country_code']
 
     def __str__(self):
         return self.first_name
+
+    def last_seen(self):
+        return cache.get('seen_%s' % self.user.username)
+
+    def online(self):
+        if self.last_seen():
+            now = datetime.datetime.now()
+            if now > self.last_seen() + datetime.timedelta(
+                    seconds=settings.USER_ONLINE_TIMEOUT):
+                return False
+            else:
+                return True
+        else:
+            return False

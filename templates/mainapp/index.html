@@ -26,20 +26,23 @@
     <div class="new-div-1">
         <div class="new-yellow-block">
             <img src="/static/img/Ellipse-green.png" alt="">
-            <p>230 водителей на связи</p>
+            <p>{{ count_online_drivers }} водителей онлайн</p>
         </div>
     </div>
 
 
     <form action="{% url 'home_view' %}" method="post">
-    {% csrf_token %}
+        {% csrf_token %}
         <div class="input-form">
+                        <div style="display: none" id="id_cities">
             <div class="text-input"><p>Ваш город</p></div>
             <select class="input-city" name="city" id="id_city">
+                <option value="" selected disabled>-----</option>
                 {% for city in cities %}
                     <option value="{{ city }}">{{ city }}</option>
                 {% endfor %}
             </select>
+                        </div>
             <div class="text-input">
                 <p>Откуда</p>
                 <div class="text-red">
@@ -47,7 +50,9 @@
                     <img src="/static/img/geolocation.png" width="19px" height="19px" alt="">
                 </div>
             </div>
-            <div class="div-from"><input class="input-from" type="text" name="from_address" placeholder="Откуда поедем" required>
+            <div class="div-from">
+                <input class="input-from" type="text" name="from_address" onkeyup="DisplayCity()" placeholder="Откуда поедем"
+                                         required>
             </div>
             <div class="text-input-1">
                 <p>Куда</p>
@@ -55,66 +60,129 @@
                     договориться на месте
                 </a>
             </div>
-            <div class="div-from"><input class="input-to" type="text" name="to_address" placeholder="Куда поедем" id="id_to_address" required>
+            <div class="div-from"><input class="input-to" type="text" name="to_address" placeholder="Куда поедем"
+                                         id="id_to_address" required>
                 <img class="geo-plus" src="/static/img/blue+.png" alt=""></div>
 
             <div class="text-input"><p>Телефон</p></div>
             <input class="input-number" type="number" name="phone_number" placeholder="+7 (999) 999-99-99" required>
-            <button type="submit" class="btn-in-index">Заказать водителя</button>
+            <button type="submit" class="btn-in-index" name="order">Заказать водителя</button>
         </div>
 
     </form>
-    <div class="div-title-orders"><span class="title-orders">Сейчас появятся предложения от<br>водителей,пожалуйста подождите</span>
-    </div>
-    <div class="lds-ellipsis">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    <div class="orders-index">
 
-        <div class="orders-index-1">
 
-            <div class="cancel-div-1">
-                <span class="cancel-span-1">Откуда:</span><br>
-                <span class="cancel-span-2">Куда:</span>
-            </div>
-
-            <div class="cancel-div-2">
-                <span class="cancel-span-3">ТУТ</span><br>
-                <span class="cancel-span-4">ТУТ</span>
-            </div>
-
-            <div class="cancel-btn"><span class="cancel-span-5">Отменить заказ</span></div>
-
+    {% if my_orders %}
+        <div class="div-title-orders"><span class="title-orders">Сейчас появятся предложения от<br>водителей,пожалуйста подождите</span>
         </div>
 
-        <div class="orders-from-index-2">
 
-        </div>
-    </div>
 
-    <div class="table">
-        <div class="table-block-1">
-            <div class="div-for-img"><img src="/static/img/profile-3.png" alt=""></div>
-            <p>
-                5 минут
-                <br>
-                <span class="tenge">500тенге</span>
-                5 лет
-            </p>
-        </div>
-        <div class="table-block-2">
-            <p>Скоро буду, через 3 минуты, ожидайте пожалуйста</p>
-        </div>
-        <div class="table-block-3">
-            <p>Выбрать водителя</p>
-        </div>
-    </div>
+        {% for order in my_orders %}
+            {% if order.selected_driver == None and order.offers.all == None %}
 
+                <div class="lds-ellipsis">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            {% endif %}
+            {% if order.selected_driver %}
+                <div class="orders-index">
+
+                    <div class="orders-index-1" {% if order.status == 'finished' %}style="height: 250px"{% endif %}>
+
+                        <div class="cancel-div-1">
+                            <span class="cancel-span-1">Откуда:</span><br>
+                            <span class="cancel-span-2">Куда:</span>
+                            <span class="cancel-span-2" style="top: 72px">Статус: </span>
+                        </div>
+
+                        <div class="cancel-div-2">
+                            <span class="cancel-span-3">{{ order.from_address }}</span><br>
+                            <span class="cancel-span-4">{{ order.to_address }}</span>
+                            <span class="cancel-span-4" style="top: 72px">{{ order.get_status_display }} </span>
+                        </div>
+                        <br>
+                        <div class="cancel-div-3">
+
+                            {% if order.status == 'finished' %}
+                                <span class="cancel-span-2" style="top: 100px">Оценка: </span>
+                                <span class="cancel-span-4" style="top: 100px">
+                                <select name="" id="" class="registration-input"
+                                        style="width: 100px; height: 20px; font-size: 15px">
+                                    <option value="1">★</option>
+                                    <option value="2">★★</option>
+                                    <option value="3">★★★</option>
+                                    <option value="4">★★★★</option>
+                                    <option value="5">★★★★★</option>
+                                </select>
+                            </span>
+                                <span class="cancel-span-2" style="top: 130px">Отзыв: </span>
+                                <span class="cancel-span-4" style="top: 130px">
+                                <textarea name="" id="" cols="30" rows="10" class="registration-input"
+                                          style="width: 240px; height: 60px"></textarea>
+                            </span>
+                                <span class="cancel-span-4" style="top: 210px">
+                                <button class="btn-in-index"
+                                        style="width: 100px; font-size: 12px; background-color: #48CC4D; padding: 5; height: 30px">Отправить</button>
+                            </span>
+                            {% endif %}
+                        </div>
+                        {% if order.status == 'started' %}
+                            <form action="{% url 'home_view' %}" method="post">
+                                {% csrf_token %}
+                                <button class="cancel-btn" style="border: none" type="submit" name="cancel"
+                                        value="{{ order.id }}">
+                                    Отменить заказ
+                                </button>
+                            </form>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="orders-from-index-2">
+
+                    </div>
+                </div>
+            {% else %}
+
+                <form action="{% url 'home_view' %}" method="post">
+                    {% csrf_token %}
+                    {% for offer in order.offers.all %}
+                        <input type="hidden" name="offer_id" value="{{ offer.id }}">
+                        <div class="table">
+                            <div class="table-block-1">
+                                <div class="div-for-img">
+                                    <img src="{{ offer.driver_offer.avatar.url }}"
+                                         style="display: block;margin-left: auto;margin-right: auto; height: 35px"
+                                         alt="">
+                                    <span style="margin: 5px 0 0 7px; font-size: 12px">{{ offer.driver_offer.driving_experience }} лет </span>
+                                </div>
+
+                                <p>
+                                    <span class="tenge">{{ offer.time }} минут</span>
+                                    <br>
+                                    <span class="tenge">{{ offer.price }} тг</span>
+
+                                </p>
+                            </div>
+                            <div class="table-block-2">
+                                <p>{{ offer.comment }}</p>
+                            </div>
+                            <button class="table-block-3" style="border: none" type="submit" name="choose">
+                                Выбрать водителя
+                            </button>
+                        </div>
+                    {% endfor %}
+                </form>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 
     <!--  -->
+
 
     <div class="content">
         <div class="content-1">
@@ -149,8 +217,10 @@
 </footer>
 <script>
     function AgreeOnTheSpot() {
-        console.log('asd')
         document.getElementById('id_to_address').value = 'договориться на месте'
+    }
+    function DisplayCity() {
+        document.getElementById('id_cities').style.display = ''
     }
 </script>
 </body>

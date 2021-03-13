@@ -12,12 +12,50 @@
             <div class="orders orders-top">
                 <p class="orders-text-1">Откуда: {{ order.from_address }}</p>
                 <p class="orders-text-2">Куда: {{ order.to_address }}</p>
-                <p class="orders-text-3">Время заявки: {{ order.created }}</p>
-{#                <form action="." method="post">#}
-{#                    {% csrf_token %}#}
-{#                    <input type="hidden" name="order_id" value="{{ order.id }}">#}
-                    <a class="orders-text-4" href="{% url 'order_detail' order.id%}">Отправить заявку</a>
-{#                </form>#}
+                <p class="orders-text-3">Время заявки: {{ order.created }}
+
+                    {% if order.selected_driver == request.user %}
+
+                        <div style="left: 23px; top: 70px; position: absolute; font-size: 12px">
+                        <p>Номер клиента: <a href="tel:{{ order.phone_number }}"
+                                             style="color: #3D5AFE">{{ order.phone_number }}</a></p>
+
+                        </div>
+                        <p><a class="orders-text-6" disabled="">Ваш заказ</a></p>
+                        <form action="{% url 'orders_view' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            {% if order.status == 'started' %}
+                                <button class="orders-text-4" style="top: 110px" type="submit" name="in_progress">Начать заказ</button>
+                            {% elif order.status == 'in_progress' %}
+                                <button class="orders-text-4" style="top: 110px" type="submit" name="finished">Завершит заказ</button>
+                            {% endif %}
+                        </form>
+
+                        {#                        <p>#}
+                    {% else %}
+
+                        {% if not order.offers.all %}
+                            <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить заявку</a>
+                            </p>
+
+                        {% else %}
+                            {% for offer in order.offers.all %}
+                                {% if offer.driver_offer == request.user %}
+                                    <p><a class="orders-text-5" href="{% url 'order_detail' order.id %}">Отправлено</a>
+                                    </p>
+                                {% else %}
+                                    <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить
+                                        заявку</a></p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+            {#                <form action="." method="post">#}
+            {#                    {% csrf_token %}#}
+            {#                    <input type="hidden" name="order_id" value="{{ order.id }}">#}
+
+            {#                </form>#}
             </div>
         {% endfor %}
     </div>

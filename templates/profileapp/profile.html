@@ -65,15 +65,15 @@
     <div class="token-block-2">
         <p class="title-in-token-block">Статистика выполненных заказов</p>
         <div class="table-1"><p>Колличество заказов</p></div>
-        <span class="table-2">За сегодня:</span><br>
-        <span class="table-3">За неделю:</span><br>
-        <span class="table-4">За месяц:</span><br>
-        <span class="table-5">За все время:</span><br>
+        <span class="table-2">За сегодня: {{ count_orders_day }}</span><br>
+        <span class="table-3">За неделю: {{ count_orders_week }}</span><br>
+        <span class="table-4">За месяц: {{ count_orders_month }}</span><br>
+        <span class="table-5">За все время: {{ count_orders_all }}</span><br>
         <div class="table-1"><p>Сумма заработка</p></div>
         <spanp
-        = class="table-7">За сегодня:</span><br>
-        <span class="table-8">За неделю:</span><br>
-        <span class="table-9">За месяц:</span><br>
-        <span class="table-10">За все время:</span><br>
+        = class="table-7">За сегодня: {{ amount_income_day }} </span><br>
+        <span class="table-8">За неделю:{{ amount_income_week}} </span><br>
+        <span class="table-9">За месяц: {{ amount_income_month }}</span><br>
+        <span class="table-10">За все время:{{ amount_income_all }} </span><br>
     </div>
 {% endblock %}

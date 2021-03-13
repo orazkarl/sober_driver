@@ -1,0 +1,46 @@
+{% extends 'user_auth/user_auth_base.html' %}
+{% block content %}
+    <main class="page">
+        <div class="text-in-registration">
+            <h1>Вход для водитилей</h1>
+        </div>
+        <div class="registration-window">
+            <form action="{% url 'login_view' %}" method="POST">
+                                    {% csrf_token %}
+
+                <div class="text-in-registration-window">Номер телефона (без кода страны: +7 или 8)</div>
+                <input class="input-number" type="number" placeholder="Номер телефона" name="phone_number" required>
+                <div class="text-in-registration-window">Введите пароль</div>
+                <input class="input-number" type="password" placeholder="Введите пароль" name="password" required>
+                <button class="sign-in-btn" type="submit" name="register">Войти</button>
+                <a class="anchor-sign-in" href="{% url 'register_view' %}">Регистрация</a>
+                <a class="anchor-sign-in" href="{% url 'restore_password' %}">Забыли пароль?</a>
+            </form>
+        </div>
+    </main>
+
+    {#    <div class="h-100vh">#}
+    {#    <div class="v-r-c">#}
+    {#        <h2 class="tac">Вход для водителей</h2>#}
+    {#        <div class="form m-c sign-form">#}
+    {##}
+    {#            <form method="POST" id="login_form" autocomplete="off" action="{% url 'login_view' %}">#}
+    {#                {% csrf_token %}#}
+    {#                <label for="id_username">Логин</label>#}
+    {#                <p style="color: red">{{ form.username.errors }}</p>#}
+    {##}
+    {#                <input type="text" name="username" id="id_username" placeholder="Логин" required>#}
+    {##}
+    {#                <label for="id_password">Пароль</label>#}
+    {#                <p style="color: red">{{ form.password.errors }}</p>#}
+    {##}
+    {#                <input type="password" name="password" id="id_password" placeholder="Пароль" required>#}
+    {##}
+    {#                <button type="submit" class="btn-green" name="register">Войти</button>#}
+    {##}
+    {#                <a href="{% url 'register_view' %}">Регистрация</a>#}
+    {#                <a href="{% url 'restore_password' %}">Забыли пароль?</a>#}
+    {#            </form>#}
+    {#        </div>#}
+    {#    </div>#}
+{% endblock %}

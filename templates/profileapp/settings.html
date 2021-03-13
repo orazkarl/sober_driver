@@ -1,0 +1,89 @@
+{% extends 'profileapp/profile_base.html' %}
+{% block title %}
+    <title>Настройки аккаунта</title>
+{% endblock %}
+{% block content %}
+    <style>
+        .change_password {
+            {#margin-left: 36px;#}
+            padding: 5px 63px 5px 63px;
+
+            width: 278px !important;
+
+            {#height: 29px !important;#}
+            border: none;
+            border-radius: 15px;
+            background-color: #10C7F1;
+            font-size: 18px;
+        }
+    </style>
+    <div class="setting-div-1">
+        <form action="{% url 'settings_view' %}" method="post">
+            {% csrf_token %}
+            <div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <p style="color: red">{{ message|escape }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="set-div-1-1"><p class="text-in-settings">Изменить номер телефона</p></div>
+            <label for="reg-input-1"> <span class="text-in-registration-window">Старый номер</span></label>
+            <br>
+            <input class="registration-input" type="number" id="reg-input-1"
+                   style="width: 18%; display: inline; margin-left: 35px; " maxlength="1" name="old_country_code"
+                   placeholder="7" value="{{ request.user.country_code }}" required>
+            <input class="registration-input" type="number" id="reg-input-1" style="width: 60%;display: inline"
+                   name="old_phone_number"
+                   placeholder="777 777 77 77" required>
+            <br>
+
+            <label for="reg-input-2"><span class="text-in-registration-window">Новый номер</span></label>
+            <br>
+            <input class="registration-input" type="number" id="reg-input-1"
+                   style="width: 18%; display: inline; margin-left: 35px" maxlength="1" name="new_country_code"
+                   placeholder="7" required>
+            <input class="registration-input" type="number" id="reg-input-1" style="width: 60%;display: inline"
+                   name="new_phone_number"
+                   placeholder="777 777 77 77" required>
+            <br>
+            <button class="btn-in-settings" name="change_phone_number" type="submit">Изменить</button>
+        </form>
+
+    </div>
+
+    {#    <div class="setting-div-2">#}
+    {#        <form action="">#}
+    {#            <div class="set-div-1-1"><p class="text-in-settings">Изменить пароль</p></div>#}
+    {#            <input class="registration-input" type="text" placeholder="Старый пароль" required>#}
+    {#            <input class="registration-input" type="text" placeholder="Новый пароль" required>#}
+    {#            <input class="registration-input" type="text" placeholder="Повторите новый пароль" required>#}
+    {#            <button class="btn-in-settings" name="change_password">Изменить</button>#}
+    {#        </form>#}
+    {#    </div>#}
+
+    <div class="setting-div-3">
+        <form action="{% url 'settings_view' %}" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <p style="color: green">{{ message|escape }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="set-div-1-1"><p class="text-in-settings">Изменить фото</p></div>
+            <input type="file" name="avatar" id="file" class="inputfile"/>
+            <label for="file"><span class="span-in-label">Выберите фото</span></label>
+            <button class="btn-in-settings" name="change_avatar" type="submit">Изменить</button>
+        </form>
+    </div>
+    </div> <!---------------------- page ---------------------->
+    <div class="setting-div-2" style="height: 90px; text-align: center">
+        <div class="set-div-1-1"><p class="text-in-settings">Изменить пароль</p></div>
+
+
+        <a href="{% url 'password_change' %}" class="change_password">Изменить пароль</a>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>В градусе KZ</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&family=Roboto:wght@300;400;500;700&display=swap"
+          rel="stylesheet">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<div class="page"> <!-- ------------------Logo-------------- -->
+    <div class="header-1">
+        <div class="logo-div"><img class="logo" src="/static/img/logo-1.svg" alt="logo"></div>
+    </div>
+
+    <!---------------- content ----------------->
+    <div class="bookmark-div">
+        <div class="new-blue-block">
+            <img src="/static/img/bookmarks-1.png" alt="">
+            <p>Обязательно сохраните наш сайт<br>в закладках, чтобы не забыть</p>
+        </div>
+    </div>
+    <div class="new-div-1">
+        <div class="new-yellow-block">
+            <img src="/static/img/Ellipse-green.png" alt="">
+            <p>230 водителей на связи</p>
+        </div>
+    </div>
+
+
+    <form action="{% url 'home_view' %}" method="post">
+    {% csrf_token %}
+        <div class="input-form">
+            <div class="text-input"><p>Ваш город</p></div>
+            <select class="input-city" name="city" id="id_city">
+                {% for city in cities %}
+                    <option value="{{ city }}">{{ city }}</option>
+                {% endfor %}
+            </select>
+            <div class="text-input">
+                <p>Откуда</p>
+                <div class="text-red">
+                    <p>определить местоположение</p>
+                    <img src="/static/img/geolocation.png" width="19px" height="19px" alt="">
+                </div>
+            </div>
+            <div class="div-from"><input class="input-from" type="text" name="from_address" placeholder="Откуда поедем" required>
+            </div>
+            <div class="text-input-1">
+                <p>Куда</p>
+                <a class="text-green" href="#" onclick="AgreeOnTheSpot()" style="color: white">
+                    договориться на месте
+                </a>
+            </div>
+            <div class="div-from"><input class="input-to" type="text" name="to_address" placeholder="Куда поедем" id="id_to_address" required>
+                <img class="geo-plus" src="/static/img/blue+.png" alt=""></div>
+
+            <div class="text-input"><p>Телефон</p></div>
+            <input class="input-number" type="number" name="phone_number" placeholder="+7 (999) 999-99-99" required>
+            <button type="submit" class="btn-in-index">Заказать водителя</button>
+        </div>
+
+    </form>
+    <div class="div-title-orders"><span class="title-orders">Сейчас появятся предложения от<br>водителей,пожалуйста подождите</span>
+    </div>
+    <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="orders-index">
+
+        <div class="orders-index-1">
+
+            <div class="cancel-div-1">
+                <span class="cancel-span-1">Откуда:</span><br>
+                <span class="cancel-span-2">Куда:</span>
+            </div>
+
+            <div class="cancel-div-2">
+                <span class="cancel-span-3">ТУТ</span><br>
+                <span class="cancel-span-4">ТУТ</span>
+            </div>
+
+            <div class="cancel-btn"><span class="cancel-span-5">Отменить заказ</span></div>
+
+        </div>
+
+        <div class="orders-from-index-2">
+
+        </div>
+    </div>
+
+    <div class="table">
+        <div class="table-block-1">
+            <div class="div-for-img"><img src="/static/img/profile-3.png" alt=""></div>
+            <p>
+                5 минут
+                <br>
+                <span class="tenge">500тенге</span>
+                5 лет
+            </p>
+        </div>
+        <div class="table-block-2">
+            <p>Скоро буду, через 3 минуты, ожидайте пожалуйста</p>
+        </div>
+        <div class="table-block-3">
+            <p>Выбрать водителя</p>
+        </div>
+    </div>
+
+
+    <!--  -->
+
+    <div class="content">
+        <div class="content-1">
+            <p>Полная безопасность</p>
+            <img class="icons-in-index" src="/static/img/verified.svg" alt="def">
+            <p>Все водители проходят проверку</p>
+        </div>
+
+        <div class="content-2">
+            <p>Быстрая подача</p>
+            <img class="icons-in-index" src="/static/img/clock.svg" alt="clock">
+            <p>Средняя время подачи 5 минут</p>
+        </div>
+
+        <div class="content-3">
+            <p>Выбор за вами</p>
+            <img class="icons-in-index" src="/static/img/vote.svg" alt="vote" style="margin-left: 21px;">
+            <p>Вы сами выбираете, кто вас повезет</p>
+        </div>
+
+
+    </div>  <!------------------- content ----------------->
+</div>              <!-- ------------------page-------------- -->
+
+<footer class="footer">
+    <a class="drivers" href="{% url 'prodile_view' %}">Для водителей</a>
+
+    <div class="contacts">
+        <p>Телефон: 727 300-0000</p>
+        <p>Email: vgraduse.kz@gmail.com</p>
+    </div>
+</footer>
+<script>
+    function AgreeOnTheSpot() {
+        console.log('asd')
+        document.getElementById('id_to_address').value = 'договориться на месте'
+    }
+</script>
+</body>
+</html>

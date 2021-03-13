@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    {% endblock %}
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&family=Roboto:wght@300;400;500;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/stylefor.css">
+    <link rel="icon" type="image/png" href="/static/img/favicon.png">
+</head>
+<body>
+<main class="page">
+
+    <div id="nav-container">
+
+        <div class="bg"></div>
+
+        <div class="button" tabindex="0">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </div>
+
+        <div id="nav-content">
+            <div class="yellow-box">
+                <p class="name-in-yellow-box">{{ request.user.first_name }}</p>
+
+                <div class="div-for-image-in-yellow-box"><img src="{{ request.user.avatar.url }}" width="60px" alt="img"></div>
+                <p class="money-in-yellow-box">{{ request.user.balance }} тг</p>
+                <p class="city-in-yellow-box">{{ request.user.city }}</p>
+            </div>
+            <ul>
+                <li><a href="{% url 'orders_view' %}">Заказы</a></li>
+                <hr>
+                <li><a href="{% url 'prodile_view' %}">Профиль</a></li>
+                <hr>
+                <li><a href="{% url 'instruction_view' %}">Техинструкция</a></li>
+                <hr>
+                <li><a href="{% url 'settings_view' %}">Настройки аккаунта</a></li>
+                <hr>
+                <li><a href="{% url 'logout' %}">Выйти</a></li>
+                <hr>
+            </ul>
+        </div>
+
+    </div> <!---------------------nav-container ------------ -->
+{% block content %}
+    {% endblock %}
+
+</main> <!---------------------- page ---------------------->
+
+<footer>
+    <div class="contacts">
+        <p>Телефон: 727 300-0000</p>
+        <p>Email: vgraduse.kz@gmail.com</p>
+    </div>
+</footer>
+
+</body>
+</html>

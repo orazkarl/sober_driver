@@ -1,0 +1,39 @@
+{% extends 'profileapp/profile_base.html' %}
+{% block title %}
+    <title>Заказы</title>
+{% endblock %}
+{% block content %}
+    <div class="city-in-orders">
+        <p>{{ request.user.city }}</p>
+    </div>
+
+
+
+    <div class="orders orders-top" style="">
+        <p class="orders-text-1">Откуда: {{ order.from_address }}</p>
+        <p class="orders-text-2">Куда: {{ order.to_address }}</p>
+        <p class="orders-text-3">Время заявки: {{ order.created }}</p>
+
+        {#                    <a class="orders-text-4" href="{% url 'order_detail' order.id%}">Отправить заявку</a>#}
+
+    </div>
+    <div class="orders orders-top" style="height: 280px;">
+        <form action="." style="margin: 5px; " method="post">
+            {% csrf_token %}
+            <div class="text-in-registration-window">Цена: </div>
+            <input type="number" class="registration-input" name="price" placeholder="Цена" required>
+            <div class="text-in-registration-window">Время (минутах): </div>
+            <input type="number" class="registration-input" name="time"  placeholder="Время (минутах)"required>
+            <div class="text-in-registration-window">Комментария к заказу </div>
+            <textarea name="comment" id="" cols="50" rows="10" class="registration-input" style="resize: none" required></textarea>
+{#        <p class="orders-text-1">Откуда: {{ order.from_address }}</p>#}
+{#        <p class="orders-text-2">Куда: {{ order.to_address }}</p>#}
+{#        <p class="orders-text-3">Время заявки: {{ order.created }}</p>#}
+
+            <button class="orders-text-4" style="top: 230px; left: 115px" type="submit">Отправить заявку</button>
+            </form>
+
+    </div>
+
+
+{% endblock %}

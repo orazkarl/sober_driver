@@ -1,0 +1,136 @@
+{% extends 'user_auth/user_auth_base.html' %}
+{% block content %}
+    <main class="page">
+        <div class="text-in-registration">
+            <h1>Подтвердите свой номер телефона</h1>
+        </div>
+        <div class="registration-window">
+
+            <form action="{% url 'verify_view' %}" method="POST">
+                {% if messages %}
+                    <div id="messages">
+                        {% for message in messages %}
+                            <div >
+                                {{ message|escape }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% csrf_token %}
+                        <input type='hidden' name='username' value='{{ user.username }}'/>
+
+
+                <div class="div-in-window-registration">
+                    <label for="3-registration-input"><span
+                            class="text-in-registration-window">Одноразовый пароль</span></label>
+                    <p style="color: red">{{ form.one_time_password.errors }}</p>
+                    <input class="registration-input" type="password" id="3-registration-input" name="one_time_password"
+                           placeholder="Одноразовый пароль" required>
+                </div>
+                <button class="sign-in-btn" type="submit" name="register">Подтверждать</button>
+{#                <a class="anchor-sign-in" href="{% url 'register_view' %}">Регистрация</a>#}
+{#                <a class="anchor-sign-in" href="{% url 'login_view' %}">Войти</a>#}
+            </form>
+        </div>
+    </main>
+    {#    <div class="h-100vh">#}
+    {#    <div class="v-r-c">#}
+    {#        <h2 class="tac">Подтвердите свой номер телефона</h2>#}
+    {#        <div class="form m-c sign-form">#}
+    {#            {% if messages %}#}
+    {#                <div id="messages">#}
+    {#                    {% for message in messages %}#}
+    {#                        <div class="alert alert-dismissible alert-info"#}
+    {#                             role="alert">#}
+    {#                            <button type="button" class="close" data-dismiss="alert"#}
+    {#                                    aria-label="Close">#}
+    {#                                <span aria-hidden="true">&times;</span>#}
+    {#                            </button>#}
+    {#                            {{ message|escape }}#}
+    {#                        </div>#}
+    {#                    {% endfor %}#}
+    {#                </div>#}
+    {#            {% endif %}#}
+    {#            <form method="post" action="/verify/" autocomplete="off">#}
+    {#                {% csrf_token %}#}
+    {#                <input type='hidden' name='username' value='{{ user.username }}'/>#}
+    {##}
+    {##}
+    {#                <label for="id_one_time_password">Одноразовый пароль</label>#}
+    {#                <p style="color: red">{{ form.one_time_password.errors }}</p>#}
+    {##}
+    {#                <input type="text" name="one_time_password" id="id_one_time_password"#}
+    {#                       placeholder="Одноразовый пароль" required>#}
+    {##}
+    {#                <button type="submit" class="btn-green" name="register">Подтверждать</button>#}
+    {##}
+    {#                <p class="text-center">#}
+    {#                 Не получили одноразовый пароль?<a href="/resend_otp">Отправить повторно</a>#}
+    {#                </p>#}
+    {#            </form>#}
+    {#        </div>#}
+    {#    </div>#}
+{% endblock %}
+
+{##}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="utf-8">#}
+{#    <meta http-equiv="X-UA-Compatible" content="IE=edge">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1">#}
+{#    <meta name="description" content="">#}
+{#    <meta name="author" content="">#}
+{##}
+{#    <title>Twilio Project</title>#}
+{##}
+{#    <link href="/static/css/bootstrap.min.css" rel="stylesheet">#}
+{##}
+{##}
+{#</head>#}
+{##}
+{#<body>#}
+{#<div class="jumbotron">#}
+{##}
+{#    <div class="container">#}
+{##}
+{#        <div class="col-sm-6 col-sm-offset-3">#}
+{##}
+{##}
+{##}
+{##}
+{##}
+{#                <form class="form-inline" id="login_form" method="POST" action="/verify/">#}
+{#                    <h3>Confirm your phone number</h3>#}
+{#                    <br>#}
+{#                    {% csrf_token %}#}
+{#                    <input type='hidden' name='username' value='{{ user.username }}'/>#}
+{##}
+{#                    <div class="form-group{% if form.one_time_password.errors %} has-error{% endif %}">#}
+{#                        <label class="control-label" for="id_one_time_password">One Time Password</label>#}
+{#                        <div class="input-group input-group-lg">#}
+{##}
+{#                        </div>#}
+{#                        <input class="form-control input-lg" id="id_one_time_password" name="one_time_password"#}
+{#                               type="password" required/>#}
+{#                        <div class="error-block">{{ form.one_time_password.errors }}</div>#}
+{#                    </div>#}
+{##}
+{##}
+{#                    <button type="submit" name="register"#}
+{#                            class="btn btn-primary btn-lg ">#}
+{#                        Confirm#}
+{#                    </button>#}
+{#                    <br><br>#}
+{#                    <p class="text-center">#}
+{#                        Didn't recieve one time password? <a href="/resend_otp">Resend OTP</a>#}
+{#                    </p>#}
+{#                </form>#}
+{##}
+{#        </div>#}
+{#    </div> <!-- /container -->#}
+{##}
+{#</div>#}
+{##}
+{#</body>#}
+{#</html>#}

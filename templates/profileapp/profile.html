@@ -1,0 +1,79 @@
+{% extends 'profileapp/profile_base.html' %}
+{% block title %}
+    <title>Профиль</title>
+{% endblock %}
+{% block content %}
+
+    <div class="blue-in-profile">
+        <p class="name-in-profile">{{ request.user.last_name }} {{ request.user.first_name }}</p>
+        <p class="city-in-profile">{{ request.user.city }}</p>
+        <div class="div-for-image"><img src="{{ request.user.avatar.url }}" width="60px" alt=""></div>
+    </div>
+
+    <!-- grid-in-profile -->
+    <div class="grid-in-profile">
+
+        <div class="row-grid">
+            <span>ИИН</span>
+            <span>{{ request.user.iin }}</span>
+        </div>
+
+
+        <div class="row-grid">
+            <span>Номер ВУ</span>
+            <span>{{ request.user.driver_license_number }}</span>
+        </div>
+
+    </div>
+    <div style="text-align: center">{% if messages %}
+        {% for message in messages %}
+            <p style="color: red">{{ message|escape }}</p>
+        {% endfor %}
+    {% endif %}</div>
+    <div class="token-block-1">
+        <form action="." method="post">
+            {% csrf_token %}
+            <p class="title-in-token-block">Состояние подписки</p>
+
+            <p class="text-in-token-block">Стоимость подписки за 1 месяц: 500 тенге</p>
+            <div class="div-in-token-block">
+            <span class="span-in-token-block">
+                {% if request.user.active_subscription %}
+                    Осталось: {{ subscription_days }} дней
+
+                {% else %}Не оформлена{% endif %}</span>
+
+                <button class="btn-in-token-block" type="submit" style="width: 162px; border: none" name="subscription">
+                    {% if request.user.active_subscription %}Продлить подписку{% else %}Оформить
+                        подписку{% endif %}</button>
+
+
+            </div>
+        </form>
+    </div>
+
+
+    <div class="token-block-1">
+        <p class="title-in-token-block">Пополнить баланс</p>
+        <p class="text-in-token-block">Ставка за 1 заказ: 100 тенге</p>
+        <div class="div-in-token-block">
+            <span class="span-in-token-block">Ваш баланс: {{ request.user.balance }} тенге</span>
+            <a class="btn-in-token-block-2" href="#">Пополнить баланс</a>
+        </div>
+    </div>
+
+    <div class="token-block-2">
+        <p class="title-in-token-block">Статистика выполненных заказов</p>
+        <div class="table-1"><p>Колличество заказов</p></div>
+        <span class="table-2">За сегодня:</span><br>
+        <span class="table-3">За неделю:</span><br>
+        <span class="table-4">За месяц:</span><br>
+        <span class="table-5">За все время:</span><br>
+        <div class="table-1"><p>Сумма заработка</p></div>
+        <spanp
+        = class="table-7">За сегодня:</span><br>
+        <span class="table-8">За неделю:</span><br>
+        <span class="table-9">За месяц:</span><br>
+        <span class="table-10">За все время:</span><br>
+    </div>
+{% endblock %}

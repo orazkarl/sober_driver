@@ -1,0 +1,197 @@
+{% extends 'user_auth/user_auth_base.html' %}
+{% block content %}
+    <style>
+        label {
+            margin-left: 7px;
+            font-size: 22px;
+            color: #363636;
+        }
+
+        .helptext {
+            font-size: 17px;
+        {#margin: 5px;#}
+        }
+    </style>
+    <main class="page">
+        <div class="text-in-registration"><h1>Регистрация для водителей</h1></div>
+        <div class="text-in-registration"><h2>Внимание! Для работы, необходим стаж вождения не менее 3-х лет.</h2></div>
+
+        <div class="registration-window">
+
+
+            <form action="{% url 'register_view' %}" method="post" autocomplete="off" enctype="multipart/form-data" style="margin-left: 28px">
+                {% csrf_token %}
+                {#                {{ form.as_p }}#}
+                {% if messages %}
+                    <div id="messages">
+                        {% for message in messages %}
+                            <div role="alert">
+                                {{ message|escape }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if form.non_field_errors %}
+                    <div id="messages">
+                        {% for message in form.non_field_errors %}
+                            <div role="alert">
+                                {{ message|escape }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+{#                <div class="div-in-window-registration">#}
+{#                    <label for="1-registration-input"><span#}
+{#                            class="text-in-registration-window">Логин</span></label>#}
+{#                    <p style="color: red">{{ form.username.errors }}</p>#}
+{##}
+{#                    <input class="registration-input" type="text" id="1-registration-input" placeholder="Логин"#}
+{#                           name="username"#}
+{#                           required>#}
+{#                </div>#}
+                <div class="div-in-window-registration">
+                    <label for="1-registration-input"><span
+                            class="text-in-registration-window">Email</span></label>
+                    <p style="color: red">{{ form.email.errors }}</p>
+
+                    <input class="registration-input" type="email" id="1-registration-input" placeholder="Email"
+                           name="email"
+                           required>
+                </div>
+                {#                <div class="div-in-window-registration">#}
+                {#                    <label for="1-registration-input"><span#}
+                {#                            class="text-in-registration-window">Ваша фамилия</span></label>#}
+                {#                    <p style="color: red">{{ form.last_name.errors }}</p>#}
+                {##}
+                {#                    <input class="registration-input" type="text" id="1-registration-input" placeholder="Фамилия"#}
+                {#                           name="last_name"#}
+                {#                           required>#}
+                {#                </div>#}
+                {##}
+                {#                <div class="div-in-window-registration">#}
+                {#                    <label for="2-registration-input"><span class="text-in-registration-window">Ваше имя</span></label>#}
+                {#                    <p style="color: red">{{ form.first_name.errors }}</p>#}
+                {#                    <input class="registration-input" type="text" id="2-registration-input" placeholder="Имя"#}
+                {#                           name="first_name" required>#}
+                {#                </div>#}
+                {#                <div class="div-in-window-registration">#}
+                {#                    <label for="reg-input-2"><span class="text-in-registration-window">Новый номер</span></label>#}
+                {#                    <br>#}
+                {#                    <input class="registration-input" type="number" id="reg-input-1"#}
+                {#                           style="width: 18%; display: inline; margin-left: 35px" maxlength="1"#}
+                {#                           placeholder="7" value="{{ request.user.country_code }}" disabled required>#}
+                {#                    <input class="registration-input" type="number" id="reg-input-1" style="width: 60%;display: inline"#}
+                {#                           placeholder="777 777 77 77" required>#}
+                {#                    <br>#}
+                {#                </div>#}
+
+                <div class="div-in-window-registration">
+                    <label for="3-registration-input"><span
+                            class="text-in-registration-window">Ваш номер телефона</span></label>
+                    <p style="color: red">{{ form.phone_number.errors }}</p>
+                    {#                                    <input class="registration-input" type="number" id="3-registration-input" name="phone_number"#}
+                    {#                                           placeholder="777 777 77 77" required>#}
+                    <input class="registration-input" type="number" id="3-registration-input" name="country_code"
+                           style="width: 20%; display: inline; " max="9"
+                           placeholder="7" required>
+                    <input class="registration-input" type="number" id="3-registration-input" style="width: 68%;display: inline" name="phone_number"
+                           placeholder="777 777 77 77" required>
+                </div>
+                {#                <div class="div-in-window-registration">#}
+                {#                    <label for="3-registration-input"><span#}
+                {#                            class="text-in-registration-window">Код страны</span></label>#}
+                {#                    <p style="color: red">{{ form.country_code.errors }}</p>#}
+                {#                    <select name="country_code" id="" class="registration-input">#}
+                {#                        <option data-countryCode="KZ" value="7" selected>Казахстан (+7)</option>#}
+                {#                        <option data-countryCode="RU" value="7">Россия (+7)</option>#}
+                {##}
+                {#                    </select>#}
+                {#                </div>#}
+                {##}
+                {#                <div class="div-in-window-registration">#}
+                {#                    <label for="3-registration-input"><span#}
+                {#                            class="text-in-registration-window">Ваш номер телефона</span></label>#}
+                {#                    <p style="color: red">{{ form.phone_number.errors }}</p>#}
+                {#                    <input class="registration-input" type="number" id="3-registration-input" name="phone_number"#}
+                {#                           placeholder="777 777 77 77" required>#}
+                {#                </div>#}
+
+                {#                <div class="div-in-window-registration">#}
+                {#                    <label for="4-registration-input"><span class="text-in-registration-window">Ваше фото</span></label>#}
+                {#                    <p style="color: red">{{ form.avatar.errors }}</p>#}
+                {#                    <input class="registration-input" style="font-size: 16px;" type="file" id="4-registration-input"#}
+                {#                           name="avatar"#}
+                {#                           placeholder="Файл не выбран" required>#}
+                {#                </div>#}
+
+                {#                <div class="div-in-window-registration">#}
+                {#                    <label for="5-registration-input"><span#}
+                {#                            class="text-in-registration-window">Город работы</span></label>#}
+                {#                    <select class="registration-input" name="city" id="5-registration-input" required>#}
+                {#                        <option value="">Выберите город</option>#}
+                {#                        <option value="Актау">Актау</option>#}
+                {#                        <option value="Актобе">Актобе</option>#}
+                {#                        <option value="Алматы">Алматы</option>#}
+                {#                        <option value="Астана">Астана</option>#}
+                {#                        <option value="Атырау">Атырау</option>#}
+                {#                        <option value="Капшагай">Капшагай</option>#}
+                {#                        <option value="Караганда">Караганда</option>#}
+                {#                        <option value="Костанай">Костанай</option>#}
+                {#                        <option value="Кызылорда">Кызылорда</option>#}
+                {#                        <option value="Павлодар">Павлодар</option>#}
+                {#                        <option value="Семей">Семей</option>#}
+                {#                        <option value="Талдыкорган">Талдыкорган</option>#}
+                {#                        <option value="Тараз">Тараз</option>#}
+                {#                        <option value="Туркестан">Туркестан</option>#}
+                {#                        <option value="Уральск">Уральск</option>#}
+                {#                        <option value="Усть-Каменогорск">Усть-Каменогорск</option>#}
+                {#                        <option value="Шымкент">Шымкент</option>#}
+                {#                    </select>#}
+                {#                </div>#}
+
+                {#                <div class="div-in-window-registration">#}
+                {#                    <label for="6-registration-input"><span class="text-in-registration-window">ИИН</span></label>#}
+                {#                    <p style="color: red">{{ form.iin.errors }}</p>#}
+                {#                    <input class="registration-input" type="number" id="6-registration-input" placeholder="ИИН"#}
+                {#                           name="iin"#}
+                {#                           required>#}
+                {#                </div>#}
+                {##}
+                {#                <div class="div-in-window-registration">#}
+                {#                    <label for="7-registration-input"><span class="text-in-registration-window">Номер ВУ</span></label>#}
+                {#                    <p style="color: red">{{ form.driving_experience.errors }}</p>#}
+                {#                    <input class="registration-input" type="text" id="7-registration-input" name="driving_experience"#}
+                {#                           placeholder="Водительское удостоверение" required>#}
+                {#                </div>#}
+
+                <div class="div-in-window-registration">
+                    <label for="8-registration-input"><span class="text-in-registration-window">Придумайте пароль</span></label>
+                    <p style="color: red">{{ form.password1.errors }}</p>
+                    <input class="registration-input" type="password" id="8-registration-input" name="password1"
+                           placeholder="Придумайте пароль" required>
+                </div>
+
+                <div class="div-in-window-registration">
+                    <label for="9-registration-input"><span class="text-in-registration-window">Повторите пароль</span></label>
+                    <p style="color: red">{{ form.password2.errors }}</p>
+                    <input class="registration-input" type="password" id="9-registration-input" name="password2"
+                           placeholder="Повторите пароль" required>
+                </div>
+
+
+                <input type="checkbox" required> <span>Я согласен(на) с <a class="politic-checkbox"
+                                                                           href="/politic.html"> политикой <br>
+         конфиденциальности</a></span>
+
+
+                <div>
+                    <button class="registration-btn" type="submit" name="register">Зарегистрироваться</button>
+                </div>
+
+
+                <div class="registration-anchor"><a class="anchor-sign-in" href="{% url 'login_view' %}">Войти</a></div>
+                {#                <div class="registration-anchor"><a class="anchor-sign-in" href="recovery.html">Забыли пароль?</a></div>#}
+            </form>
+        </div>  <!-- registration-window -->
+    </main>
+{% endblock %}

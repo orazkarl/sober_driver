@@ -49,41 +49,41 @@
 {#                           name="username"#}
 {#                           required>#}
 {#                </div>#}
-                <div class="div-in-window-registration">
-                    <label for="1-registration-input"><span
-                            class="text-in-registration-window">Email</span></label>
-                    <p style="color: red">{{ form.email.errors }}</p>
+{#                <div class="div-in-window-registration">#}
+{#                    <label for="1-registration-input"><span#}
+{#                            class="text-in-registration-window">Email</span></label>#}
+{#                    <p style="color: red">{{ form.email.errors }}</p>#}
+{##}
+{#                    <input class="registration-input" type="email" id="1-registration-input" placeholder="Email"#}
+{#                           name="email"#}
+{#                           required>#}
+{#                </div>#}
+                                <div class="div-in-window-registration">
+                                    <label for="1-registration-input"><span
+                                            class="text-in-registration-window">Ваша фамилия</span></label>
+                                    <p style="color: red">{{ form.last_name.errors }}</p>
 
-                    <input class="registration-input" type="email" id="1-registration-input" placeholder="Email"
-                           name="email"
-                           required>
-                </div>
-                {#                <div class="div-in-window-registration">#}
-                {#                    <label for="1-registration-input"><span#}
-                {#                            class="text-in-registration-window">Ваша фамилия</span></label>#}
-                {#                    <p style="color: red">{{ form.last_name.errors }}</p>#}
-                {##}
-                {#                    <input class="registration-input" type="text" id="1-registration-input" placeholder="Фамилия"#}
-                {#                           name="last_name"#}
-                {#                           required>#}
-                {#                </div>#}
-                {##}
-                {#                <div class="div-in-window-registration">#}
-                {#                    <label for="2-registration-input"><span class="text-in-registration-window">Ваше имя</span></label>#}
-                {#                    <p style="color: red">{{ form.first_name.errors }}</p>#}
-                {#                    <input class="registration-input" type="text" id="2-registration-input" placeholder="Имя"#}
-                {#                           name="first_name" required>#}
-                {#                </div>#}
-                {#                <div class="div-in-window-registration">#}
-                {#                    <label for="reg-input-2"><span class="text-in-registration-window">Новый номер</span></label>#}
-                {#                    <br>#}
-                {#                    <input class="registration-input" type="number" id="reg-input-1"#}
-                {#                           style="width: 18%; display: inline; margin-left: 35px" maxlength="1"#}
-                {#                           placeholder="7" value="{{ request.user.country_code }}" disabled required>#}
-                {#                    <input class="registration-input" type="number" id="reg-input-1" style="width: 60%;display: inline"#}
-                {#                           placeholder="777 777 77 77" required>#}
-                {#                    <br>#}
-                {#                </div>#}
+                                    <input class="registration-input" type="text" id="1-registration-input" placeholder="Фамилия"
+                                           name="last_name"
+                                           required>
+                                </div>
+
+                                <div class="div-in-window-registration">
+                                    <label for="2-registration-input"><span class="text-in-registration-window">Ваше имя</span></label>
+                                    <p style="color: red">{{ form.first_name.errors }}</p>
+                                    <input class="registration-input" type="text" id="2-registration-input" placeholder="Имя"
+                                           name="first_name" required>
+                                </div>
+{#                                <div class="div-in-window-registration">#}
+{#                                    <label for="reg-input-2"><span class="text-in-registration-window">Новый номер</span></label>#}
+{#                                    <br>#}
+{#                                    <input class="registration-input" type="number" id="reg-input-1"#}
+{#                                           style="width: 18%; display: inline; margin-left: 35px" maxlength="1"#}
+{#                                           placeholder="7" value="{{ request.user.country_code }}" disabled required>#}
+{#                                    <input class="registration-input" type="number" id="reg-input-1" style="width: 60%;display: inline"#}
+{#                                           placeholder="777 777 77 77" required>#}
+{#                                    <br>#}
+{#                                </div>#}
 
                 <div class="div-in-window-registration">
                     <label for="3-registration-input"><span
@@ -116,53 +116,82 @@
                 {#                           placeholder="777 777 77 77" required>#}
                 {#                </div>#}
 
-                {#                <div class="div-in-window-registration">#}
-                {#                    <label for="4-registration-input"><span class="text-in-registration-window">Ваше фото</span></label>#}
-                {#                    <p style="color: red">{{ form.avatar.errors }}</p>#}
-                {#                    <input class="registration-input" style="font-size: 16px;" type="file" id="4-registration-input"#}
-                {#                           name="avatar"#}
-                {#                           placeholder="Файл не выбран" required>#}
-                {#                </div>#}
+                                <div class="div-in-window-registration">
+                                    <label for="4-registration-input"><span class="text-in-registration-window">Ваше фото</span></label>
+                                    <p style="color: red">{{ form.avatar.errors }}</p>
+                                    <input class="registration-input" style="font-size: 16px;" type="file" id="4-registration-input"
+                                           name="avatar"
+                                           placeholder="Файл не выбран" required>
+                                </div>
 
-                {#                <div class="div-in-window-registration">#}
-                {#                    <label for="5-registration-input"><span#}
-                {#                            class="text-in-registration-window">Город работы</span></label>#}
-                {#                    <select class="registration-input" name="city" id="5-registration-input" required>#}
-                {#                        <option value="">Выберите город</option>#}
-                {#                        <option value="Актау">Актау</option>#}
-                {#                        <option value="Актобе">Актобе</option>#}
-                {#                        <option value="Алматы">Алматы</option>#}
-                {#                        <option value="Астана">Астана</option>#}
-                {#                        <option value="Атырау">Атырау</option>#}
-                {#                        <option value="Капшагай">Капшагай</option>#}
-                {#                        <option value="Караганда">Караганда</option>#}
-                {#                        <option value="Костанай">Костанай</option>#}
-                {#                        <option value="Кызылорда">Кызылорда</option>#}
-                {#                        <option value="Павлодар">Павлодар</option>#}
-                {#                        <option value="Семей">Семей</option>#}
-                {#                        <option value="Талдыкорган">Талдыкорган</option>#}
-                {#                        <option value="Тараз">Тараз</option>#}
-                {#                        <option value="Туркестан">Туркестан</option>#}
-                {#                        <option value="Уральск">Уральск</option>#}
-                {#                        <option value="Усть-Каменогорск">Усть-Каменогорск</option>#}
-                {#                        <option value="Шымкент">Шымкент</option>#}
-                {#                    </select>#}
-                {#                </div>#}
+                                <div class="div-in-window-registration">
+                                    <label for="5-registration-input"><span
+                                            class="text-in-registration-window">Город работы</span></label>
+{#                                    <select class="registration-input" name="city" id="5-registration-input" required>#}
+{#                                        <option value="">Выберите город</option>#}
+{#                                        <option value="Актау">Актау</option>#}
+{#                                        <option value="Актобе">Актобе</option>#}
+{#                                        <option value="Алматы">Алматы</option>#}
+{#                                        <option value="Астана">Астана</option>#}
+{#                                        <option value="Атырау">Атырау</option>#}
+{#                                        <option value="Капшагай">Капшагай</option>#}
+{#                                        <option value="Караганда">Караганда</option>#}
+{#                                        <option value="Костанай">Костанай</option>#}
+{#                                        <option value="Кызылорда">Кызылорда</option>#}
+{#                                        <option value="Павлодар">Павлодар</option>#}
+{#                                        <option value="Семей">Семей</option>#}
+{#                                        <option value="Талдыкорган">Талдыкорган</option>#}
+{#                                        <option value="Тараз">Тараз</option>#}
+{#                                        <option value="Туркестан">Туркестан</option>#}
+{#                                        <option value="Уральск">Уральск</option>#}
+{#                                        <option value="Усть-Каменогорск">Усть-Каменогорск</option>#}
+{#                                        <option value="Шымкент">Шымкент</option>#}
+{#                                    </select>#}
+                                    {{ form.city }}
+                                </div>
 
-                {#                <div class="div-in-window-registration">#}
-                {#                    <label for="6-registration-input"><span class="text-in-registration-window">ИИН</span></label>#}
-                {#                    <p style="color: red">{{ form.iin.errors }}</p>#}
-                {#                    <input class="registration-input" type="number" id="6-registration-input" placeholder="ИИН"#}
-                {#                           name="iin"#}
-                {#                           required>#}
-                {#                </div>#}
-                {##}
-                {#                <div class="div-in-window-registration">#}
-                {#                    <label for="7-registration-input"><span class="text-in-registration-window">Номер ВУ</span></label>#}
-                {#                    <p style="color: red">{{ form.driving_experience.errors }}</p>#}
-                {#                    <input class="registration-input" type="text" id="7-registration-input" name="driving_experience"#}
-                {#                           placeholder="Водительское удостоверение" required>#}
-                {#                </div>#}
+                                <div class="div-in-window-registration">
+                                    <label for="6-registration-input"><span class="text-in-registration-window">ИИН</span></label>
+                                    <p style="color: red">{{ form.iin.errors }}</p>
+                                    <input class="registration-input" type="number" id="6-registration-input" placeholder="ИИН"
+                                           name="iin"
+                                           required>
+                                </div>
+
+                                <div class="div-in-window-registration">
+                                    <label for="7-registration-input"><span class="text-in-registration-window">Номер ВУ</span></label>
+                                    <p style="color: red">{{ form.driver_license_number.errors }}</p>
+                                    <input class="registration-input" type="text" id="7-registration-input" name="driver_license_number"
+                                           placeholder="Водительское удостоверение" required>
+                                </div>
+                 <div class="div-in-window-registration">
+                                    <label for="5-registration-input"><span
+                                            class="text-in-registration-window">Стаж работы</span></label>
+                                    <select class="registration-input" name="driving_experience" id="5-registration-input" required>
+                                        <option selected disabled>---</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                        <option value="13">13</option>
+                                        <option value="14">14</option>
+                                        <option value="15">15</option>
+                                        <option value="16">16</option>
+                                        <option value="17">17</option>
+                                        <option value="18">18</option>
+                                        <option value="19">19</option>
+                                        <option value="20">20</option>
+
+                                    </select>
+
+                                </div>
 
                 <div class="div-in-window-registration">
                     <label for="8-registration-input"><span class="text-in-registration-window">Придумайте пароль</span></label>

@@ -28,7 +28,7 @@ class User(AbstractUser):
         return self.first_name
 
     def last_seen(self):
-        return cache.get('seen_%s' % self.user.username)
+        return cache.get('seen_%s' % self.user.first_name)
 
     def online(self):
         if self.last_seen():

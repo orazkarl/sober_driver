@@ -4,7 +4,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 from .models import User
 from django.core.files.images import get_image_dimensions
-
+from mainapp.models import City
 
 class RegisterForm(forms.ModelForm):
     CHOICES = ((7, 'Казахстан (+7)'),(7, 'Россия (+7)'),)
@@ -13,15 +13,20 @@ class RegisterForm(forms.ModelForm):
     password1 = forms.CharField(label='Пароль',widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}), )
     password2 = forms.CharField(label='Пароль (повторно)', widget=forms.PasswordInput(attrs={'placeholder': 'Пароль (повторно)'}))
     country_code = forms.ChoiceField(label='Код страны', required=True, choices=CHOICES)
-    # avatar = forms.FileField(label='Ваше фото')
-
+    city = forms.ChoiceField(choices=[(city.name, city.name) for city in City.objects.all()])
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    avatar = forms.ImageField()
+    driver_license_number = forms.CharField()
+    driving_experience = forms.IntegerField()
+    iin = forms.CharField()
     MIN_LENGTH = 4
 
     class Meta:
         model = User
-        fields = ['country_code', 'phone_number', 'password1', 'password2']
-        # fields = ['username','country_code','phone_number', 'password1', 'password2',
-        #           'first_name', 'last_name', 'avatar', 'driver_license_number', 'driving_experience', 'iin', 'email'  ]
+        # fields = ['country_code', 'phone_number', 'password1', 'password2']
+        fields = ['country_code','phone_number', 'password1', 'password2',
+                  'first_name', 'last_name', 'avatar', 'driver_license_number', 'driving_experience', 'iin'  ]
 
         # widgets = {
         #     'date_contract': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')

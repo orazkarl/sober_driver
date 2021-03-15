@@ -35,7 +35,7 @@
             {% csrf_token %}
             <p class="title-in-token-block">Состояние подписки</p>
 
-            <p class="text-in-token-block">Стоимость подписки за 1 месяц: 500 тенге</p>
+            <p class="text-in-token-block">Стоимость подписки за 1 месяц: {{ request.user.city.subscription_price }} тенге</p>
             <div class="div-in-token-block">
             <span class="span-in-token-block">
                 {% if request.user.active_subscription %}
@@ -55,7 +55,7 @@
 
     <div class="token-block-1">
         <p class="title-in-token-block">Пополнить баланс</p>
-        <p class="text-in-token-block">Ставка за 1 заказ: 100 тенге</p>
+        <p class="text-in-token-block">Ставка за 1 заказ: {{ request.user.city.overpayment }} тенге</p>
         <div class="div-in-token-block">
             <span class="span-in-token-block">Ваш баланс: {{ request.user.balance }} тенге</span>
             <a class="btn-in-token-block-2" href="#">Пополнить баланс</a>
@@ -70,8 +70,8 @@
         <span class="table-4">За месяц: {{ count_orders_month }}</span><br>
         <span class="table-5">За все время: {{ count_orders_all }}</span><br>
         <div class="table-1"><p>Сумма заработка</p></div>
-        <spanp
-        = class="table-7">За сегодня: {{ amount_income_day }} </span><br>
+        <span
+        = class="table-7">За сегодня: {% if amount_income_day is None %}0{% else %}{{ amount_income_day }} {% endif %}</span><br>
         <span class="table-8">За неделю:{{ amount_income_week}} </span><br>
         <span class="table-9">За месяц: {{ amount_income_month }}</span><br>
         <span class="table-10">За все время:{{ amount_income_all }} </span><br>

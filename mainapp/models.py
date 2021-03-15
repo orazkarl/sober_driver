@@ -4,7 +4,8 @@ from django.conf import settings
 
 class City(models.Model):
     name = models.CharField('Название', max_length=50)
-
+    overpayment = models.PositiveIntegerField('Цена за каждый заказ', default=0)
+    subscription_price = models.PositiveIntegerField('Цена подписки', default=0)
     def __str__(self):
         return self.name
 
@@ -17,7 +18,7 @@ class Order(models.Model):
     STATUSES = (
         ('request', 'Запрос'),
         ('started', 'Началось'),
-        ('in_progress', 'В процессе'),
+        # ('in_progress', 'В процессе'),
         ('finished', 'Завершенный'),
         ('canceled', 'Отменен')
     )
@@ -52,3 +53,24 @@ class OfferOrder(models.Model):
 
     def __str__(self):
         return str(self.driver_offer)
+
+
+class Review(models.Model):
+    RATING_CHOICES = (
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 5),
+    )
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, verbose_name='Заказ', related_name='review')
+    comment = models.TextField('Комментарий', max_length=250, null=True, blank=True)
+    rating = models.PositiveIntegerField('Рейтинг', choices=RATING_CHOICES)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.order)
+
+    class Meta:
+        verbose_name = 'Отзыв'
+        verbose_name_plural = 'Отзывы'

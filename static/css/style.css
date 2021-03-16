@@ -439,7 +439,7 @@ body{
 
     display: flex;
     width: 365px;
-    height: 69px;
+    height: 83px;
     border-radius: 25px;
     background-color: #fff;
     box-sizing: border-box;
@@ -462,48 +462,61 @@ body{
 }
 
 .div-for-img {
-    width: 65px;
+    width: 68px;
     height: 58px;
-    border-radius: 50%;
-    overflow: hidden    ;
+    /*border-radius: 50%;*/
+    /*overflow: hidden    ;*/
 }
 
 .table-block-1 {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    /*align-items: center;*/
     border-right: 1px solid #ccc;
-    padding: 5px 12px 5px 5px;
+    padding: 5px;
+    /*padding: 5px 12px 5px 5px;*/
     /*width: 50px;*/
 }
+ .tenge {
+    width: 60px;
 
+ }
+ .tenge p {
+     padding-top: 3px;
+     font-size: 10px;
+ }
 
 .table-block-2 {
-    display: flex;
-    align-items: center;
-    width: 180px;
+    /*display: flex;*/
+    /*align-items: center;*/
+    width: 150px;
     /*padding-left: 10px;*/
     border-right: 1px solid #ccc;
     padding: 5px 3px 5px 3px;
 }
 
 .table-block-3 {
-    display: flex;
+    /*display: flex;*/
     justify-content: center;
     align-items: center;
-
-    width: 70px;
-    height: 67px;
+    width: 90px;
+    height: 80px;
     border-radius: 0 25px 25px 0;
-    background-color: #FCE406;
-    padding: 3px 3px 3px 5px;
+    /*background-color: #FCE406;*/
+    /*padding: 3px 3px 3px 5px;*/
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+    /*display: flex;*/
+    /*justify-content: center;*/
+    /*align-items: center;*/
+    /*cursor: pointer;*/
 }
 
+.table-block-3 button{
+    background-color: #FCE406;
+    width: 100%;
+    height: 100%;
+    border-radius: 0 25px 25px 0;
+}
 
 /*////////////////////////// content-2 //////////////////////////// */
 .content {
@@ -771,3 +784,141 @@ input::-webkit-inner-spin-button {
 
 /*/////////////////////// Orders////////////////////// */
 
+.order-modal {
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    font-weight: 400;
+    font-size: 11px;
+
+
+    /*margin: 0 auto;*/
+}
+
+.order-modal-content {
+    border-radius: 15px;
+    /*border: 1px solid #00c2e0;*/
+    background-color: #fff;
+
+    margin: auto;
+    padding: 5px;
+
+    width: 220px;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    margin-top: -5px;
+    margin-right: 10px;
+    float: right;
+    font-size: 25px;
+    /*font-weight: bold;*/
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.order-modal-header {
+    background-color: #48CC4D;
+    border-radius: 25px;
+    color: #fff;
+    padding: 5px;
+    text-align: center;
+    margin-left: 30px;
+    margin-right: 30px
+}
+
+.order-modal-body {
+    padding: 10px;
+
+}
+.order-modal-body p {
+    padding: 5px;
+}
+.order-modal-footer {
+    text-align: center;
+}
+
+.order-call-btn {
+    background-color: #FCE406;
+    padding: 5px 45px 5px 45px;
+    margin: 20px 15px 0 15px;
+    border-radius: 25px
+}
+
+.rating {
+  display: inline-block;
+  position: relative;
+  height: 50px;
+  line-height: 50px;
+  font-size: 50px;
+}
+
+.rating label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  cursor: pointer;
+}
+
+.rating label:last-child {
+  position: static;
+}
+
+.rating label:nth-child(1) {
+  z-index: 5;
+}
+
+.rating label:nth-child(2) {
+  z-index: 4;
+}
+
+.rating label:nth-child(3) {
+  z-index: 3;
+}
+
+.rating label:nth-child(4) {
+  z-index: 2;
+}
+
+.rating label:nth-child(5) {
+  z-index: 1;
+}
+
+.rating label input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.rating label .icon {
+  float: left;
+  color: transparent;
+    font-size: 45px;
+}
+
+.rating label:last-child .icon {
+  color: #000;
+}
+
+.rating:not(:hover) label input:checked ~ .icon,
+.rating:hover label:hover input ~ .icon {
+  color: #FCE406;
+}
+
+.rating label input:focus:not(:checked) ~ .icon:last-child {
+  color: #000;
+  text-shadow: 0 0 5px #FCE406;
+}

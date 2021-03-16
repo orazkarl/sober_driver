@@ -17,8 +17,13 @@ class ProfileView(generic.TemplateView):
     def get(self, request, *args, **kwargs):
         date_format = "%m/%d/%Y"
         d0 = datetime.now().date()
-        d1 = request.user.subscription_day.date()
-        subscription_days = (d1 - d0).days
+
+        if request.user.subscription_day:
+            d1 = request.user.subscription_day.date()
+            subscription_days = (d1 - d0).days
+        else:
+            subscription_days = 0
+
         count_orders_day = Order.objects.filter(selected_driver=request.user, status='finished',
                                                 created__gte=datetime.today() - timedelta(days=1)).count()
         count_orders_week = Order.objects.filter(selected_driver=request.user, status='finished',
@@ -70,7 +75,7 @@ class OrdersView(generic.ListView):
     model = Order
 
     def get(self, request, *args, **kwargs):
-        all_orders = Order.objects.filter(status='started', created__lte=datetime.now() - timedelta(minutes=10))
+        all_orders = Order.objects.filter(status='started', created__lte=datetime.now() - timedelta(minutes=1))
         for order in all_orders:
             order.status = 'finished'
             order.save()
@@ -94,6 +99,9 @@ class OrdersView(generic.ListView):
     def post(self, request, *args, **kwargs):
         user = request.user
         order = Order.objects.get(id=int(request.POST['order_id']))
+        if 'close' in request.POST:
+            order.is_view = False
+            order.save()
         if 'in_progress' in request.POST:
             order.status = 'in_progress'
             order.save()

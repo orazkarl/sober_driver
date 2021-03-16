@@ -30,13 +30,12 @@
         </div>
     </div>
 
-
     <form action="{% url 'home_view' %}" method="post">
         {% csrf_token %}
         <div class="input-form">
             <div style="display: none" id="id_cities">
                 <div class="text-input"><p>Ваш город</p></div>
-                <select class="input-city" name="city" id="id_city">
+                <select class="input-city" name="city" id="id_city" required>
                     <option value="" selected disabled>-----</option>
                     {% for city in cities %}
                         <option value="{{ city }}">{{ city }}</option>
@@ -51,7 +50,7 @@
                 </div>
             </div>
             <div class="div-from">
-                <input class="input-from" type="text" name="from_address" onkeyup="DisplayCity()"
+                <input class="input-from" type="text" name="from_address" onclick="DisplayCity()"
                        placeholder="Откуда поедем"
                        required>
             </div>
@@ -71,8 +70,57 @@
         </div>
 
     </form>
+    {% if order %}
+        <div class="order-modal" id="id_modal">
+            <div class="order-modal-content">
+                {#                        <span class="close" id="id_close">&times;</span>#}
+
+                <div class="order-modal-header">
+                    <p>Оцените водителя</p>
+                </div>
+                <hr color="#d0d0d0" size="1" style="margin-top: 8px; border-radius: 25px">
+                <div class="order-modal-body">
+                    <form class="rating" action="{% url 'home_view' %}" method="post" id="form_rating">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <label>
+                            <input type="radio" name="rating" value="1"/>
+                            <span class="icon">★</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="rating" value="2"/>
+                            <span class="icon">★</span>
+                            <span class="icon">★</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="rating" value="3"/>
+                            <span class="icon">★</span>
+                            <span class="icon">★</span>
+                            <span class="icon">★</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="rating" value="4"/>
+                            <span class="icon">★</span>
+                            <span class="icon">★</span>
+                            <span class="icon">★</span>
+                            <span class="icon">★</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="rating" value="5"/>
+                            <span class="icon">★</span>
+                            <span class="icon">★</span>
+                            <span class="icon">★</span>
+                            <span class="icon">★</span>
+                            <span class="icon">★</span>
+                        </label>
 
 
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    {% endif %}
     <div id="id_my_orders">
 
     </div>
@@ -119,32 +167,44 @@
     function DisplayCity() {
         document.getElementById('id_cities').style.display = ''
     }
+
     function addBookmark() {
-    if (document.all) window.external.addFavorite('http://localhost:8000/', 'http://localhost:8000/');
+        if (document.all) window.external.addFavorite('http://localhost:8000/', 'http://localhost:8000/');
     }
 </script>
 
 <!-- jQuery !-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <!-- jQuery UI !-->
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-    <script>
-        $(document).ready(function () {
-           setInterval(function () {
-                $.ajax({
-                    type: 'GET',
-                    url: "{% url 'get_my_orders' %}",
-                    success: displayData,
-                    dataType: 'html',
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<!-- jQuery UI !-->
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script>
+    $(document).ready(function () {
+        setInterval(function () {
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'get_my_orders' %}",
+                success: displayData,
+                dataType: 'html',
 
-                })
-           }, 1000);
+            })
+        }, 1000);
+    });
+
+    function displayData(data, textStatus, jqXHR) {
+        console.log(data);
+        $('#id_my_orders').html(data)
+    }
+</script>
+
+<script type='text/javascript'>
+
+    $(document).ready(function () {
+        $('input[name=rating]').change(function () {
+            $('#form_rating').submit();
         });
-        function displayData(data, textStatus, jqXHR) {
-            console.log(data);
-            $('#id_my_orders').html(data)
-        }
-    </script>
+    });
+
+</script>
 </body>
 </html>

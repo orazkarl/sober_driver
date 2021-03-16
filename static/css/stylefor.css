@@ -15,6 +15,7 @@ a:link {
     text-decoration: none;
     outline: 0;
 }
+
 html,
 body {
     font-family: 'Roboto', sans-serif;
@@ -27,7 +28,6 @@ body {
     min-height: 100%;
     margin-bottom: -95px;
 }
-
 
 
 /* #nav-container {
@@ -74,10 +74,9 @@ body {
     pointer-events: auto;
     margin-left: 15px;
     touch-action: manipulation;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     box-sizing: border-box;
 }
-
 
 
 .icon-bar {
@@ -86,7 +85,8 @@ body {
     height: 3px;
     background: #10C7F1;
     transition: .3s;
-  }
+}
+
 .icon-bar + .icon-bar {
     margin-top: 5px;
 }
@@ -94,14 +94,17 @@ body {
 #nav-container:focus-within .button {
     pointer-events: none;
 }
+
 #nav-container:focus-within .icon-bar:nth-of-type(1) {
-    transform: translate3d(0,8px,0) rotate(45deg);
+    transform: translate3d(0, 8px, 0) rotate(45deg);
 }
+
 #nav-container:focus-within .icon-bar:nth-of-type(2) {
     opacity: 0;
 }
+
 #nav-container:focus-within .icon-bar:nth-of-type(3) {
-    transform: translate3d(0,-8px,0) rotate(-45deg);
+    transform: translate3d(0, -8px, 0) rotate(-45deg);
 }
 
 #nav-content {
@@ -114,7 +117,7 @@ body {
     height: 80%;
     background: #fff;
     pointer-events: auto;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     transform: translateX(-100%);
     transition: transform .3s;
     will-change: transform;
@@ -247,7 +250,7 @@ footer {
     font-size: 11px;
 
     width: 352px;
-    height: 150px;
+    height: 85px;
 
     border-radius: 25px;
     border: 1px solid #00c2e0;
@@ -271,7 +274,7 @@ footer {
 
 .orders-text-2 {
     position: absolute;
-    top: 43px;
+    top: 33px;
     left: 23px;
     font-size: 12px;
 }
@@ -286,7 +289,7 @@ footer {
 .orders-text-4 {
 
     position: absolute;
-    top: 70px;
+    top: 45px;
     left: 207px;
 
     /*width: 134px;*/
@@ -304,14 +307,14 @@ footer {
 
 .orders-text-5 {
     position: absolute;
-    top: 70px;
+    top: 45px;
     left: 207px;
 
     /*width: 134px;*/
     /*height: 30px;*/
 
     font-size: 13px;
-  padding: 8px;
+    padding: 8px;
     border-radius: 15px;
     outline: none;
 
@@ -322,7 +325,7 @@ footer {
 
 .orders-text-6 {
     position: absolute;
-    top: 70px;
+    top: 45px;
     left: 207px;
 
     /*width: 134px;*/
@@ -338,7 +341,6 @@ footer {
 
     border: none;
 }
-
 
 
 /* ////////////////// Profile/////////////////////// */
@@ -379,7 +381,6 @@ footer {
 }
 
 
-
 .grid-in-profile {
     font-weight: 400;
     font-size: 18px;
@@ -399,7 +400,7 @@ footer {
 }
 
 .row-grid span {
-    padding:  20px;
+    padding: 20px;
     padding-top: 25px;
 }
 
@@ -493,6 +494,7 @@ footer {
     font-size: 18px;
     font-weight: 500;
 }
+
 /**************************** Settings **************************/
 
 .setting-div-1 {
@@ -547,8 +549,8 @@ footer {
     outline: none;
     border-color: #66afe9;
 
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
 }
 
 .text-in-registration-window {
@@ -590,12 +592,12 @@ footer {
 }
 
 .inputfile {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 }
 
 .inputfile + label {
@@ -676,4 +678,78 @@ footer {
 
         border: none;
     }
+}
+
+.order-modal {
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    font-weight: 400;
+    font-size: 11px;
+
+
+    /*margin: 0 auto;*/
+}
+
+.order-modal-content {
+    border-radius: 15px;
+    /*border: 1px solid #00c2e0;*/
+    background-color: #fff;
+
+    margin: auto;
+    padding: 5px;
+
+    width: 220px;
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    margin-top: -5px;
+    margin-right: 10px;
+    float: right;
+    font-size: 25px;
+    /*font-weight: bold;*/
+    border: none;
+    background: none;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.order-modal-header {
+    background-color: #48CC4D;
+    border-radius: 25px;
+    color: #fff;
+    padding: 5px;
+    text-align: center;
+    margin-left: 50px;
+    margin-right: 50px
+}
+
+.order-modal-body {
+    padding: 10px;
+
+}
+.order-modal-body p {
+    padding: 5px;
+}
+.order-modal-footer {
+    text-align: center;
+}
+
+.order-call-btn {
+    background-color: #FCE406;
+    padding: 5px 45px 5px 45px;
+    margin: 20px 15px 0 15px;
+    border-radius: 25px
 }

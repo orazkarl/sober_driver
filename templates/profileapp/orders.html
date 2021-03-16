@@ -6,6 +6,7 @@
     <div class="city-in-orders">
         <p>{{ request.user.city }}</p>
     </div>
+
     <div id="id_orders">
 
         {#    {% if request.user.balance >= request.user.city.overpayment %}#}
@@ -62,7 +63,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script>
         $(document).ready(function () {
-           setInterval(function () {
+            setInterval(function () {
                 $.ajax({
                     type: 'GET',
                     url: "{% url 'get_orders' %}",
@@ -70,11 +71,16 @@
                     dataType: 'html',
 
                 })
-           }, 1000);
+            }, 1000);
         });
+
         function displayData(data, textStatus, jqXHR) {
             console.log(data);
             $('#id_orders').html(data)
         }
+
+
+
+
     </script>
 {% endblock %}

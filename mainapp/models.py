@@ -33,7 +33,7 @@ class Order(models.Model):
     status = models.CharField('Статус', max_length=50, choices=STATUSES, default='request')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-
+    is_view = models.BooleanField(default=False)
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
@@ -47,7 +47,7 @@ class OfferOrder(models.Model):
     driver_offer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='offers',
                                      verbose_name='Предложения водителя')
     price = models.IntegerField('Цена', default=0)
-    comment = models.TextField('Комментария', max_length=500)
+    comment = models.TextField('Комментария', max_length=50)
     time = models.IntegerField('Время (минутах)')
     is_selected = models.BooleanField('Выбран', default=False)
 
@@ -64,7 +64,7 @@ class Review(models.Model):
         (5, 5),
     )
     order = models.OneToOneField(Order, on_delete=models.CASCADE, verbose_name='Заказ', related_name='review')
-    comment = models.TextField('Комментарий', max_length=250, null=True, blank=True)
+    # comment = models.TextField('Комментарий', max_length=250, null=True, blank=True)
     rating = models.PositiveIntegerField('Рейтинг', choices=RATING_CHOICES)
     created = models.DateTimeField(auto_now_add=True)
 

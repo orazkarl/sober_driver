@@ -4,6 +4,7 @@ from django.core.cache import cache
 import datetime
 from sober_driver import settings
 from mainapp.models import City
+import numpy as np
 
 
 class User(AbstractUser):
@@ -28,7 +29,7 @@ class User(AbstractUser):
         return self.first_name
 
     def last_seen(self):
-        return cache.get('seen_%s' % self.user.first_name)
+        return cache.get('seen_%s' % self.first_name)
 
     def online(self):
         if self.last_seen():
@@ -40,3 +41,10 @@ class User(AbstractUser):
                 return True
         else:
             return False
+
+    def average_rating(self):
+        all_ratings = map(lambda x: x.review.rating, self.orders.all())
+        avg_rating = np.mean(list(all_ratings))
+        if str(avg_rating) == 'nan':
+            return 0
+        return round(avg_rating)

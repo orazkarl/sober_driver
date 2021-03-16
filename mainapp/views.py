@@ -16,19 +16,21 @@ class HomeView(generic.TemplateView):
     template_name = 'mainapp/index.html'
 
     def get(self, request, *args, **kwargs):
-        # user_ip = get_client_ip(request)
         cities = City.objects.all()
-        # yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
-        # my_orders = Order.objects.filter(user_ip=user_ip, created__gte=yesterday, review=None).exclude(status='canceled')
-
         count_online_drivers = 0
+        user_ip = get_client_ip(request)
+        orders = Order.objects.filter(user_ip=user_ip, review=None, status='finished')
+        order = None
+        if orders.exists():
+            order = orders[0]
         for user in User.objects.all():
-            if user.online and user.is_free:
+            if user.online() and user.is_free:
                 count_online_drivers +=1
         self.extra_context = {
             'cities': cities,
             # 'my_orders': my_orders,
             'count_online_drivers': count_online_drivers,
+            'order': order,
         }
         return super().get(request, *args, **kwargs)
 
@@ -51,28 +53,27 @@ class HomeView(generic.TemplateView):
             order = offer.order
             order.selected_driver = driver
             order.status = 'started'
+            order.is_view = True
             order.save()
             offer.save()
-        elif 'cancel' in request.POST:
-            order = Order.objects.get(id=int(request.POST['cancel']))
-            order.status = 'canceled'
-            driver = order.selected_driver
-            driver.is_free = True
-            driver.save()
-            order.save()
-            order.delete()
-        elif 'review' in request.POST:
+        # elif 'cancel' in request.POST:
+        #     order = Order.objects.get(id=int(request.POST['cancel']))
+        #     order.status = 'canceled'
+        #     driver = order.selected_driver
+        #     driver.is_free = True
+        #     driver.save()
+        #     order.save()
+        #     order.delete()
+        elif 'rating' in request.POST:
+            print(1)
             order = Order.objects.get(id=int(request.POST['order_id']))
-            print(order)
             rating = request.POST['rating']
-            comment = request.POST['comment']
-            Review.objects.create(order=order, comment=comment, rating=rating)
+            Review.objects.create(order=order, rating=rating)
         return redirect('home_view')
 
 
 def getMyOrders(request):
     user_ip = get_client_ip(request)
-
     yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
-    my_orders = Order.objects.filter(user_ip=user_ip, created__gte=yesterday, review=None).exclude(status='canceled')
+    my_orders = Order.objects.filter(user_ip=user_ip, created__gte=yesterday).exclude(status='canceled').exclude(status='finished')
     return render(request, 'mainapp/ajax_my_orders.html', {'my_orders': my_orders})

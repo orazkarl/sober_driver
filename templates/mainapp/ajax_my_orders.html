@@ -1,119 +1,185 @@
-
 {% if my_orders %}
-        <div class="div-title-orders"><span class="title-orders">Сейчас появятся предложения от<br>водителей,пожалуйста подождите</span>
-        </div>
+    <div class="div-title-orders"><span class="title-orders">Сейчас появятся предложения от<br>водителей,пожалуйста подождите</span>
+    </div>
 
 
 
-        {% for order in my_orders %}
-            {% if order.selected_driver == None and order.offers.all == None %}
+    {% for order in my_orders %}
+        {% if order.selected_driver == None and order.offers.all == None %}
 
-                <div class="lds-ellipsis">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
-            {% endif %}
-            {% if order.selected_driver %}
-                <div class="orders-index">
+            <div class="lds-ellipsis">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        {% endif %}
+        {% if order.selected_driver %}
 
-                    <div class="orders-index-1" {% if order.status == 'finished' %}style="height: 250px"{% endif %}>
+                <div class="table">
 
-                        <div class="cancel-div-1">
-                            <span class="cancel-span-1">Откуда:</span><br>
-                            <span class="cancel-span-2">Куда:</span>
-                            <span class="cancel-span-2" style="top: 55px">Статус: </span>
-                            <span class="cancel-span-2" style="top: 75px">Номер телефона: </span>
+                    <div class="table-block-1">
+                        <div class="div-for-img">
+                            <div style="border-radius: 50%; overflow: hidden; ">
+                                <img src="{{ order.selected_driver.avatar.url }}"
+                                     style="display: block;margin-left: auto;margin-right: auto; height: 35px;"
+                                     alt="">
+                            </div>
+                            <div style="margin: 5px 0 0 7px">
+                                <span style=" font-size: 10px">Стаж: {{ order.selected_driver.driving_experience }}лет </span>
+                                <p style="font-size:10px "><span style="color: #FCE406;font-size: 11px">★</span> {{ offer.driver_offer.average_rating }}
+                                    из 5</p>
+                            </div>
                         </div>
 
-                        <div class="cancel-div-2">
-                            <span class="cancel-span-3">{{ order.from_address }}</span><br>
-                            <span class="cancel-span-4">{{ order.to_address }}</span>
-                            <span class="cancel-span-4" style="top: 55px">{{ order.get_status_display }} </span>
-                            <span class="cancel-span-4" style="top: 75px; left: 145px"><a href="tel:{{ order.selected_driver.phone_number }}">{{ order.selected_driver.phone_number }}</a> </span>
-                        </div>
-                        <br>
-                        <div class="cancel-div-3">
-
-                            {% if order.status == 'finished' %}
-                            {% if order.review  %}
-                                1
-                                {% else %}
-                                <form action="{% url 'home_view'%}" method="post">
-                                {% csrf_token %}
-                                    <input type="hidden" name="order_id" value="{{ order.id }}">
-                                    <span class="cancel-span-2" style="top: 100px">Оценка: </span>
-                                    <span class="cancel-span-4" style="top: 100px">
-                                <select name="rating" id="" class="registration-input"
-                                        style="width: 100px; height: 20px; font-size: 15px">
-                                    <option value="1">★</option>
-                                    <option value="2">★★</option>
-                                    <option value="3">★★★</option>
-                                    <option value="4">★★★★</option>
-                                    <option value="5">★★★★★</option>
-                                </select>
-                            </span>
-                                    <span class="cancel-span-2" style="top: 130px">Отзыв: </span>
-                                    <span class="cancel-span-4" style="top: 130px">
-                                <textarea name="comment" id="" cols="30" rows="10" class="registration-input"
-                                          style="width: 240px; height: 60px"></textarea>
-                            </span>
-                                    <span class="cancel-span-4" style="top: 210px">
-                                <button class="btn-in-index" type="submit" name="review"
-                                        style="width: 100px; font-size: 12px; background-color: #48CC4D; padding: 5; height: 30px">Отправить</button>
-                            </span>
-                                </form>
+                        <div class="tenge">
+                            <p>Время:</p>
+                            <p>{% for offer in order.offers.all %}
+                                {% if offer.driver_offer == order.selected_driver %}
+                                    {{ offer.time }}
                                 {% endif %}
-                            {% endif %}
+                            {% endfor %} минут</p>
+                            <p>Цена:</p>
+                            <p>{% for offer in order.offers.all %}
+                                {% if offer.driver_offer == order.selected_driver %}
+                                    {{ offer.price }}
+                                {% endif %}
+                            {% endfor %} тг</p>
+
+
                         </div>
-                        {% if order.status == 'request' %}
-                            <form action="{% url 'home_view' %}" method="post">
-                                {% csrf_token %}
-                                <button class="cancel-btn" style="border: none" type="submit" name="cancel"
-                                        value="{{ order.id }}">
-                                    Отменить заказ
-                                </button>
-                            </form>
-                        {% endif %}
+                    </div>
+                    <div class="table-block-2">
+                        <p style="font-size: 11px">Откуда: {{ order.from_address }} </p>
+                        <p style="font-size: 11px">Куда: {{ order.to_address }}</p>
+                        <p style="font-size: 11px">Комментария водителя:</p>
+                        <p style="font-size: 11px">{% for offer in order.offers.all %}
+                            {% if offer.driver_offer == order.selected_driver %}
+                                {{ offer.comment }}
+                            {% endif %}
+                        {% endfor %}</p>
+                    </div>
+                    <div class="table-block-3" style="background-color: #48CC4D; color: white">
+                        <p style="font-size: 11px; margin: 17px 0 0 7px">Номер водителя:</p>
+                        <a style="font-size: 11px; color: white"
+                           href="tel:+{{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}">+{{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}</a>
 
                     </div>
 
-                    <div class="orders-from-index-2">
-
-                    </div>
                 </div>
-            {% else %}
 
-                <form action="{% url 'home_view' %}" method="post">
-                    {% csrf_token %}
-                    {% for offer in order.offers.all %}
-                        <input type="hidden" name="offer_id" value="{{ offer.id }}">
-                        <div class="table">
-                            <div class="table-block-1">
-                                <div class="div-for-img">
+            {#            <div class="orders-index">#}
+            {##}
+            {#                <div class="orders-index-1" {% if order.status == 'finished' %}style="height: 250px"{% endif %}>#}
+            {##}
+            {#                    <div class="cancel-div-1">#}
+            {#                        <span class="cancel-span-1">Откуда:</span><br>#}
+            {#                        <span class="cancel-span-2">Куда:</span>#}
+            {#                        <span class="cancel-span-2" style="top: 55px">Статус: </span>#}
+            {#                        <span class="cancel-span-2" style="top: 75px">Номер телефона: </span>#}
+            {#                    </div>#}
+            {##}
+            {#                    <div class="cancel-div-2">#}
+            {#                        <span class="cancel-span-3">{{ order.from_address }}</span><br>#}
+            {#                        <span class="cancel-span-4">{{ order.to_address }}</span>#}
+            {#                        <span class="cancel-span-4" style="top: 55px">{{ order.get_status_display }} </span>#}
+            {#                        <span class="cancel-span-4" style="top: 75px; left: 145px"><a#}
+            {#                                href="tel:{{ order.selected_driver.phone_number }}">{{ order.selected_driver.phone_number }}</a> </span>#}
+            {#                    </div>#}
+            {#                    <br>#}
+            {#                    <div class="cancel-div-3">#}
+            {##}
+            {#                        {% if order.status == 'finished' %}#}
+            {#                            {% if order.review %}#}
+            {#                                1#}
+            {#                            {% else %}#}
+            {#                                <form action="{% url 'home_view' %}" method="post">#}
+            {#                                    {% csrf_token %}#}
+            {#                                    <input type="hidden" name="order_id" value="{{ order.id }}">#}
+            {#                                    <span class="cancel-span-2" style="top: 100px">Оценка: </span>#}
+            {#                                    <span class="cancel-span-4" style="top: 100px">#}
+            {#                                <select name="rating" id="" class="registration-input"#}
+            {#                                        style="width: 100px; height: 20px; font-size: 15px">#}
+            {#                                    <option value="1">★</option>#}
+            {#                                    <option value="2">★★</option>#}
+            {#                                    <option value="3">★★★</option>#}
+            {#                                    <option value="4">★★★★</option>#}
+            {#                                    <option value="5">★★★★★</option>#}
+            {#                                </select>#}
+            {#                            </span>#}
+            {#                                    <span class="cancel-span-2" style="top: 130px">Отзыв: </span>#}
+            {#                                    <span class="cancel-span-4" style="top: 130px">#}
+            {#                                <textarea name="comment" id="" cols="30" rows="10" class="registration-input"#}
+            {#                                          style="width: 240px; height: 60px"></textarea>#}
+            {#                            </span>#}
+            {#                                    <span class="cancel-span-4" style="top: 210px">#}
+            {#                                <button class="btn-in-index" type="submit" name="review"#}
+            {#                                        style="width: 100px; font-size: 12px; background-color: #48CC4D; padding: 5; height: 30px">Отправить</button>#}
+            {#                            </span>#}
+            {#                                </form>#}
+            {#                            {% endif %}#}
+            {#                        {% endif %}#}
+            {#                    </div>#}
+            {#                    {% if order.status == 'request' %}#}
+            {#                        <form action="{% url 'home_view' %}" method="post">#}
+            {#                            {% csrf_token %}#}
+            {#                            <button class="cancel-btn" style="border: none" type="submit" name="cancel"#}
+            {#                                    value="{{ order.id }}">#}
+            {#                                Отменить заказ#}
+            {#                            </button>#}
+            {#                        </form>#}
+            {#                    {% endif %}#}
+            {##}
+            {#                </div>#}
+            {##}
+            {#                <div class="orders-from-index-2">#}
+            {##}
+            {#                </div>#}
+            {#            </div>#}
+        {% else %}
+
+            <form action="{% url 'home_view' %}" method="post">
+                {% csrf_token %}
+                {% for offer in order.offers.all %}
+                    <input type="hidden" name="offer_id" value="{{ offer.id }}">
+                    <div class="table">
+                        <div class="table-block-1">
+                            <div class="div-for-img">
+                                <div style="border-radius: 50%; overflow: hidden; ">
                                     <img src="{{ offer.driver_offer.avatar.url }}"
-                                         style="display: block;margin-left: auto;margin-right: auto; height: 35px"
+                                         style="display: block;margin-left: auto;margin-right: auto; height: 35px;"
                                          alt="">
-                                    <span style="margin: 5px 0 0 7px; font-size: 12px">{{ offer.driver_offer.driving_experience }} лет </span>
                                 </div>
-
-                                <p>
-                                    <span class="tenge">{{ offer.time }} минут</span>
-                                    <br>
-                                    <span class="tenge">{{ offer.price }} тг</span>
-
-                                </p>
+                                <div style="margin: 5px 0 0 7px">
+                                    <span style=" font-size: 10px">Стаж: {{ offer.driver_offer.driving_experience }}лет </span>
+                                    <p style="font-size:10px "><span style="color: #FCE406;font-size: 11px">★</span> {{ offer.driver_offer.average_rating }}
+                                        из 5</p>
+                                </div>
                             </div>
-                            <div class="table-block-2">
-                                <p>{{ offer.comment }}</p>
+                            <div class="tenge">
+                                <p>Время:</p>
+                                <p>{{ offer.time }} минут</p>
+                                <p>Цена:</p>
+                                <p>{{ offer.price }} тг</p>
+
+
                             </div>
-                            <button class="table-block-3" style="border: none" type="submit" name="choose">
+                        </div>
+                        <div class="table-block-2">
+                            <p style="font-size: 11px">Откуда: {{ offer.order.from_address }} </p>
+                            <p style="font-size: 11px">Куда: {{ offer.order.to_address }}</p>
+                            <p style="font-size: 11px">Комментария водителя:</p>
+                            <p style="font-size: 11px">{{ offer.comment }}</p>
+                        </div>
+                        <div class="table-block-3">
+                            <button style="border: none" type="submit" name="choose">
                                 Выбрать водителя
                             </button>
                         </div>
-                    {% endfor %}
-                </form>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
+
+                    </div>
+                {% endfor %}
+            </form>
+        {% endif %}
+    {% endfor %}
+{% endif %}

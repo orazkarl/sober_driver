@@ -1,36 +1,73 @@
+{% for order in orders %}
+    {% if order.is_view and order.selected_driver == request.user %}
+        <form action="{% url 'orders_view' %}" method="post">
+        {% csrf_token %}
+        <div class="order-modal" id="id_modal" style="">
+            <div class="order-modal-content">
+                <input type="hidden" name="order_id" value="{{ order.id }}">
+                <button type="submit" name="close" class="close" id="id_close">&times;</button>
 
-        {% for order in orders %}
-
-            <div class="orders orders-top">
-                <p class="orders-text-1">Откуда: {{ order.from_address }}</p>
-                <p class="orders-text-2">Куда: {{ order.to_address }}</p>
-                <p class="orders-text-3">Время заявки: {{ order.created }}</p>
-
-                    {% if order.selected_driver == request.user %}
-
-                        <div style="left: 23px; top: 70px; position: absolute; font-size: 12px">
-                        <p>Номер клиента: <a href="tel:{{ order.phone_number }}"
-                                             style="color: #3D5AFE">{{ order.phone_number }}</a></p>
-
-                        </div>
-                        <p><a class="orders-text-6" disabled="">Ваш заказ</a></p>
-                    {% else %}
-
-                        {% if not order.offers.all %}
-                            <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить заявку</a>
-                            </p>
-
-                        {% else %}
-                            {% for offer in order.offers.all %}
-                                {% if offer.driver_offer == request.user %}
-                                    <p><a class="orders-text-5" href="{% url 'order_detail' order.id %}">Отправлено</a>
-                                    </p>
-                                {% else %}
-                                    <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить
-                                        заявку</a></p>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    {% endif %}
+                <div class="order-modal-header">
+                    <p>Вас выбрали</p>
+                </div>
+                <hr color="#d0d0d0" size="1" style="margin-top: 8px; border-radius: 25px">
+                <div class="order-modal-body">
+                    <p class="">Откуда: </p>
+                    <p class="">Куда: </p>
+                    <p class="">Номер: </p>
+                    <br>
+                    <a href="tel:844" class="order-call-btn">Позвонить</a>
+                </div>
+                <div class="order-modal-footer">
+                    <p>Уважаемый водитель</p>
+                    <p>Обязательном порядке возьмите водительские удостоверение. Вы несёте прямую ответственность за все
+                        ситуации, происходящие на протяжении всего заказа</p>
+                </div>
             </div>
-        {% endfor %}
+
+        </div>
+        </form>
+    {% endif %}
+    <div class="orders orders-top">
+        <p class="orders-text-1">Откуда: {{ order.from_address }}</p>
+        <p class="orders-text-2">Куда: {{ order.to_address }}</p>
+        <p class="orders-text-3">Время заявки: {{ order.created }}</p>
+
+        {% if order.selected_driver == request.user %}
+
+            <div style="left: 23px; top: 56px; position: absolute; font-size: 12px">
+                <p>Номер клиента: <a href="tel:{{ order.phone_number }}"
+                                     style="color: #3D5AFE">{{ order.phone_number }}</a></p>
+
+            </div>
+            <p><a class="orders-text-6" disabled="">Ваш заказ</a></p>
+        {% else %}
+
+            {% if not order.offers.all %}
+                <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить заявку</a>
+                </p>
+
+            {% else %}
+                {% for offer in order.offers.all %}
+                    {% if offer.driver_offer == request.user %}
+
+                        <p><a class="orders-text-5" href="{% url 'order_detail' order.id %}">Отправлено</a>
+                        </p>
+                    {% else %}
+                        <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить
+                            заявку</a></p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    </div>
+{% endfor %}
+<script>
+    var modal = document.getElementById("id_modal");
+    var btn = document.getElementById("id_close");
+    btn.onclick = function () {
+        {#modal.style.display = "none";#}
+
+    };
+
+</script>

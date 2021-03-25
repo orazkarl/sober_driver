@@ -1,61 +1,76 @@
 {% for order in orders %}
     {% if order.is_view and order.selected_driver == request.user %}
         <form action="{% url 'orders_view' %}" method="post">
-        {% csrf_token %}
-        <div class="order-modal" id="id_modal" style="">
-            <div class="order-modal-content">
-                <input type="hidden" name="order_id" value="{{ order.id }}">
-                <button type="submit" name="close" class="close" id="id_close">&times;</button>
+            {% csrf_token %}
+            <div class="order-modal" id="id_modal" style="">
+                <div class="order-modal-content">
+                    <input type="hidden" name="order_id" value="{{ order.id }}">
+                    <button type="submit" name="close" class="close" id="id_close">&times;</button>
 
-                <div class="order-modal-header">
-                    <p>Вас выбрали</p>
+                    <div class="order-modal-header">
+                        <p>Вас выбрали</p>
+                    </div>
+                    <hr color="#d0d0d0" size="1" style="margin-top: 8px; border-radius: 25px">
+                    <div class="order-modal-body">
+                        <p class="">Откуда: {{ order.from_address }}</p>
+                        <p class="">Куда: {{ order.to_address }}</p>
+                        <p class="">Ваша цена:
+                            {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}{{ offer.price }}
+                            {% endif %}{% endfor %} тг</p>
+                        <p class="">Номер: {{ order.phone_number }}</p>
+                        <br>
+                        <a href="tel:{{ order.phone_number }}" class="order-call-btn">Позвонить</a>
+                    </div>
+                    <div class="order-modal-footer">
+                        <p>Уважаемый водитель</p>
+                        <p>Обязательном порядке возьмите водительские удостоверение. Вы несёте прямую ответственность за
+                            все
+                            ситуации, происходящие на протяжении всего заказа</p>
+                    </div>
                 </div>
-                <hr color="#d0d0d0" size="1" style="margin-top: 8px; border-radius: 25px">
-                <div class="order-modal-body">
-                    <p class="">Откуда: </p>
-                    <p class="">Куда: </p>
-                    <p class="">Номер: </p>
-                    <br>
-                    <a href="tel:844" class="order-call-btn">Позвонить</a>
-                </div>
-                <div class="order-modal-footer">
-                    <p>Уважаемый водитель</p>
-                    <p>Обязательном порядке возьмите водительские удостоверение. Вы несёте прямую ответственность за все
-                        ситуации, происходящие на протяжении всего заказа</p>
-                </div>
+
             </div>
-
-        </div>
         </form>
     {% endif %}
     <div class="orders orders-top">
         <p class="orders-text-1">Откуда: {{ order.from_address }}</p>
         <p class="orders-text-2">Куда: {{ order.to_address }}</p>
+
         <p class="orders-text-3">Время заявки: {{ order.created }}</p>
 
         {% if order.selected_driver == request.user %}
 
-            <div style="left: 23px; top: 56px; position: absolute; font-size: 12px">
-                <p>Номер клиента: <a href="tel:{{ order.phone_number }}"
+            <div style="left: 23px; top: 48px; position: absolute; font-size: 12px">
+<p class="" style="">Ваша цена:
+                    {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}{{ offer.price }}
+                    {% endif %}{% endfor %} тг</p>
+                <p style="margin-top: 4px">Номер клиента: <a href="tel:{{ order.phone_number }}"
                                      style="color: #3D5AFE">{{ order.phone_number }}</a></p>
+
 
             </div>
             <p><a class="orders-text-6" disabled="">Ваш заказ</a></p>
         {% else %}
 
             {% if not order.offers.all %}
-                <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить заявку</a>
-                </p>
+                {% if request.user.is_block == False %}
+                    <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить заявку</a>
+                    </p>
+                {% endif %}
 
             {% else %}
                 {% for offer in order.offers.all %}
                     {% if offer.driver_offer == request.user %}
-
+                        <p class="orders-text-2" style="top: 56px">Ваша цена:
+                            {% for offer in order.offers.all %}{% if offer.is_selected == True %}{{ offer.price }}
+                            {% endif %}{% endfor %} тг</p>
                         <p><a class="orders-text-5" href="{% url 'order_detail' order.id %}">Отправлено</a>
                         </p>
                     {% else %}
-                        <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить
-                            заявку</a></p>
+                        {% if request.user.is_block == False %}
+                            <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить заявку</a>
+                            </p>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
             {% endif %}

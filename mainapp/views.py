@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from .models import City, Order, OfferOrder, Review
 from user_auth.models import User
+from django.contrib.sessions.models import Session
+from django.utils import timezone
 import datetime
 
 def get_client_ip(request):
@@ -19,18 +21,29 @@ class HomeView(generic.TemplateView):
         cities = City.objects.all()
         count_online_drivers = 0
         user_ip = get_client_ip(request)
-        orders = Order.objects.filter(user_ip=user_ip, review=None, status='finished')
-        order = None
-        if orders.exists():
-            order = orders[0]
-        for user in User.objects.all():
-            if user.online() and user.is_free:
-                count_online_drivers +=1
+        orders = Order.objects.filter(user_ip=user_ip)
+        bookmark = True
+        if orders.count()>1:
+            bookmark = False
+        active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
+        user_id_list = []
+        for session in active_sessions:
+            data = session.get_decoded()
+            print(data)
+            user_id_list.append(data.get('_auth_user_id', None))
+        # Query all logged in users based on id list
+        count_online_drivers = User.objects.filter(id__in=user_id_list, is_free=True).count()
+
+
+        # for user in User.objects.all():
+        #     if user.online() and user.is_free:
+        #         count_online_drivers +=1
+
         self.extra_context = {
             'cities': cities,
             # 'my_orders': my_orders,
             'count_online_drivers': count_online_drivers,
-            'order': order,
+            'bookmark': bookmark,
         }
         return super().get(request, *args, **kwargs)
 
@@ -45,8 +58,12 @@ class HomeView(generic.TemplateView):
             Order.objects.create(user_ip=user_ip, from_address=from_address, to_address=to_address, phone_number=phone_number, city=city)
         elif 'choose' in request.POST:
             offer = OfferOrder.objects.get(id=int(request.POST['offer_id']))
-            offer.is_selected = True
             driver = offer.driver_offer
+            if driver.is_free == False:
+                return redirect('home_view')
+            offer.is_selected = True
+            if driver.balance< offer.order.city.overpayment:
+                return redirect('home_view')
             driver.balance -= offer.order.city.overpayment
             driver.is_free = False
             driver.save()
@@ -56,19 +73,19 @@ class HomeView(generic.TemplateView):
             order.is_view = True
             order.save()
             offer.save()
-        # elif 'cancel' in request.POST:
-        #     order = Order.objects.get(id=int(request.POST['cancel']))
-        #     order.status = 'canceled'
-        #     driver = order.selected_driver
-        #     driver.is_free = True
-        #     driver.save()
-        #     order.save()
-        #     order.delete()
+        elif 'cancel' in request.POST:
+            order = Order.objects.get(id=int(request.POST['cancel']))
+            order.status = 'canceled'
+            order.save()
         elif 'rating' in request.POST:
-            print(1)
             order = Order.objects.get(id=int(request.POST['order_id']))
             rating = request.POST['rating']
             Review.objects.create(order=order, rating=rating)
+        elif 'not_review' in request.POST:
+            order = Order.objects.get(id=int(request.POST['order_id']))
+            Review.objects.create(order=order, rating=1)
+            order.no_rating = True
+            order.save()
         return redirect('home_view')
 
 

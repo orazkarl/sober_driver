@@ -9,20 +9,73 @@
           rel="stylesheet">
     <link rel="icon" type="image/png" href="img/favicon.png">
     <link rel="stylesheet" href="/static/css/style.css">
+
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=7af4d9cc-1a22-44c4-82cf-dbd6503a6696"
+            type="text/javascript"></script>
+    <script src="/static/js/geolocation.js" type="text/javascript"></script>
+    <style>
+        #map {
+            width: 350px;
+            height: 155px;
+            padding: 0;
+            margin-top: 5px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        .hidden {
+            display: none;
+        }
+
+        .visuallyhidden {
+            -webkit-animation: mymove 5s; /* Chrome, Safari, Opera */
+            animation: mymove 5s;
+        }
+
+        @-webkit-keyframes mymove {
+            100% {
+                opacity: 1;
+            }
+            0% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes mymove {
+            100% {
+                opacity: 1;
+            }
+            0% {
+                opacity: 0;
+            }
+        }
+
+    </style>
 </head>
 <body>
+
 <div class="page"> <!-- ------------------Logo-------------- -->
     <div class="header-1">
         <div class="logo-div"><img class="logo" src="/static/img/logo-1.svg" alt="logo"></div>
     </div>
 
     <!---------------- content ----------------->
-    <div class="bookmark-div">
-        <div class="new-blue-block">
-            <img src="/static/img/bookmarks-1.png" alt="">
-            <p>Обязательно сохраните наш сайт<br>в закладках, чтобы не забыть</p>
+    {% if bookmark %}
+        <div class="bookmark-modal" id="bookmark-modal" style="">
+            <div class="bookmark-modal-content">
+
+                <div class="bookmark-div">
+                    <div class="new-blue-block">
+                        {#                    <img src="/static/img/bookmarks-1.png" alt="">#}
+                        <p>Обязательно сохраните наш сайт<br>в закладках, чтобы не забыть</p>
+
+                    </div>
+                    <span class="bookmark-close" id="bookmark-close">&times;</span>
+                </div>
+            </div>
         </div>
-    </div>
+    {% endif %}
     <div class="new-div-1">
         <div class="new-yellow-block">
             <img src="/static/img/Ellipse-green.png" alt="">
@@ -33,7 +86,7 @@
     <form action="{% url 'home_view' %}" method="post">
         {% csrf_token %}
         <div class="input-form">
-            <div style="display: none" id="id_cities">
+            <div class="hidden visuallyhidden" id="id_cities">
                 <div class="text-input"><p>Ваш город</p></div>
                 <select class="input-city" name="city" id="id_city" required>
                     <option value="" selected disabled>-----</option>
@@ -44,13 +97,13 @@
             </div>
             <div class="text-input">
                 <p>Откуда</p>
-                <div class="text-red">
+                <a class="text-red" onclick="displayMap();">
                     <p>определить местоположение</p>
                     <img src="/static/img/geolocation.png" width="19px" height="19px" alt="">
-                </div>
+                </a>
             </div>
             <div class="div-from">
-                <input class="input-from" type="text" name="from_address" onclick="DisplayCity()"
+                <input class="input-from" type="text" name="from_address" id="id_from_address"
                        placeholder="Откуда поедем"
                        required>
             </div>
@@ -65,63 +118,15 @@
                 <img class="geo-plus" src="/static/img/blue+.png" alt=""></div>
 
             <div class="text-input"><p>Телефон</p></div>
-            <input class="input-number" type="number" name="phone_number" placeholder="+7 (999) 999-99-99" required>
+            <input class="input-number" type="tel" name="phone_number" placeholder="8-777-777-77-77" pattern="[0-9]{1}-[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}" required>
+
             <button type="submit" class="btn-in-index" name="order">Заказать водителя</button>
         </div>
 
     </form>
-    {% if order %}
-        <div class="order-modal" id="id_modal">
-            <div class="order-modal-content">
-                {#                        <span class="close" id="id_close">&times;</span>#}
+    <div id="map" style="display: none"></div>
 
-                <div class="order-modal-header">
-                    <p>Оцените водителя</p>
-                </div>
-                <hr color="#d0d0d0" size="1" style="margin-top: 8px; border-radius: 25px">
-                <div class="order-modal-body">
-                    <form class="rating" action="{% url 'home_view' %}" method="post" id="form_rating">
-                        {% csrf_token %}
-                        <input type="hidden" name="order_id" value="{{ order.id }}">
-                        <label>
-                            <input type="radio" name="rating" value="1"/>
-                            <span class="icon">★</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="rating" value="2"/>
-                            <span class="icon">★</span>
-                            <span class="icon">★</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="rating" value="3"/>
-                            <span class="icon">★</span>
-                            <span class="icon">★</span>
-                            <span class="icon">★</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="rating" value="4"/>
-                            <span class="icon">★</span>
-                            <span class="icon">★</span>
-                            <span class="icon">★</span>
-                            <span class="icon">★</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="rating" value="5"/>
-                            <span class="icon">★</span>
-                            <span class="icon">★</span>
-                            <span class="icon">★</span>
-                            <span class="icon">★</span>
-                            <span class="icon">★</span>
-                        </label>
-
-
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    {% endif %}
-    <div id="id_my_orders">
+    <div id="id_my_orders" style="overflow-y: scroll; height: 300px">
 
     </div>
 
@@ -159,25 +164,26 @@
         <p>Email: vgraduse.kz@gmail.com</p>
     </div>
 </footer>
-<script>
-    function AgreeOnTheSpot() {
-        document.getElementById('id_to_address').value = 'договориться на месте'
-    }
-
-    function DisplayCity() {
-        document.getElementById('id_cities').style.display = ''
-    }
-
-    function addBookmark() {
-        if (document.all) window.external.addFavorite('http://localhost:8000/', 'http://localhost:8000/');
-    }
-</script>
-
 <!-- jQuery !-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <!-- jQuery UI !-->
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script>
+    function AgreeOnTheSpot() {
+        document.getElementById('id_to_address').value = 'договориться на месте'
+    }
+
+    {#function DisplayCity() {#}
+    {#    document.getElementById('id_cities').style.display = '';#}
+    {#}#}
+
+        function addBookmark() {
+            if (document.all) window.external.addFavorite('http://localhost:8000/', 'http://localhost:8000/');
+        }
+</script>
+
+
 <script>
     $(document).ready(function () {
         setInterval(function () {
@@ -191,19 +197,34 @@
         }, 1000);
     });
 
+    var id_cities = $('#id_cities');
+    $('#id_from_address').on('click', function () {
+        if (id_cities.hasClass('hidden')) {
+            id_cities.removeClass('hidden');
+            id_cities.addClass('visuallyhidden');
+            {#setTimeout(function () {#}
+            {#    id_cities.removeClass('visuallyhidden4');#}
+            {#    id_cities.addClass('visuallyhidden5');#}
+            {# }, 1000);#}
+        }
+    });
+    $('#bookmark-close').on('click', function () {
+        document.getElementById('bookmark-modal').style.display = 'none';
+
+
+    });
+
     function displayData(data, textStatus, jqXHR) {
-        console.log(data);
         $('#id_my_orders').html(data)
     }
+
+    function displayMap() {
+        document.getElementById('map').style.display = '';
+    }
+
 </script>
 
 <script type='text/javascript'>
-
-    $(document).ready(function () {
-        $('input[name=rating]').change(function () {
-            $('#form_rating').submit();
-        });
-    });
 
 </script>
 </body>

@@ -18,7 +18,7 @@
 
     </div>
 
-    <div class="orders orders-top" style="height: 280px;">
+    <div class="orders orders-top" style="height: 200px;">
         {% if offer %}
             {{ order.comment }}
             <br>
@@ -26,9 +26,9 @@
             <input type="number" class="registration-input" name="price" placeholder="Цена" value="{{ offer.price }}" disabled required>
             <div class="text-in-registration-window">Время (минутах):</div>
             <input type="number" class="registration-input" name="time" placeholder="Время (минутах)" value="{{ offer.time }}" disabled  required>
-            <div class="text-in-registration-window">Комментария к заказу</div>
-            <textarea name="comment" id="" cols="50" rows="10" class="registration-input" maxlength="50" disabled  style="resize: none"
-                      required>{{ offer.comment }}</textarea>
+{#            <div class="text-in-registration-window">Комментария к заказу</div>#}
+{#            <textarea name="comment" id="" cols="50" rows="10" class="registration-input" maxlength="50" disabled  style="resize: none"#}
+{#                      required>{{ offer.comment }}</textarea>#}
         {% else %}
             <form action="{% url 'order_detail'  order.id %}" style="margin: 5px; " method="post">
                 {% csrf_token %}
@@ -36,11 +36,11 @@
                 <input type="number" class="registration-input" name="price" placeholder="Цена" required>
                 <div class="text-in-registration-window">Время (минутах):</div>
                 <input type="number" class="registration-input" name="time" placeholder="Время (минутах)" required>
-                <div class="text-in-registration-window">Комментария к заказу</div>
-                <textarea name="comment" id="" cols="50" rows="10" class="registration-input"  maxlength="50" style="resize: none"
-                          required></textarea>
+{#                <div class="text-in-registration-window">Комментария к заказу</div>#}
+{#                <textarea name="comment" id="" cols="50" rows="10" class="registration-input"  maxlength="50" style="resize: none"#}
+{#                          required></textarea>#}
 
-                <button class="orders-text-4" style="top: 230px; left: 115px" type="submit">Отправить заявку</button>
+                <button class="orders-text-4" style="top: 155px; left: 115px" type="submit">Отправить заявку</button>
             </form>
         {% endif %}
     </div>

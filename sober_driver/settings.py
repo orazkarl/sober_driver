@@ -35,11 +35,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'mainapp.apps.MainappConfig',
     'user_auth.apps.UserAuthConfig',
     'profileapp.apps.ProfileappConfig',
 
     'crispy_forms',
+    'ckeditor',
+
 
 ]
 
@@ -55,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'sober_driver.urls'
 
@@ -141,15 +145,12 @@ AUTHY_KEY = 'aHhuNpkSzDD4rjrKHIY1jqId5QSEZtXg'
 # TWILIO_VERIFICATION_SID = ''
 
 CACHES = {
-        'default': {
-            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            'LOCATION': '127.0.0.1:11211',
-        }
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
     }
+}
 
-# Number of seconds of inactivity before a user is marked offline
-USER_ONLINE_TIMEOUT = 300
 
-# Number of seconds that we will keep track of inactive users for before
-# their last seen is removed from the cache
-USER_LASTSEEN_TIMEOUT = 60 * 60 * 24 * 7
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

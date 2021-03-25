@@ -72,8 +72,8 @@
         <div class="table-1"><p>Сумма заработка</p></div>
         <span
         = class="table-7">За сегодня: {% if amount_income_day is None %}0{% else %}{{ amount_income_day }} {% endif %}</span><br>
-        <span class="table-8">За неделю:{{ amount_income_week}} </span><br>
-        <span class="table-9">За месяц: {{ amount_income_month }}</span><br>
-        <span class="table-10">За все время:{{ amount_income_all }} </span><br>
+        <span class="table-8">За неделю:{% if  amount_income_week is None %}0{% else %}{{ amount_income_week}} {% endif %} </span><br>
+        <span class="table-9">За месяц: {% if  amount_income_month is None %}0{% else %}{{ amount_income_month }}  {% endif %}</span><br>
+        <span class="table-10">За все время:{% if  amount_income_all is None %}0{% else %}{{ amount_income_all }}  {% endif %} </span><br>
     </div>
 {% endblock %}

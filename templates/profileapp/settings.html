@@ -79,11 +79,17 @@
         </form>
     </div>
     </div> <!---------------------- page ---------------------->
-    <div class="setting-div-2" style="height: 90px; text-align: center">
-        <div class="set-div-1-1"><p class="text-in-settings">Изменить пароль</p></div>
+    <div class="setting-div-1">
+        <form action="{% url 'settings_view' %}" method="post">
+            {% csrf_token %}
+            <div class="set-div-1-1"><p class="text-in-settings">Информация о себе</p></div>
+{#            <input type="text" class="registration-input"  style="" name="bio" placeholder="Пример: Цена от 1000 тг, знания города, опыт вождения 10 лет.">#}
+            <textarea name="bio"  class="registration-input" style="height: 100px; font-family: 'Roboto', sans-serif "   maxlength="50" placeholder="Пример: Здравствуйте я оказываю услуги трезвого водителя, перегон авто в любую точку,ответственно подхожу к работе. Цена от 1000 тг.">{% if request.user.bio %}{{ request.user.bio }}{% endif %}</textarea>
 
-
-        <a href="{% url 'password_change' %}" class="change_password">Изменить пароль</a>
+            <br>
+            <button class="btn-in-settings" name="change_bio" type="submit">Изменить</button>
+        </form>
 
     </div>
+
 {% endblock %}

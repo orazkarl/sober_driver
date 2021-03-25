@@ -1,3 +1,9 @@
 from django.db import models
+from ckeditor.fields import RichTextField
 
-# Create your models here.
+class TechInstructions(models.Model):
+    content = RichTextField('Контент')
+
+    class Meta:
+        verbose_name = 'Техинструкция'
+        verbose_name_plural = 'Техинструкция'

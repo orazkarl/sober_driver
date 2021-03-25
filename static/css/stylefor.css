@@ -190,6 +190,7 @@ ul {
     width: 60px;
     height: 60px;
     overflow: hidden;
+    border-radius: 50%;
 }
 
 .money-in-yellow-box {
@@ -201,7 +202,7 @@ ul {
 .city-in-yellow-box {
     position: absolute;
     top: 85px;
-    right: 60px;
+    right: 20px;
 }
 
 /* ////////////////// footer ///////////////////////////////// */
@@ -267,21 +268,21 @@ footer {
 
 .orders-text-1 {
     position: absolute;
-    top: 11px;
+    top: 8px;
     left: 23px;
     font-size: 12px;
 }
 
 .orders-text-2 {
     position: absolute;
-    top: 33px;
+    top: 28px;
     left: 23px;
     font-size: 12px;
 }
 
 .orders-text-3 {
     position: absolute;
-    top: 11px;
+    top: 8px;
     left: 210px;
     font-size: 12px;
 }
@@ -378,6 +379,7 @@ footer {
     width: 60px;
     height: 60px;
     overflow: hidden;
+    border-radius: 50%;
 }
 
 

@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from user_auth.models import User
 from mainapp.models import City, Order, OfferOrder
+from .models import TechInstructions
 from datetime import timedelta, datetime
 from django.http import JsonResponse
 from django.db import models
@@ -75,25 +76,17 @@ class OrdersView(generic.ListView):
     model = Order
 
     def get(self, request, *args, **kwargs):
-        all_orders = Order.objects.filter(status='started', created__lte=datetime.now() - timedelta(minutes=1))
+        all_orders = Order.objects.filter(status='started', created__lte=datetime.now() - timedelta(minutes=10))
         for order in all_orders:
             order.status = 'finished'
             order.save()
             driver = order.selected_driver
             driver.is_free = True
             driver.save()
-
-        # user = request.user
-        # if user.is_free:
-        #     orders = Order.objects.filter(city=user.city, selected_driver=None).exclude(status='finished').exclude(
-        #         status='canceled')
-        #
-        # else:
-        #     orders = Order.objects.filter(selected_driver=user).exclude(status='finished').exclude(status='canceled')
-        # self.extra_context = {
-        #     'orders': orders,
-        # }
-
+        all_orders = Order.objects.filter(status='request', created__lte=datetime.now() - timedelta(minutes=30))
+        for order in all_orders:
+            order.status = 'canceled'
+            order.save()
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -102,15 +95,15 @@ class OrdersView(generic.ListView):
         if 'close' in request.POST:
             order.is_view = False
             order.save()
-        if 'in_progress' in request.POST:
-            order.status = 'in_progress'
-            order.save()
-
-        elif 'finished' in request.POST:
-            order.status = 'finished'
-            order.save()
-            user.is_free = True
-            user.save()
+        # if 'in_progress' in request.POST:
+        #     order.status = 'in_progress'
+        #     order.save()
+        #
+        # elif 'finished' in request.POST:
+        #     order.status = 'finished'
+        #     order.save()
+        #     user.is_free = True
+        #     user.save()
 
         return redirect('orders_view')
 
@@ -150,14 +143,21 @@ class OrderDetailView(generic.DetailView):
         order = Order.objects.get(id=self.kwargs['pk'])
         price = request.POST['price']
         time = request.POST['time']
-        comment = request.POST['comment']
-        OfferOrder.objects.create(order=order, driver_offer=request.user, comment=comment, time=time, price=price)
+        # comment = request.POST['comment']
+        OfferOrder.objects.create(order=order, driver_offer=request.user, time=time, price=price)
         return redirect('orders_view')
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
 class InstructionView(generic.TemplateView):
     template_name = 'profileapp/instruction.html'
+
+    def get(self, request, *args, **kwargs):
+        instruction = TechInstructions.objects.all().first()
+        self.extra_context = {
+            'instruction': instruction,
+        }
+        return super().get(request, *args, **kwargs)
 
 
 @method_decorator(login_required(login_url='/login/'), name='dispatch')
@@ -166,7 +166,7 @@ class SettingsView(generic.TemplateView):
 
     def post(self, request, *args, **kwargs):
         user = request.user
-        print(1)
+
         if 'change_phone_number' in request.POST:
             old_country_code = int(request.POST['old_country_code'])
             old_phone_number = int(request.POST['old_phone_number'])
@@ -193,4 +193,8 @@ class SettingsView(generic.TemplateView):
                 user.avatar = avatar
                 user.save()
                 messages.add_message(request, messages.SUCCESS, 'Фото изменено')
+        elif 'change_bio' in request.POST:
+            bio = request.POST['bio']
+            user.bio = bio
+            user.save()
         return redirect('settings_view')

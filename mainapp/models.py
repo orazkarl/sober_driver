@@ -29,11 +29,12 @@ class Order(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='orders', verbose_name='Город')
     from_address = models.CharField('Откуда', max_length=255)
     to_address = models.CharField('Куда', max_length=255)
-    phone_number = models.CharField('Номер телефона', max_length=15)
+    phone_number = models.CharField('Номер телефона', max_length=12)
     status = models.CharField('Статус', max_length=50, choices=STATUSES, default='request')
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField('Дата', auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     is_view = models.BooleanField(default=False)
+    no_rating = models.BooleanField(default=False)
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'
@@ -47,7 +48,7 @@ class OfferOrder(models.Model):
     driver_offer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='offers',
                                      verbose_name='Предложения водителя')
     price = models.IntegerField('Цена', default=0)
-    comment = models.TextField('Комментария', max_length=50)
+    # comment = models.TextField('Комментария', max_length=50)
     time = models.IntegerField('Время (минутах)')
     is_selected = models.BooleanField('Выбран', default=False)
 

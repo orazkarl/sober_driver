@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import generic
-from .models import City, Order, OfferOrder, Review
+from .models import City, Order, OfferOrder, Review, Overpayment
 from user_auth.models import User
 from django.contrib.sessions.models import Session
 from django.utils import timezone
@@ -37,7 +37,8 @@ class HomeView(generic.TemplateView):
         orders = Order.objects.filter(user_ip=user_ip)
         bookmark = False
         if orders.count() >= 1 and orders.count() < 2:
-            bookmark = True
+            if orders.first().status == 'request':
+                bookmark = True
         active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
         user_id_list = []
         for session in active_sessions:
@@ -80,6 +81,7 @@ class HomeView(generic.TemplateView):
             driver.balance -= offer.order.city.overpayment
             driver.is_free = False
             driver.save()
+            Overpayment.objects.create(driver=driver, amount=int(offer.order.city.overpayment), order=offer.order)
             order = offer.order
             order.selected_driver = driver
             order.status = 'started'

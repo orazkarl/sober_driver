@@ -75,3 +75,16 @@ class Review(models.Model):
     class Meta:
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
+
+
+class Overpayment(models.Model):
+    driver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='overpayments', verbose_name='Водитель' )
+    amount = models.PositiveIntegerField('Сумма', default=0)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='overpayments', verbose_name='Заказ' )
+
+    class Meta:
+        verbose_name = 'Поступление'
+        verbose_name_plural = 'Поступление'
+
+    def __str__(self):
+        return self.driver.first_name

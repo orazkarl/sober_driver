@@ -251,7 +251,7 @@ footer {
     font-size: 11px;
 
     width: 352px;
-    height: 85px;
+    height: 98px;
 
     border-radius: 25px;
     border: 1px solid #00c2e0;
@@ -268,14 +268,14 @@ footer {
 
 .orders-text-1 {
     position: absolute;
-    top: 8px;
+    top: 5px;
     left: 23px;
     font-size: 12px;
 }
 
 .orders-text-2 {
     position: absolute;
-    top: 28px;
+    top: 23px;
     left: 23px;
     font-size: 12px;
 }

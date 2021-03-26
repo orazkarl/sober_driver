@@ -68,8 +68,8 @@
                                                      alt="">
                                             </div>
                                             <div style="margin: 3px 0 0 3px">
-                                                <span style=" font-size: 10px">Стаж: 5 лет </span>
-                                                <p style="font-size:10px ">
+                                                <span style=" font-size: 11px">Стаж: 5 лет </span>
+                                                <p style="font-size:11px; margin: -5px 0 0 -5px">
                                                     {% if order.selected_driver.average_rating >= 0.5 and  order.selected_driver.average_rating < 1.5 %}
                                                         <span
                                                                 style="color: #FCE406;font-size: 11px">★☆☆☆☆</span>
@@ -91,20 +91,20 @@
                                         </div>
                                     </div>
                                     <div style="width: 70%; margin: 1px; height: 70px;">
-                                        <p style="font-size: 10px; margin-top: -5px">Время:
+                                        <p style="font-size: 11px; margin-top: -5px">Время:
                                             {% for offer in order.offers.all %}
                                                 {% if offer.driver_offer == order.selected_driver %}
                                                     {{ offer.time }}
                                                 {% endif %}
                                             {% endfor %} минут</p>
-                                        <p style="font-size: 10px;margin-top: -5px">Цена:
+                                        <p style="font-size: 11px;margin-top: -5px">Цена:
                                             {% for offer in order.offers.all %}
                                                 {% if offer.driver_offer == order.selected_driver %}
                                                     {{ offer.price }}
                                                 {% endif %}
                                             {% endfor %} тг</p>
                                         {#                                        <p style="font-size: 10px;margin-top: -5px">Комментария водителя: </p>#}
-                                        <p style="font-size: 10px;margin-top: -5px">{{ order.selected_driver.bio }}</p>
+                                        <p style="font-size: 11px;margin-top: -5px">{{ order.selected_driver.bio }}</p>
                                     </div>
                                 </div>
                                 <div>
@@ -184,7 +184,7 @@
                         </div>
                         <div style="margin: -3px 0 0 7px">
                             <span style=" font-size: 10px; ">Стаж: {{ order.selected_driver.driving_experience }}лет </span>
-                            <p style="font-size:10px ">
+                            <p style="font-size:11px ">
                                 {% if order.selected_driver.average_rating >= 0.5 and  order.selected_driver.average_rating < 1.5 %}
                                     <span
                                             style="color: #FCE406;font-size: 11px">★☆☆☆☆</span>

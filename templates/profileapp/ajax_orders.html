@@ -15,8 +15,13 @@
                         <p class="">Откуда: {{ order.from_address }}</p>
                         <p class="">Куда: {{ order.to_address }}</p>
                         <p class="">Ваша цена:
-                            {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}{{ offer.price }}
+                            {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}
+                                {{ offer.price }}
                             {% endif %}{% endfor %} тг</p>
+                        <p class="">Ваша время:
+                            {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}
+                                {{ offer.time }}
+                            {% endif %}{% endfor %} минут</p>
                         <p class="">Номер: {{ order.phone_number }}</p>
                         <br>
                         <a href="tel:{{ order.phone_number }}" class="order-call-btn">Позвонить</a>
@@ -40,12 +45,15 @@
 
         {% if order.selected_driver == request.user %}
 
-            <div style="left: 23px; top: 48px; position: absolute; font-size: 12px">
-<p class="" style="">Ваша цена:
+            <div style="left: 23px; top: 41px; position: absolute; font-size: 12px">
+                <p class="" style="">Ваша цена:
                     {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}{{ offer.price }}
                     {% endif %}{% endfor %} тг</p>
-                <p style="margin-top: 4px">Номер клиента: <a href="tel:{{ order.phone_number }}"
-                                     style="color: #3D5AFE">{{ order.phone_number }}</a></p>
+                <p class="" style="margin-top: 2px">Ваша время:
+                    {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}{{ offer.time }}
+                    {% endif %}{% endfor %} минут</p>
+                <p style="margin-top: 2px">Номер клиента: <a href="tel:{{ order.phone_number }}"
+                                                             style="color: #3D5AFE">{{ order.phone_number }}</a></p>
 
 
             </div>

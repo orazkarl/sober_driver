@@ -11,7 +11,11 @@
 
     <div class="orders orders-top" style="">
         <p class="orders-text-1">Откуда: {{ order.from_address }}</p>
-        <p class="orders-text-2">Куда: {{ order.to_address }}</p>
+        <p class="orders-text-2">Куда: {% if order.to_address == 'договориться на месте' %}
+            <span style="background-color: #48CC4D; padding: 2px; border-radius: 25px">{{ order.to_address }}</span>
+        {% else %}
+            {{ order.to_address }}
+        {% endif %}</p>
         <p class="orders-text-3">Время заявки: {{ order.created }}</p>
 
         {#                    <a class="orders-text-4" href="{% url 'order_detail' order.id%}">Отправить заявку</a>#}

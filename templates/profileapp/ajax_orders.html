@@ -13,7 +13,13 @@
                     <hr color="#d0d0d0" size="1" style="margin-top: 8px; border-radius: 25px">
                     <div class="order-modal-body">
                         <p class="">Откуда: {{ order.from_address }}</p>
-                        <p class="">Куда: {{ order.to_address }}</p>
+                        <p class="">Куда:
+                          {% if order.to_address == 'договориться на месте' %}
+            <span style="background-color: #48CC4D; padding: 2px; border-radius: 25px">{{ order.to_address }}</span>
+        {% else %}
+            {{ order.to_address }}
+        {% endif %}
+                        </p>
                         <p class="">Ваша цена:
                             {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}
                                 {{ offer.price }}
@@ -39,7 +45,11 @@
     {% endif %}
     <div class="orders orders-top">
         <p class="orders-text-1">Откуда: {{ order.from_address }}</p>
-        <p class="orders-text-2">Куда: {{ order.to_address }}</p>
+        <p class="orders-text-2">Куда: {% if order.to_address == 'договориться на месте' %}
+            <span style="background-color: #48CC4D; padding: 2px; border-radius: 25px">{{ order.to_address }}</span>
+        {% else %}
+            {{ order.to_address }}
+        {% endif %}</p>
 
         <p class="orders-text-3">Время заявки: {{ order.created }}</p>
 
@@ -69,10 +79,11 @@
             {% else %}
                 {% for offer in order.offers.all %}
                     {% if offer.driver_offer == request.user %}
-                        <p class="orders-text-2" style="top: 56px">Ваша цена:
-                            {% for offer in order.offers.all %}{% if offer.is_selected == True %}{{ offer.price }}
-                            {% endif %}{% endfor %} тг</p>
-                        <p><a class="orders-text-5" href="{% url 'order_detail' order.id %}">Отправлено</a>
+                        <p class="orders-text-2" style="top: 40px">Ваша цена:
+                            {{ offer.price }}тг</p>
+                        <p class="orders-text-2" style="top: 56px">Ваша время:
+                            {{ offer.time }}тг</p>
+                        <p><a class="orders-text-5" disabled="">Отправлено</a>
                         </p>
                     {% else %}
                         {% if request.user.is_block == False %}

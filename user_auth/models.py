@@ -19,9 +19,9 @@ class UserManager(BaseUserManager):
         user = self.model(phone_number=phone_number)
         user.country_code = country_code
         user.set_password(password)
-        user.admin = True
-        user.staff = True
-        user.active = True
+        user.is_active = True
+        user.is_superuser = True
+        user.is_staff = True
         user.save(using=self._db)
         return user
 

@@ -1,5 +1,4 @@
-
-    {% if my_orders %}
+{% if my_orders %}
     <div class="div-title-orders"><span class="title-orders">Сейчас появятся предложения от<br>водителей,пожалуйста подождите</span>
     </div>
     {% for order in my_orders %}
@@ -25,7 +24,11 @@
 
                 <div class="cancel-div-2">
                     <span class="cancel-span-3">{{ order.from_address }}</span><br>
-                    <span class="cancel-span-4">{{ order.to_address }}</span>
+                    <span class="cancel-span-4">{% if order.to_address == 'договориться на месте' %}
+                        <span style="background-color: #48CC4D; padding: 2px; border-radius: 25px">{{ order.to_address }}</span>
+                    {% else %}
+                        {{ order.to_address }}
+                    {% endif %}</span>
                     {#                <span class="cancel-span-4" style="top: 55px">{{ order.get_status_display }} </span>#}
                     {#                <span class="cancel-span-4" style="top: 75px; left: 145px"><a#}
                     {#                        href="tel:{{ order.selected_driver.phone_number }}">{{ order.selected_driver.phone_number }}</a> </span>#}
@@ -70,7 +73,10 @@
                                             <div style="margin: 3px 0 0 3px">
                                                 <span style=" font-size: 11px">Стаж: 5 лет </span>
                                                 <p style="font-size:11px; margin: -5px 0 0 -5px">
-                                                    {% if order.selected_driver.average_rating >= 0.5 and  order.selected_driver.average_rating < 1.5 %}
+                                                    {% if order.selected_driver.average_rating < 0.5 %}
+                                                        <span
+                                                                style="color: #FCE406;font-size: 11px">☆☆☆☆☆</span>
+                                                    {% elif order.selected_driver.average_rating >= 0.5 and  order.selected_driver.average_rating < 1.5 %}
                                                         <span
                                                                 style="color: #FCE406;font-size: 11px">★☆☆☆☆</span>
                                                     {% elif order.selected_driver.average_rating >= 1.5 and  order.selected_driver.average_rating < 2.5 %}
@@ -109,7 +115,12 @@
                                 </div>
                                 <div>
                                     <p style="font-size: 11px">Откуда:{{ order.from_address }} </p>
-                                    <p style="font-size: 11px">Куда: {{ order.to_address }}</p>
+                                    <p style="font-size: 11px">Куда:
+                                        {% if order.to_address == 'договориться на месте' %}
+                                            <span style="background-color: #48CC4D; padding: 2px; border-radius: 25px; font-size: 11px">{{ order.to_address }}</span>
+                                        {% else %}
+                                            {{ order.to_address }}
+                                        {% endif %}</p>
                                     <p style="font-size: 11px">Номер водителя:
                                         +7{{ order.selected_driver.phone_number }}</p>
                                 </div>
@@ -236,6 +247,7 @@
                     <p style="font-size: 11px; margin: 17px 0 0 7px">Номер водителя:</p>
                     <a style="font-size: 11px; color: white"
                        href="tel:+
+
 
 
                                {{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}">+{{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}</a>

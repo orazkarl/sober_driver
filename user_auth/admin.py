@@ -26,14 +26,14 @@ class DriverFilter(admin.SimpleListFilter):
 
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
-    list_display = ['first_name', 'last_name', 'phone_number', 'balance', 'count_orders_day', 'count_orders_week', 'count_orders_month', 'count_orders', 'average_rating']
+    list_display = ['phone_number','first_name', 'last_name', 'balance', 'count_orders_day', 'count_orders_week', 'count_orders_month', 'count_orders', 'average_rating']
     list_filter = ['active_subscription', DriverFilter]
     # search_fields = ['username']
     # paginator = 30
     ordering = ['first_name']
 
-    readonly_fields = ['password', 'country_code', 'phone_number', 'first_name', 'last_name', 'driver_license_number',
-                       'avatar', 'active_subscription', 'subscription_day', 'last_login', 'date_joined']
+    # readonly_fields = ['password', 'country_code', 'phone_number', 'first_name', 'last_name', 'driver_license_number',
+    #                    'avatar', 'active_subscription', 'subscription_day', 'last_login', 'date_joined']
     fieldsets = (
         (None,
          {'fields': ('password', 'country_code', 'phone_number')}),

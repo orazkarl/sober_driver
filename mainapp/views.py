@@ -20,6 +20,17 @@ class HomeView(generic.TemplateView):
     template_name = 'mainapp/index.html'
 
     def get(self, request, *args, **kwargs):
+        all_orders = Order.objects.filter(status='started', created__lte=datetime.datetime.now() - datetime.timedelta(minutes=10))
+        for order in all_orders:
+            order.status = 'finished'
+            order.save()
+            driver = order.selected_driver
+            driver.is_free = True
+            driver.save()
+        all_orders = Order.objects.filter(status='request', created__lte=datetime.datetime.now() - datetime.timedelta(minutes=30))
+        for order in all_orders:
+            order.status = 'canceled'
+            order.save()
         cities = City.objects.all()
         count_online_drivers = 0
         user_ip = get_client_ip(request)

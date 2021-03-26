@@ -13,7 +13,7 @@ class RegisterForm(forms.ModelForm):
     password1 = forms.CharField(label='Пароль',widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}), )
     password2 = forms.CharField(label='Пароль (повторно)', widget=forms.PasswordInput(attrs={'placeholder': 'Пароль (повторно)'}))
     country_code = forms.ChoiceField(label='Код страны', required=True, choices=CHOICES)
-    city = forms.ChoiceField(choices=[(city.name, city.name) for city in City.objects.all()])
+    # city = forms.ChoiceField(choices=[(city.name, city.name) for city in City.objects.all()])
     first_name = forms.CharField()
     last_name = forms.CharField()
     avatar = forms.ImageField()

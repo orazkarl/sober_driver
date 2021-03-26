@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.cache import cache
 import datetime
 from sober_driver import settings
@@ -7,7 +7,23 @@ from mainapp.models import City
 import numpy as np
 
 
+class UserManager(BaseUserManager):
+    def create_superuser(self, phone_number, country_code, password=None, **extra_fields):
+        if not phone_number:
+            raise ValueError("User must have an phone_number")
+        if not password:
+            raise ValueError("User must have a password")
+        if not country_code:
+            raise ValueError("User must have a full country_code")
 
+        user = self.model(phone_number=phone_number)
+        user.country_code = country_code
+        user.set_password(password)
+        user.admin = True
+        user.staff = True
+        user.active = True
+        user.save(using=self._db)
+        return user
 
 
 class User(AbstractUser):
@@ -30,6 +46,7 @@ class User(AbstractUser):
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['country_code']
 
+    objects = UserManager()
     def __str__(self):
         return self.first_name
 
@@ -55,3 +72,5 @@ class User(AbstractUser):
             return 0
 
         return round(avg_rating)
+
+

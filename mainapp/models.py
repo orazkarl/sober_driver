@@ -35,6 +35,8 @@ class Order(models.Model):
     updated = models.DateTimeField(auto_now=True)
     is_view = models.BooleanField(default=False)
     no_rating = models.BooleanField(default=False)
+    minutes = models.PositiveIntegerField(null=True, blank=True)
+    seconds = models.PositiveIntegerField(null=True, blank=True)
     class Meta:
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказы'

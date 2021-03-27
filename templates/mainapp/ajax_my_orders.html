@@ -1,5 +1,5 @@
 {% if my_orders %}
-    {{ timer }}
+
     <style>
         #id_my_orders {
             height: 300px
@@ -245,11 +245,10 @@
                     <div class="tenge">
                         <p>Время:</p>
                         <div style="background-color: #FCE406; border-radius: 25px; padding: 1px 2px 3px 3px; width: 60px;margin-top: 3px">
-                            <p>{% for offer in order.offers.all %}
-                                {% if offer.driver_offer == order.selected_driver %}
-                                    {{ offer.time }}
-                                {% endif %}
-                            {% endfor %} минут</p></div>
+                            <p>
+                                {{order.minutes}}:{{order.seconds }}
+                            </p>
+                        </div>
                         <p>Цена:</p>
                         <div style="background-color: #FCE406; border-radius: 25px; padding: 1px 2px 3px 3px; width: 60px; margin-top: 3px">
                             <p>{% for offer in order.offers.all %}

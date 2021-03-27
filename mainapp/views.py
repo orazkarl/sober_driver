@@ -20,14 +20,16 @@ class HomeView(generic.TemplateView):
     template_name = 'mainapp/index.html'
 
     def get(self, request, *args, **kwargs):
-        all_orders = Order.objects.filter(status='started', updated__lte=datetime.datetime.now() - datetime.timedelta(minutes=10)).exclude(selected_driver=None)
+        all_orders = Order.objects.filter(status='started', updated__lte=datetime.datetime.now() - datetime.timedelta(
+            minutes=10)).exclude(selected_driver=None)
         for order in all_orders:
             order.status = 'finished'
             order.save()
             driver = order.selected_driver
             driver.is_free = True
             driver.save()
-        all_orders = Order.objects.filter(status='request', updated__lte=datetime.datetime.now() - datetime.timedelta(minutes=30))
+        all_orders = Order.objects.filter(status='request',
+                                          updated__lte=datetime.datetime.now() - datetime.timedelta(minutes=30))
         for order in all_orders:
             order.status = 'canceled'
             order.save()
@@ -107,6 +109,18 @@ def getMyOrders(request):
     yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
     my_orders = Order.objects.filter(user_ip=user_ip, created__gte=yesterday).exclude(status='canceled').exclude(
         status='finished')
-
+    for order in my_orders.filter(status='started').exclude(selected_driver=None):
+        for offer in order.offers.all():
+            if order.minutes and order.seconds:
+                duration = order.minutes * 60 + order.seconds
+            else:
+                if offer.driver_offer == order.selected_driver:
+                    duration = offer.time * 60
+            duration -= 1
+            minutes = int(duration / 60)
+            seconds = int(duration % 60)
+            order.minutes = minutes
+            order.seconds = seconds
+            order.save()
 
     return render(request, 'mainapp/ajax_my_orders.html', {'my_orders': my_orders})

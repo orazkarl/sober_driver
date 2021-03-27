@@ -70,7 +70,7 @@ class OrderMonthFilter(admin.SimpleListFilter):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['phone_number', 'city', 'from_address', 'to_address', 'status', 'created', 'selected_driver']
+    list_display = ['phone_number', 'city', 'from_address', 'to_address', 'status', 'created','updated',  'selected_driver']
     list_filter = ['status', 'city', OrderMonthFilter, 'created']
     fieldsets = (
         (None,{'fields': ('phone_number', 'city', 'from_address', 'to_address', 'status', 'created', 'selected_driver')}),
@@ -81,8 +81,8 @@ class OrderAdmin(admin.ModelAdmin):
     def has_change_permission(self, request, obj=None):
         return False
 
-    def has_delete_permission(self, request, obj=None):
-        return False
+    # def has_delete_permission(self, request, obj=None):
+    #     return False
 
 # class OverpaymentFilter(admin.SimpleListFilter)
 #     title = 'Фильтр по городам'

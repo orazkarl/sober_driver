@@ -1,4 +1,5 @@
 {% extends 'profileapp/profile_base.html' %}
+{% load mathfilters %}
 {% block title %}
     <title>Профиль</title>
 {% endblock %}
@@ -30,21 +31,32 @@
             <p style="color: red">{{ message|escape }}</p>
         {% endfor %}
     {% endif %}</div>
-    <div class="token-block-1">
+    <div class="token-block-1" style="height: 160px">
         <form action="." method="post">
             {% csrf_token %}
             <p class="title-in-token-block">Состояние подписки</p>
 
-            <p class="text-in-token-block">Стоимость подписки за 1 месяц: {{ request.user.city.subscription_price }} тенге</p>
+            <p class="text-in-token-block">Стоимость подписки за 1 месяц: {{ request.user.city.subscription_price }}
+                тенге</p>
+            <div class="bar-border">
+        <div class="bar-text">{{ subscription_days }} дней из 30</div>
+                <div class="bar-green" style="height:24px;width:{% widthratio subscription_days 30 100 %}%">
+                </div>
+                <div class="bar-red" style="margin-left:-4px;height:24px;width: {% widthratio 30|sub:subscription_days 30 100 %}%">
+{#                    {{ subscription_days }} дней из 30#}
+                </div>
+            </div>
             <div class="div-in-token-block">
-            <span class="span-in-token-block">
-                {% if request.user.active_subscription %}
-                    Осталось: {{ subscription_days }} дней
 
-                {% else %}Не оформлена{% endif %}</span>
+                {#            <span class="span-in-token-block">#}
+                {#                {% if request.user.active_subscription %}#}
+                {#                    Осталось: {{ subscription_days }} дней#}
+                {##}
+                {#                {% else %}Не оформлена{% endif %}</span>#}
 
-                <button class="btn-in-token-block" type="submit" style="width: 162px; border: none" name="subscription">
-                    {% if request.user.active_subscription %}Продлить подписку{% else %}Оформить
+                <button class="btn-in-token-block" type="submit" style="width: 162px; border: none;"
+                        name="subscription">
+                    {% if request.user.active_subscription %}Оплатить подписку{% else %}Оформить
                         подписку{% endif %}</button>
 
 
@@ -71,9 +83,13 @@
         <span class="table-5">За все время: {{ count_orders_all }}</span><br>
         <div class="table-1"><p>Сумма заработка</p></div>
         <span
-        = class="table-7">За сегодня: {% if amount_income_day is None %}0{% else %}{{ amount_income_day }} {% endif %}</span><br>
-        <span class="table-8">За неделю:{% if  amount_income_week is None %}0{% else %}{{ amount_income_week}} {% endif %} </span><br>
-        <span class="table-9">За месяц: {% if  amount_income_month is None %}0{% else %}{{ amount_income_month }}  {% endif %}</span><br>
-        <span class="table-10">За все время:{% if  amount_income_all is None %}0{% else %}{{ amount_income_all }}  {% endif %} </span><br>
+        = class="table-7">За сегодня: {% if amount_income_day is None %}0
+        {% else %}{{ amount_income_day }} {% endif %}</span><br>
+        <span class="table-8">За неделю:{% if  amount_income_week is None %}0
+            {% else %}{{ amount_income_week }} {% endif %} </span><br>
+        <span class="table-9">За месяц: {% if  amount_income_month is None %}0
+            {% else %}{{ amount_income_month }}  {% endif %}</span><br>
+        <span class="table-10">За все время:{% if  amount_income_all is None %}0
+            {% else %}{{ amount_income_all }}  {% endif %} </span><br>
     </div>
 {% endblock %}

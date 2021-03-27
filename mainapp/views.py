@@ -20,14 +20,14 @@ class HomeView(generic.TemplateView):
     template_name = 'mainapp/index.html'
 
     def get(self, request, *args, **kwargs):
-        all_orders = Order.objects.filter(status='started', created__lte=datetime.datetime.now() - datetime.timedelta(minutes=10))
+        all_orders = Order.objects.filter(status='started', updated__lte=datetime.datetime.now() - datetime.timedelta(minutes=10)).exclude(selected_driver=None)
         for order in all_orders:
             order.status = 'finished'
             order.save()
             driver = order.selected_driver
             driver.is_free = True
             driver.save()
-        all_orders = Order.objects.filter(status='request', created__lte=datetime.datetime.now() - datetime.timedelta(minutes=30))
+        all_orders = Order.objects.filter(status='request', updated__lte=datetime.datetime.now() - datetime.timedelta(minutes=30))
         for order in all_orders:
             order.status = 'canceled'
             order.save()
@@ -43,14 +43,12 @@ class HomeView(generic.TemplateView):
         user_id_list = []
         for session in active_sessions:
             data = session.get_decoded()
-            print(data)
             user_id_list.append(data.get('_auth_user_id', None))
         # Query all logged in users based on id list
-        count_online_drivers = User.objects.filter(id__in=user_id_list, is_free=True).count()
-
-        # for user in User.objects.all():
-        #     if user.online() and user.is_free:
-        #         count_online_drivers +=1
+        city = 'Алматы'
+        if orders.exists():
+            city = orders.first().city
+        count_online_drivers = User.objects.filter(id__in=user_id_list, is_free=True, city__name=city).count()
 
         self.extra_context = {
             'cities': cities,
@@ -76,8 +74,8 @@ class HomeView(generic.TemplateView):
             if driver.is_free == False:
                 return redirect('home_view')
             offer.is_selected = True
-            if driver.balance < offer.order.city.overpayment:
-                return redirect('home_view')
+            # if driver.balance < offer.order.city.overpayment:
+            #     return redirect('home_view')
             driver.balance -= offer.order.city.overpayment
             driver.is_free = False
             driver.save()
@@ -109,4 +107,6 @@ def getMyOrders(request):
     yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
     my_orders = Order.objects.filter(user_ip=user_ip, created__gte=yesterday).exclude(status='canceled').exclude(
         status='finished')
+
+
     return render(request, 'mainapp/ajax_my_orders.html', {'my_orders': my_orders})

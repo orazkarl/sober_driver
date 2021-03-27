@@ -76,14 +76,15 @@ class OrdersView(generic.ListView):
     model = Order
 
     def get(self, request, *args, **kwargs):
-        all_orders = Order.objects.filter(status='started', created__lte=datetime.now() - timedelta(minutes=10))
+        all_orders = Order.objects.filter(status='started', updated__lte=datetime.now() - timedelta(minutes=10)).exclude(selected_driver=None)
+        print(all_orders)
         for order in all_orders:
             order.status = 'finished'
             order.save()
             driver = order.selected_driver
             driver.is_free = True
             driver.save()
-        all_orders = Order.objects.filter(status='request', created__lte=datetime.now() - timedelta(minutes=30))
+        all_orders = Order.objects.filter(status='request', updated__lte=datetime.now() - timedelta(minutes=30))
         for order in all_orders:
             order.status = 'canceled'
             order.save()
@@ -117,6 +118,10 @@ def getOrders(request):
     else:
         orders = Order.objects.filter(selected_driver=user).exclude(status='finished').exclude(status='canceled')
 
+
+
+
+
     return render(request, 'profileapp/ajax_orders.html', {'orders': orders})
     # return JsonResponse({"orders": list(queryset.values())})
 
@@ -140,6 +145,9 @@ class OrderDetailView(generic.DetailView):
             return redirect('orders_view')
 
     def post(self, request, *args, **kwargs):
+        user = request.user
+        if user.balance < user.city.overpayment:
+            return redirect('orders_view')
         order = Order.objects.get(id=self.kwargs['pk'])
         price = request.POST['price']
         time = request.POST['time']
@@ -194,7 +202,15 @@ class SettingsView(generic.TemplateView):
                 user.save()
                 messages.add_message(request, messages.SUCCESS, 'Фото изменено')
         elif 'change_bio' in request.POST:
+            trip_from_price = request.POST['trip_from_price']
+            trip_hour_price = request.POST['trip_hour_price']
+            average_arrival = request.POST['average_arrival']
+            knowledgecity = request.POST['knowledgecity']
             bio = request.POST['bio']
+            user.trip_from_price = trip_from_price
+            user.trip_hour_price = trip_hour_price
+            user.average_arrival = average_arrival
+            user.knowledgecity = knowledgecity
             user.bio = bio
             user.save()
         return redirect('settings_view')

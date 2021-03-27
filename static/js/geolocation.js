@@ -1,35 +1,41 @@
-ymaps.ready(function () {
-    var map;
-    ymaps.geolocation.get().then(function (res) {
-        var mapContainer = $('#map'),
-            bounds = res.geoObjects.get(0).properties.get('boundedBy'),
-            // Рассчитываем видимую область для текущей положения пользователя.
-            mapState = ymaps.util.bounds.getCenterAndZoom(
-                bounds,
-                [mapContainer.width(), mapContainer.height()]
-            );
-        createMap(mapState);
-        sendRequest(mapState['center']);
+ymaps.ready(init);
 
-    }, function (e) {
-        // Если местоположение невозможно получить, то просто создаем карту.
-        createMap({
-            center: [55.751574, 37.573856],
-            zoom: 2
+function init() {
+    var geolocation = ymaps.geolocation,
+        myMap = new ymaps.Map('map', {
+            center: [43.237156, 76.945618],
+            zoom: 10
+        }, {
+            searchControlProvider: 'yandex#search'
         });
+
+    // Сравним положение, вычисленное по ip пользователя и
+    // положение, вычисленное средствами браузера.
+    geolocation.get({
+        provider: 'yandex',
+        mapStateAutoApply: true
+    }).then(function (result) {
+        // Красным цветом пометим положение, вычисленное через ip.
+        result.geoObjects.options.set('preset', 'islands#redCircleIcon');
+        result.geoObjects.get(0).properties.set({
+            balloonContentBody: 'Мое местоположение'
+        });
+        myMap.geoObjects.add(result.geoObjects);
+        var map = document.getElementById('map');
+        console.log(map.style.display)
+
+
+
     });
 
-    function createMap (state) {
-        map = new ymaps.Map('map', state);
-    }
-});
 
+}
 function sendRequest(state){
+    console.log(state);
     const Http = new XMLHttpRequest();
     const url = 'https://geocode-maps.yandex.ru/1.x?geocode=' + state[1] +',' + state[0] +  '&apikey=7af4d9cc-1a22-44c4-82cf-dbd6503a6696&kind=house';
     Http.open("GET", url);
     Http.send();
-
 
 
     $.get(url, function(data, status){
@@ -39,15 +45,10 @@ function sendRequest(state){
         var value = text.getElementsByTagName("GeocoderMetaData")[0].getElementsByTagName("Address")[0];
         var city = value.getElementsByTagName('Component')[2].getElementsByTagName("name")[0].childNodes[0].nodeValue;
         var address = value.getElementsByTagName('Component')[3].getElementsByTagName("name")[0].childNodes[0].nodeValue +',' +  value.getElementsByTagName('Component')[4].getElementsByTagName("name")[0].childNodes[0].nodeValue;
-        insertData(city, address)
+        document.querySelector('#id_cities').style.display = 'block'
+        document.querySelector('#id_city').value = city
+        document.querySelector('#id_from_address').value = address
     });
 
-
-}
-
-function insertData(city, address){
-console.log(city);
-document.getElementsById('id_city').value = String(city);
-        document.getElementsById('id_from_address').value = String(address);
 
 }

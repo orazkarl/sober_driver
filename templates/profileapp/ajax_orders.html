@@ -15,7 +15,7 @@
                         <p class="">Откуда: {{ order.from_address }}</p>
                         <p class="">Куда:
                           {% if order.to_address == 'договориться на месте' %}
-            <span style="background-color: #48CC4D; padding: 2px; border-radius: 25px">{{ order.to_address }}</span>
+            <span style="background-color: #48CC4D; padding: 2px; border-radius: 5px; color: white">{{ order.to_address }}</span>
         {% else %}
             {{ order.to_address }}
         {% endif %}
@@ -46,7 +46,7 @@
     <div class="orders orders-top">
         <p class="orders-text-1">Откуда: {{ order.from_address }}</p>
         <p class="orders-text-2">Куда: {% if order.to_address == 'договориться на месте' %}
-            <span style="background-color: #48CC4D; padding: 2px; border-radius: 25px">{{ order.to_address }}</span>
+            <span style="background-color: #48CC4D; padding: 2px; border-radius: 5px;color: white">{{ order.to_address }}</span>
         {% else %}
             {{ order.to_address }}
         {% endif %}</p>
@@ -71,7 +71,7 @@
         {% else %}
 
             {% if not order.offers.all %}
-                {% if request.user.is_block == False %}
+                {% if request.user.is_block == False and request.user.balance >= request.user.city.overpayment %}
                     <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить заявку</a>
                     </p>
                 {% endif %}

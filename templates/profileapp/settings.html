@@ -5,13 +5,11 @@
 {% block content %}
     <style>
         .change_password {
-            {#margin-left: 36px;#}
-            padding: 5px 63px 5px 63px;
+        {#margin-left: 36px;#} padding: 5px 63px 5px 63px;
 
             width: 278px !important;
 
-            {#height: 29px !important;#}
-            border: none;
+        {#height: 29px !important;#} border: none;
             border-radius: 15px;
             background-color: #10C7F1;
             font-size: 18px;
@@ -79,14 +77,43 @@
         </form>
     </div>
     </div> <!---------------------- page ---------------------->
-    <div class="setting-div-1">
+    <div class="setting-div-1" style="height: 250px">
         <form action="{% url 'settings_view' %}" method="post">
             {% csrf_token %}
             <div class="set-div-1-1"><p class="text-in-settings">Информация о себе</p></div>
-{#            <input type="text" class="registration-input"  style="" name="bio" placeholder="Пример: Цена от 1000 тг, знания города, опыт вождения 10 лет.">#}
-            <textarea name="bio"  class="registration-input" style="height: 100px; font-family: 'Roboto', sans-serif "   maxlength="50" placeholder="Пример: Здравствуйте я оказываю услуги трезвого водителя, перегон авто в любую точку,ответственно подхожу к работе. Цена от 1000 тг.">{% if request.user.bio %}{{ request.user.bio }}{% endif %}</textarea>
+            {#            <input type="text" class="registration-input"  style="" name="bio" placeholder="Пример: Цена от 1000 тг, знания города, опыт вождения 10 лет.">#}
+            <div style="padding: 5px">
+                <p>Поездка: от <input type="number" class="about-input" style="width: 60px" max="9999"
+                                      name="trip_from_price" placeholder="1500" value="{% if request.user.trip_from_price %}{{ request.user.trip_from_price }}{% endif %}"> тг в чертах
+                    города;
+                    <input type="number" class="about-input" style="width: 60px" max="9999" name="trip_hour_price"
+                           placeholder="1000" value="{% if request.user.trip_hour_price %}{{ request.user.trip_hour_price }}{% endif %}">тг/час
+                </p>
+                <p>Прибытие в среднем: <input type="number" class="about-input" style="width: 60px" max="99"
+                                              name="average_arrival" placeholder="15"
+                                              value="{% if request.user.average_arrival %}{{ request.user.average_arrival }}{% endif %}"> мин
+                </p>
+                <p>Знание города <select name="knowledgecity" id="" class="about-input">
+                <option selected disabled>-----</option>
+                    <option value="5" {% if request.user.knowledgecity == '5' %}selected{% endif %}>отлично</option>
+                    <option value="4" {% if request.user.knowledgecity == '4' %}selected{% endif %}>хорошо</option>
+                    <option value="3" {% if request.user.knowledgecity == '3' %}selected{% endif %}>нормально</option>
+                    <option value="2" {% if request.user.knowledgecity == '2' %}selected{% endif %}>немножко</option>
+                    <option value="1" {% if request.user.knowledgecity == '1' %}selected{% endif %}>незнаю</option>
 
-            <br>
+                </select></p>
+                <p>О себе:
+                    <input type="text" class="about-input" style="width: 280px" name="bio"
+                           placeholder="Информация о себе" maxlength="18"
+                           value="{% if request.user.bio %}{{ request.user.bio }}{% endif %}">
+                </p>
+            </div>
+            {#            <textarea name="bio" class="registration-input" style="height: 100px; font-family: 'Roboto', sans-serif "#}
+            {#                      maxlength="50"#}
+            {#                      placeholder="Пример: Здравствуйте я оказываю услуги трезвого водителя, перегон авто в любую точку,ответственно подхожу к работе. Цена от 1000 тг.">{% if request.user.bio %}#}
+            {#                {{ request.user.bio }}{% endif %}</textarea>#}
+
+
             <button class="btn-in-settings" name="change_bio" type="submit">Изменить</button>
         </form>
 

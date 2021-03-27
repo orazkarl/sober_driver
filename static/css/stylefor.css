@@ -408,7 +408,7 @@ footer {
 
 .token-block-1 {
     width: 350px;
-    height: 120px;
+    height: 130px;
     margin: 0 auto;
     margin-bottom: 15px;
 
@@ -460,8 +460,10 @@ footer {
     font-size: 14px;
     background-color: #FCE406;
     border-radius: 15px;
-    float: right;
-    margin-right: 13px;
+    float: left;
+    margin-left: 100px;
+
+    /*margin-right: 13px;*/
 }
 
 .btn-in-token-block-2 {
@@ -742,9 +744,11 @@ footer {
     padding: 10px;
 
 }
+
 .order-modal-body p {
     padding: 5px;
 }
+
 .order-modal-footer {
     text-align: center;
 }
@@ -754,4 +758,69 @@ footer {
     padding: 5px 45px 5px 45px;
     margin: 20px 15px 0 15px;
     border-radius: 25px
+}
+
+.bar-border {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    height: 24px;
+    margin: 5px 25px 5px 25px;
+    width: 300px;
+
+    /*overflow: hidden;*/
+}
+
+.bar-green {
+    color: #fff !important;
+    background-color: green;
+    display: inline-block;
+    /*overflow: hidden;*/
+    /*padding: 3px;*/
+    /*text-align: center;*/
+}
+
+.bar-red {
+    color: #fff !important;
+    background-color: red;
+    display: inline-block;
+    /*padding: 3px;*/
+    /*text-align: center;*/
+}
+
+.bar-text {
+    position: absolute;
+    margin-top: 3px;
+    color: white;
+    /*text-align: center;*/
+    margin-left: 10%;
+
+
+}
+
+
+.about-input {
+    padding:  3px;
+    /*height: 38px;*/
+    /*width: 278px;*/
+    margin: 3px auto;
+    /*margin-bottom: 12px;*/
+
+    /*font-size: 18px;*/
+
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    /*outline: none;*/
+    /*background-color: #f9f9f9;*/
+    /*box-sizing: border-box;*/
+
+    /*display: block;*/
+}
+
+.about-input:focus {
+    outline: none;
+    border-color: #66afe9;
+
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
 }

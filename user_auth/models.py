@@ -27,6 +27,13 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    KNOWLEDGE_CITY_CHOICES = [
+        ['5', 'отлично'],
+        ['4', 'хорошо'],
+        ['3', 'нормально'],
+        ['2', 'немножко'],
+        ['1', 'незнаю'],
+    ]
     username = None
     driving_experience = models.PositiveIntegerField('Стаж вождение', default=0)
     avatar = models.FileField(upload_to='avatars/', blank=True)
@@ -34,7 +41,12 @@ class User(AbstractUser):
     driver_license_number = models.CharField('Номер водительского удостоверение', max_length=20, blank=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='users', verbose_name='Город', blank=True,
                              null=True)
-    bio = models.TextField('Информация о водителя', max_length=50, null=True, blank=True)
+
+    trip_from_price = models.PositiveIntegerField(default=0)
+    trip_hour_price = models.PositiveIntegerField(default=0)
+    average_arrival = models.PositiveIntegerField(default=0)
+    knowledgecity = models.CharField(max_length=10, null=True, blank=True,choices=KNOWLEDGE_CITY_CHOICES)
+    bio = models.CharField('Информация о водителя', max_length=18, null=True, blank=True)
     phone_number = models.BigIntegerField('Телефон', unique=True)
     country_code = models.IntegerField()
     phone_number_verified = models.BooleanField(default=False)

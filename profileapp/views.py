@@ -76,7 +76,7 @@ class OrdersView(generic.ListView):
     model = Order
 
     def get(self, request, *args, **kwargs):
-        all_orders = Order.objects.filter(status='started', updated__lte=datetime.now() - timedelta(minutes=10)).exclude(selected_driver=None)
+        all_orders = Order.objects.filter(status='started', started_date__lte=datetime.now() - timedelta(minutes=10)).exclude(selected_driver=None)
         print(all_orders)
         for order in all_orders:
             order.status = 'finished'
@@ -84,7 +84,7 @@ class OrdersView(generic.ListView):
             driver = order.selected_driver
             driver.is_free = True
             driver.save()
-        all_orders = Order.objects.filter(status='request', updated__lte=datetime.now() - timedelta(minutes=30))
+        all_orders = Order.objects.filter(status='request', created__lte=datetime.now() - timedelta(minutes=30))
         for order in all_orders:
             order.status = 'canceled'
             order.save()

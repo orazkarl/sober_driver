@@ -33,6 +33,7 @@ class Order(models.Model):
     status = models.CharField('Статус', max_length=50, choices=STATUSES, default='request')
     created = models.DateTimeField('Дата', auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    started_date = models.DateTimeField(null=True, blank=True)
     is_view = models.BooleanField(default=False)
     no_rating = models.BooleanField(default=False)
     minutes = models.PositiveIntegerField(null=True, blank=True)

@@ -101,7 +101,16 @@
     var btn = document.getElementById("id_close");
     btn.onclick = function () {
         {#modal.style.display = "none";#}
-
     };
+
+    $('#id_modal').scroll(function () {
+        sessionStorage.scrollTopModal = $('#id_modal').scrollTop();
+    });
+    $(document).ready(function () {
+        console.log(sessionStorage.scrollTopModal);
+        if (sessionStorage.scrollTopModal != "undefined") {
+            $('#id_modal').scrollTop(sessionStorage.scrollTopModal);
+        }
+    });
 
 </script>

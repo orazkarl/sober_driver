@@ -220,22 +220,23 @@
                             </p>
                         </div>
                     </div>
-                    <div style="width: 125px; border-left: 1px solid #ccc; padding: 3px">
+                    <div style="width: 145px; border-left: 1px solid #ccc; padding: 3px">
                         <p style="font-size: 10px; font-weight: bold">
-                            Информация о водителя
-                        </p>
-                        <p style="font-size: 10px">
-                            1000 тг по городу 1500тг/час
-                        </p>
-                        <p style="font-size: 10px">
-                            В среднем за: 15 мин
-                        </p>
-                        <p style="font-size: 10px">
-                            Знание города: отлично
-                        </p>
-                        <p style="font-size: 10px">
-                            О себе: qwerф ыtyuh
-                        </p>
+                                        Информация о водителя
+                                    </p>
+                                    <p style="font-size: 10px">
+                                        Поездка: от {{ order.selected_driver.trip_from_price }} тг в чертах
+                                        города; {{ order.selected_driver.trip_hour_price }}тг/час
+                                    </p>
+                                    <p style="font-size: 10px">
+                                        Прибытие в среднем: {{ order.selected_driver.average_arrival }} мин
+                                    </p>
+                                    <p style="font-size: 10px">
+                                        Знание города: {{ order.selected_driver.get_knowledgecity_display }}
+                                    </p>
+                                    <p style="font-size: 10px">
+                                        О себе: {{ order.selected_driver.bio }}
+                                    </p>
                     </div>
                 </div>
 
@@ -246,7 +247,7 @@
                         <p>Время:</p>
                         <div style="background-color: #FCE406; border-radius: 25px; padding: 1px 2px 3px 3px; width: 60px;margin-top: 3px">
                             <p>
-                                {{order.minutes}}:{{order.seconds }}
+                                {{ order.minutes }}:{{ order.seconds }}
                             </p>
                         </div>
                         <p>Цена:</p>
@@ -265,6 +266,7 @@
                     <p style="font-size: 11px; margin: 17px 0 0 7px">Номер водителя:</p>
                     <a style="font-size: 11px; color: white"
                        href="tel:+
+
 
 
 
@@ -366,9 +368,15 @@
 
 
 <script>
+    $('#id_modal').scroll(function () {
+        sessionStorage.scrollTopModal = $('#id_modal').scrollTop();
+    });
     $(document).ready(function () {
         $('input[name=rating]').change(function () {
             $('#form_rating').submit();
         });
+        if (sessionStorage.scrollTopModal != "undefined") {
+            $('#id_modal').scrollTop(sessionStorage.scrollTopModal);
+        }
     });
 </script>

@@ -20,7 +20,7 @@ class HomeView(generic.TemplateView):
     template_name = 'mainapp/index.html'
 
     def get(self, request, *args, **kwargs):
-        all_orders = Order.objects.filter(status='started', updated__lte=datetime.datetime.now() - datetime.timedelta(
+        all_orders = Order.objects.filter(status='started', started_date__lte=datetime.datetime.now() - datetime.timedelta(
             minutes=10)).exclude(selected_driver=None)
         for order in all_orders:
             order.status = 'finished'
@@ -29,7 +29,7 @@ class HomeView(generic.TemplateView):
             driver.is_free = True
             driver.save()
         all_orders = Order.objects.filter(status='request',
-                                          updated__lte=datetime.datetime.now() - datetime.timedelta(minutes=30))
+                                          created__lte=datetime.datetime.now() - datetime.timedelta(minutes=30))
         for order in all_orders:
             order.status = 'canceled'
             order.save()
@@ -85,6 +85,7 @@ class HomeView(generic.TemplateView):
             order = offer.order
             order.selected_driver = driver
             order.status = 'started'
+            order.started_date = datetime.datetime.now()
             order.is_view = True
             order.save()
             offer.save()

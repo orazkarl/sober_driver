@@ -7,7 +7,24 @@
         <div class="registration-window">
             <form action="{% url 'login_view' %}" method="POST">
                                     {% csrf_token %}
-
+                {% if messages %}
+                    <div id="messages">
+                        {% for message in messages %}
+                            <div role="alert">
+                                {{ message|escape }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if form.non_field_errors %}
+                    <div id="messages">
+                        {% for message in form.non_field_errors %}
+                            <div role="alert">
+                                {{ message|escape }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 <div class="text-in-registration-window">Номер телефона (без кода страны: +7 или 8)</div>
                 <input class="input-number" type="number" placeholder="К примеру: 7771234567 " name="phone_number" required>
                 <div class="text-in-registration-window">Введите пароль</div>

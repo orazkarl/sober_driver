@@ -766,15 +766,15 @@ footer {
     height: 24px;
     margin: 5px 25px 5px 25px;
     width: 300px;
-
+    overflow: hidden;
     /*overflow: hidden;*/
 }
 
 .bar-green {
     color: #fff !important;
-    background-color: green;
+    background-color: #10C7F1;
     display: inline-block;
-    /*overflow: hidden;*/
+
     /*padding: 3px;*/
     /*text-align: center;*/
 }
@@ -785,6 +785,7 @@ footer {
     display: inline-block;
     /*padding: 3px;*/
     /*text-align: center;*/
+
 }
 
 .bar-text {
@@ -792,7 +793,8 @@ footer {
     margin-top: 3px;
     color: white;
     /*text-align: center;*/
-    margin-left: 10%;
+    width: 105px;
+    margin-left: 97px;
 
 
 }

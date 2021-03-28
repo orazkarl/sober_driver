@@ -18,7 +18,7 @@ function init() {
         });
         myMap.geoObjects.add(result.geoObjects);
         myMap.setCenter([result.geoObjects.get(0).geometry.getCoordinates()[0], result.geoObjects.get(0).geometry.getCoordinates()[1]], 14, {checkZoomRange: true});
-        sendRequest(result.geoObjects.position);
+
     });
 
 

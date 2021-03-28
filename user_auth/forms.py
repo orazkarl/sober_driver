@@ -13,7 +13,7 @@ class RegisterForm(forms.ModelForm):
     password1 = forms.CharField(label='Пароль',widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}), )
     password2 = forms.CharField(label='Пароль (повторно)', widget=forms.PasswordInput(attrs={'placeholder': 'Пароль (повторно)'}))
     country_code = forms.ChoiceField(label='Код страны', required=True, choices=CHOICES)
-    # city = forms.ChoiceField(choices=[(city.name, city.name) for city in City.objects.all()])
+    city = forms.ChoiceField(choices=[(city.name, city.name) for city in City.objects.all()])
     first_name = forms.CharField()
     last_name = forms.CharField()
     avatar = forms.ImageField()
@@ -26,7 +26,7 @@ class RegisterForm(forms.ModelForm):
         model = User
         # fields = ['country_code', 'phone_number', 'password1', 'password2']
         fields = ['country_code','phone_number', 'password1', 'password2',
-                  'first_name', 'last_name', 'avatar', 'driver_license_number', 'driving_experience', 'iin'  ]
+                  'first_name', 'last_name', 'avatar', 'driver_license_number', 'driving_experience', 'iin', 'city' ]
 
         # widgets = {
         #     'date_contract': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')

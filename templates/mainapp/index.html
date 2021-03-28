@@ -16,7 +16,7 @@
     <style>
         #map {
             width: 350px;
-            height: 210px;
+            height: 100px;
             padding: 0;
             margin-top: 5px;
             margin-left: auto;
@@ -83,6 +83,24 @@
             }
         }
 
+        .animate_to_address2 {
+            -webkit-animation: mymove4 1s; /* Chrome, Safari, Opera */
+        }
+
+        @-webkit-keyframes mymove4 {
+            100% {
+
+                margin-top: 0;
+                opacity: 1;
+            }
+            0% {
+
+                margin-top: -50px;
+                opacity: 1;
+            }
+        }
+
+
     </style>
 </head>
 <body>
@@ -122,7 +140,7 @@
                 <div class="text-input"><p>Ваш город</p></div>
                 <select class="input-city" name="city" id="id_city" required>
                     {% for city in cities %}
-                        <option value="{{ city }}">{{ city }}</option>
+                        <option value="{{ city }}" class="registration-input">{{ city }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -145,7 +163,7 @@
                 </a>
             </div>
             <div class="div-from">
-                <input class="input-to" type="text" name="to_address" placeholder="Куда поедем"
+                <input class="input-to " type="text" name="to_address" placeholder="Куда поедем"
                        id="id_to_address" required>
             </div>
 
@@ -153,7 +171,7 @@
             <input class="input-number" type="tel" name="phone_number" placeholder="87777777777" pattern="[0-9]{11}"
                    required>
 
-            <button type="submit" class="btn-in-index" name="order">Заказать водителя</button>
+            <button type="submit" class="btn-in-index" name="order" id="id_order_button" onsubmit="scrollWindow()">Заказать водителя</button>
         </div>
 
     </form>
@@ -206,12 +224,25 @@
 <script>
     function AgreeOnTheSpot() {
         var id_to_address = $('#id_to_address');
+        if (id_to_address.hasClass('animate_to_address')) {
+            id_to_address.removeClass('animate_to_address');
+            id_to_address.addClass('animate_to_address2');
+            setTimeout(() => {
+                document.getElementById('id_to_address').style.display = 'block';
+            }, 1000);
 
-        id_to_address.addClass('animate_to_address');
-        setInterval(function () {
-            document.getElementById('id_to_address').value = 'договориться на месте';
-            document.getElementById('id_to_address').style.display = 'none';
-        }, 1000);
+
+        } else {
+            id_to_address.addClass('animate_to_address');
+            id_to_address.removeClass('animate_to_address2');
+            setTimeout(() => {
+                document.getElementById('id_to_address').value = 'договориться на месте';
+                document.getElementById('id_to_address').style.display = 'none';
+            }, 1000);
+
+
+        }
+
     }
 
 
@@ -222,32 +253,22 @@
 
 
 <script>
-
-    display = document.querySelector('#time');
-    var duration = 60 * 50;
-    var timer = duration, minutes, seconds;
-
     $(document).ready(function () {
+
         setInterval(function () {
+            {#sessionStorage.savepos = $('#id_modal').scrollTop();#}
+            {#console.log(sessionStorage.savepos);#}
 
             $.ajax({
                 type: 'GET',
                 url: "{% url 'get_my_orders' %}",
                 success: displayData,
                 dataType: 'html',
-
             });
-            {#minutes = parseInt(timer / 60, 10);#}
-            {#seconds = parseInt(timer % 60, 10);#}
-            {#minutes = minutes < 10 ? "0" + minutes : minutes;#}
-            {#seconds = seconds < 10 ? "0" + seconds : seconds;#}
-            {#console.log(minutes, seconds);#}
-            {#document.getElementById('demo').innerText = minutes + ':' + seconds;#}
-            {#if (--timer < 0) {#}
-            {#    timer = duration;#}
-            {# }#}
-
+            {#$('#id_modal').scrollTop(sessionStorage.scrollTopModal);#}
         }, 1000);
+
+
     });
 
 
@@ -274,7 +295,11 @@
 
 </script>
 
-<script type='text/javascript'>
+<script>
+    function scrollWindow() {
+        $(window).scrollTop(500);
+    }
+
 
 </script>
 

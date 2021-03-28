@@ -1,35 +1,38 @@
 ymaps.ready(init);
+var myMap;
 
 function init() {
     var geolocation = ymaps.geolocation,
         myMap = new ymaps.Map('map', {
-            center: [43.237156, 76.945618],
-            zoom: 10
-        }, {
-            searchControlProvider: 'yandex#search'
+            center: [43.2566700, 76.9286100],
+            zoom:  10
         });
 
-    // Сравним положение, вычисленное по ip пользователя и
-    // положение, вычисленное средствами браузера.
     geolocation.get({
-        provider: 'yandex',
-        mapStateAutoApply: true
+        provider: 'browser',
+        mapStateAutoApply: false,
     }).then(function (result) {
-        // Красным цветом пометим положение, вычисленное через ip.
         result.geoObjects.options.set('preset', 'islands#redCircleIcon');
         result.geoObjects.get(0).properties.set({
             balloonContentBody: 'Мое местоположение'
         });
         myMap.geoObjects.add(result.geoObjects);
-        var map = document.getElementById('map');
-        console.log(map.style.display)
-
-
-
+        myMap.setCenter([result.geoObjects.get(0).geometry.getCoordinates()[0], result.geoObjects.get(0).geometry.getCoordinates()[1]], 14, {checkZoomRange: true});
+        sendRequest(result.geoObjects.position);
     });
 
 
+    myMap.controls.remove('geolocationControl');
 }
+
+
+
+
+
+
+
+
+
 function sendRequest(state){
     console.log(state);
     const Http = new XMLHttpRequest();

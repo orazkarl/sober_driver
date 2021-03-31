@@ -71,18 +71,42 @@
                 {% endif %}
             </div>
             <div class="set-div-1-1"><p class="text-in-settings">Изменить фото</p></div>
-            <input type="file" name="avatar" id="file" class="inputfile"/>
+            <input type="file" name="avatar" id="file"accept="image/*" capture="camera" class="inputfile"/>
             <label for="file"><span class="span-in-label">Выберите фото</span></label>
             <button class="btn-in-settings" name="change_avatar" type="submit">Изменить</button>
         </form>
     </div>
     </div> <!---------------------- page ---------------------->
-    <div class="setting-div-1" style="height: 250px">
+    <div class="setting-div-1" style="height: 270px">
         <form action="{% url 'settings_view' %}" method="post">
             {% csrf_token %}
             <div class="set-div-1-1"><p class="text-in-settings">Информация о себе</p></div>
             {#            <input type="text" class="registration-input"  style="" name="bio" placeholder="Пример: Цена от 1000 тг, знания города, опыт вождения 10 лет.">#}
+
             <div style="padding: 5px">
+                    <p>Стаж работы: <select class="about-input" name="driving_experience" id="5-registration-input" required>
+                                        <option selected disabled>---</option>
+                                        <option value="2" {% if request.user.driving_experience == 2 %}selected{% endif %}>2</option>
+                                        <option value="3" {% if request.user.driving_experience == 3 %}selected{% endif %}>3</option>
+                                        <option value="4" {% if request.user.driving_experience == 4 %}selected{% endif %}>4</option>
+                                        <option value="5" {% if request.user.driving_experience == 5 %}selected{% endif %}>5</option>
+                                        <option value="6" {% if request.user.driving_experience == 6 %}selected{% endif %}>6</option>
+                                        <option value="7" {% if request.user.driving_experience == 7 %}selected{% endif %}>7</option>
+                                        <option value="8" {% if request.user.driving_experience == 8 %}selected{% endif %}>8</option>
+                                        <option value="9" {% if request.user.driving_experience == 9 %}selected{% endif %}>9</option>
+                                        <option value="10" {% if request.user.driving_experience == 10 %}selected{% endif %}>10</option>
+                                        <option value="11" {% if request.user.driving_experience == 11 %}selected{% endif %}>11</option>
+                                        <option value="12" {% if request.user.driving_experience == 12 %}selected{% endif %}>12</option>
+                                        <option value="13" {% if request.user.driving_experience == 13 %}selected{% endif %}>13</option>
+                                        <option value="14" {% if request.user.driving_experience == 14 %}selected{% endif %}>14</option>
+                                        <option value="15" {% if request.user.driving_experience == 15 %}selected{% endif %}>15</option>
+                                        <option value="16" {% if request.user.driving_experience == 16 %}selected{% endif %}>16</option>
+                                        <option value="17" {% if request.user.driving_experience == 17 %}selected{% endif %}>17</option>
+                                        <option value="18" {% if request.user.driving_experience == 18 %}selected{% endif %}>18</option>
+                                        <option value="19" {% if request.user.driving_experience == 19 %}selected{% endif %}>19</option>
+                                        <option value="20" {% if request.user.driving_experience == 20 %}selected{% endif %}>20</option>
+
+                                    </select> лет/год</p>
                 <p>Поездка: от <input type="number" class="about-input" style="width: 60px" max="9999"
                                       name="trip_from_price" placeholder="1500" value="{% if request.user.trip_from_price %}{{ request.user.trip_from_price }}{% endif %}"> тг в чертах
                     города;

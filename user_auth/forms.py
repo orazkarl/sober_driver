@@ -5,13 +5,17 @@ from django.contrib.auth import authenticate
 from .models import User
 from django.core.files.images import get_image_dimensions
 from mainapp.models import City
+from datetime import datetime, timedelta
+
 
 class RegisterForm(forms.ModelForm):
-    CHOICES = ((7, 'Казахстан (+7)'),(7, 'Россия (+7)'),)
+    CHOICES = ((7, 'Казахстан (+7)'), (7, 'Россия (+7)'),)
 
-    phone_number = forms.IntegerField(label='Ваш номер телефона', required=True, widget=forms.NumberInput(attrs={'placeholder': '7777777777'}))
-    password1 = forms.CharField(label='Пароль',widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}), )
-    password2 = forms.CharField(label='Пароль (повторно)', widget=forms.PasswordInput(attrs={'placeholder': 'Пароль (повторно)'}))
+    phone_number = forms.IntegerField(label='Ваш номер телефона', required=True,
+                                      widget=forms.NumberInput(attrs={'placeholder': '7777777777'}))
+    password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'placeholder': 'Пароль'}), )
+    password2 = forms.CharField(label='Пароль (повторно)',
+                                widget=forms.PasswordInput(attrs={'placeholder': 'Пароль (повторно)'}))
     country_code = forms.ChoiceField(label='Код страны', required=True, choices=CHOICES)
     city = forms.ChoiceField(choices=[(city.name, city.name) for city in City.objects.all()])
     first_name = forms.CharField()
@@ -19,18 +23,25 @@ class RegisterForm(forms.ModelForm):
     avatar = forms.ImageField()
     driver_license_number = forms.CharField()
     driving_experience = forms.IntegerField()
+    trip_from_price = forms.IntegerField()
+    trip_hour_price = forms.IntegerField()
+    average_arrival = forms.IntegerField()
+    knowledgecity = forms.CharField()
+    bio = forms.CharField()
     iin = forms.CharField()
     MIN_LENGTH = 4
 
     class Meta:
         model = User
         # fields = ['country_code', 'phone_number', 'password1', 'password2']
-        fields = ['country_code','phone_number', 'password1', 'password2',
-                  'first_name', 'last_name', 'avatar', 'driver_license_number', 'driving_experience', 'iin', 'city' ]
+        fields = ['country_code', 'phone_number', 'password1', 'password2',
+                  'first_name', 'last_name', 'avatar', 'driver_license_number', 'driving_experience', 'iin', 'city',
+                  'trip_from_price', 'trip_hour_price','average_arrival', 'knowledgecity', 'bio']
 
         # widgets = {
         #     'date_contract': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
         # }
+
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
@@ -55,41 +66,13 @@ class RegisterForm(forms.ModelForm):
             raise forms.ValidationError("Другой пользователь с этим номером телефона уже существует")
         return phone_number
 
-    # def clean_avatar(self):
-    #     avatar = self.cleaned_data['avatar']
-    #     print(avatar)
-    #
-    #     try:
-    #         w, h = get_image_dimensions(avatar)
-    #         # validate dimensions
-    #         max_width = max_height = 100
-    #         if w > max_width or h > max_height:
-    #             raise forms.ValidationError(
-    #                 u'Пожалуйста, используйте изображение '
-    #                 '%s x %s пикселей или меньше.' % (max_width, max_height))
-    #         # validate content type
-    #         main, sub = avatar.content_type.split('/')
-    #         if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
-    #             raise forms.ValidationError(u'Используйте изображение в формате JPEG, GIF или PNG.')
-    #
-    #         # validate file size
-    #         if len(avatar) > (20 * 1024):
-    #             raise forms.ValidationError(
-    #                 u'Размер файла аватара не должен превышать 20 КБ.')
-    #
-    #     except AttributeError:
-    #         """
-    #         Handles case when we are updating the user profile
-    #         and do not supply a new avatar
-    #         """
-    #         pass
-    #
-        # return avatar
-
     def save(self, *args, **kwargs):
         user = super(RegisterForm, self).save(*args, **kwargs)
         user.set_password(self.cleaned_data['password1'])
         user.avatar = self.cleaned_data.get('avatar')
+        user.active_subscription = True
+        user.subscription_day = datetime.now() + timedelta(days=30)
+
         print('Saving user with country_code', user.country_code)
         user.save()
         return user
@@ -103,9 +86,11 @@ class PhoneVerificationForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    phone_number = forms.IntegerField(label='Ваш номер телефона', required=True, widget=forms.NumberInput(attrs={'placeholder': '7777777777'}))
+    phone_number = forms.IntegerField(label='Ваш номер телефона', required=True,
+                                      widget=forms.NumberInput(attrs={'placeholder': '7777777777'}))
     # username = forms.CharField()
     password = forms.CharField()
+
     #
     class Meta:
         fields = ['phone_number', 'password']

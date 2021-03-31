@@ -70,6 +70,7 @@ class HomeView(generic.TemplateView):
 
             Order.objects.create(user_ip=user_ip, from_address=from_address, to_address=to_address,
                                  phone_number=phone_number, city=city)
+            return render(request, template_name='mainapp/index.html', context={'top_scroll': 1})
         elif 'choose' in request.POST:
             offer = OfferOrder.objects.get(id=int(request.POST['offer_id']))
             driver = offer.driver_offer

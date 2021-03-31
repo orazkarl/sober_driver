@@ -153,25 +153,27 @@
             </div>
             <div class="div-from">
                 <input class="input-from" type="text" name="from_address" id="id_from_address"
-                       placeholder="Откуда поедем"
+                       placeholder="Откуда поедем" maxlength="25"
                        required>
             </div>
             <div class="text-input-1">
                 <p>Куда</p>
-                <a class="text-green" href="#" onclick="AgreeOnTheSpot()" style="color: white">
+                <a class="text-green" href="#" onclick="AgreeOnTheSpot()" style="color: white" >
                     договориться на месте
                 </a>
             </div>
             <div class="div-from">
                 <input class="input-to " type="text" name="to_address" placeholder="Куда поедем"
-                       id="id_to_address" required>
+                       id="id_to_address" maxlength="25" required>
             </div>
 
             <div class="text-input"><p>Телефон</p></div>
             <input class="input-number" type="tel" name="phone_number" placeholder="87777777777" pattern="[0-9]{11}"
                    required>
 
-            <button type="submit" class="btn-in-index" name="order" id="id_order_button" onsubmit="scrollWindow()">Заказать водителя</button>
+            <button type="submit" class="btn-in-index" name="order" id="id_order_button" onsubmit="scrollWindow()">
+                Заказать водителя
+            </button>
         </div>
 
     </form>
@@ -206,7 +208,6 @@
 
     </div>  <!------------------- content ----------------->
 </div>              <!-- ------------------page-------------- -->
-
 
 <footer class="footer">
     <a class="drivers" href="{% url 'prodile_view' %}">Для водителей</a>
@@ -296,9 +297,9 @@
 </script>
 
 <script>
-    function scrollWindow() {
-        $(window).scrollTop(500);
-    }
+    {% if top_scroll == 1 %}
+        $(window).scrollTop(1000);
+    {% endif %}
 
 
 </script>

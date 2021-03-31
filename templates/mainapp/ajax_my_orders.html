@@ -1,5 +1,4 @@
 {% if my_orders %}
-
     <style>
         #id_my_orders {
             height: 300px
@@ -35,6 +34,17 @@
                     {% else %}
                         {{ order.to_address }}
                     {% endif %}</span>
+                    <style>
+                        {% if order.from_address|length > 15  and order.from_address|length < 30 %}
+                            .cancel-span-3 {
+                            font-size: 12px;
+                            }
+                        {% elif order.from_address|length >= 30 %}
+                            .cancel-span-3 {
+                                font-size: 11px;
+                            }
+                        {% endif %}
+                    </style>
                     {#                <span class="cancel-span-4" style="top: 55px">{{ order.get_status_display }} </span>#}
                     {#                <span class="cancel-span-4" style="top: 75px; left: 145px"><a#}
                     {#                        href="tel:{{ order.selected_driver.phone_number }}">{{ order.selected_driver.phone_number }}</a> </span>#}
@@ -222,21 +232,21 @@
                     </div>
                     <div style="width: 145px; border-left: 1px solid #ccc; padding: 3px">
                         <p style="font-size: 10px; font-weight: bold">
-                                        Информация о водителя
-                                    </p>
-                                    <p style="font-size: 10px">
-                                        Поездка: от {{ order.selected_driver.trip_from_price }} тг в чертах
-                                        города; {{ order.selected_driver.trip_hour_price }}тг/час
-                                    </p>
-                                    <p style="font-size: 10px">
-                                        Прибытие в среднем: {{ order.selected_driver.average_arrival }} мин
-                                    </p>
-                                    <p style="font-size: 10px">
-                                        Знание города: {{ order.selected_driver.get_knowledgecity_display }}
-                                    </p>
-                                    <p style="font-size: 10px">
-                                        О себе: {{ order.selected_driver.bio }}
-                                    </p>
+                            Информация о водителя
+                        </p>
+                        <p style="font-size: 10px">
+                            Поездка: от {{ order.selected_driver.trip_from_price }} тг в чертах
+                            города; {{ order.selected_driver.trip_hour_price }}тг/час
+                        </p>
+                        <p style="font-size: 10px">
+                            Прибытие в среднем: {{ order.selected_driver.average_arrival }} мин
+                        </p>
+                        <p style="font-size: 10px">
+                            Знание города: {{ order.selected_driver.get_knowledgecity_display }}
+                        </p>
+                        <p style="font-size: 10px">
+                            О себе: {{ order.selected_driver.bio }}
+                        </p>
                     </div>
                 </div>
 
@@ -266,6 +276,7 @@
                     <p style="font-size: 11px; margin: 17px 0 0 7px">Номер водителя:</p>
                     <a style="font-size: 11px; color: white"
                        href="tel:+
+
 
 
 

@@ -1,3 +1,6 @@
+{% load social_share %}
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -13,6 +16,8 @@
     <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=7af4d9cc-1a22-44c4-82cf-dbd6503a6696"
             type="text/javascript"></script>
     <script src="/static/js/geolocation.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <style>
         #map {
             width: 350px;
@@ -106,26 +111,32 @@
 <body>
 
 <div class="page"> <!-- ------------------Logo-------------- -->
+<div style="position:absolute; left: 330px; top: 10px">
+      <a href="#" class="fa fa-share-alt" style="color: #48CC4D; font-size: 35px;"></a>
+</div>
     <div class="header-1">
         <div class="logo-div"><img class="logo" src="/static/img/logo-1.svg" alt="logo"></div>
     </div>
 
+
+
+
     <!---------------- content ----------------->
-    {% if bookmark %}
-        <div class="bookmark-modal" id="bookmark-modal" style="">
-            <div class="bookmark-modal-content">
-
-                <div class="bookmark-div">
-                    <div class="new-blue-block">
+{#    {% if bookmark %}#}
+{#        <div class="bookmark-modal" id="bookmark-modal" style="">#}
+{#            <div class="bookmark-modal-content">#}
+{##}
+{#                <div class="bookmark-div">#}
+{#                    <div class="new-blue-block">#}
                         {#                    <img src="/static/img/bookmarks-1.png" alt="">#}
-                        <p>Обязательно сохраните наш сайт<br>в закладках, чтобы не забыть</p>
-
-                    </div>
-                    <span class="bookmark-close" id="bookmark-close">&times;</span>
-                </div>
-            </div>
-        </div>
-    {% endif %}
+{#                        <p>Обязательно сохраните наш сайт<br>в закладках, чтобы не забыть</p>#}
+{##}
+{#                    </div>#}
+{#                    <span class="bookmark-close" id="bookmark-close">&times;</span>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    {% endif %}#}
     <div class="new-div-1">
         <div class="new-yellow-block">
             {#            <img src="/static/img/Ellipse-green.png" alt="">#}
@@ -133,6 +144,8 @@
             <p style="margin-left: 8px">{{ count_online_drivers }} водителя онлайн ждут вашего заказа</p>
         </div>
     </div>
+
+
     <form action="{% url 'home_view' %}" method="post">
         {% csrf_token %}
         <div class="input-form">
@@ -211,7 +224,6 @@
 
 <footer class="footer">
     <a class="drivers" href="{% url 'prodile_view' %}">Для водителей</a>
-
     <div class="contacts">
         <p>Телефон: 727 300-0000</p>
         <p>Email: vgraduse.kz@gmail.com</p>
@@ -298,6 +310,7 @@
 
 <script>
     {% if top_scroll == 1 %}
+        console.log(11);
         $(window).scrollTop(1000);
     {% endif %}
 

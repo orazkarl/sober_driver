@@ -29,6 +29,9 @@ class RegisterForm(forms.ModelForm):
     knowledgecity = forms.CharField()
     bio = forms.CharField()
     iin = forms.CharField()
+    front_passport = forms.ImageField()
+    back_passport = forms.ImageField()
+    together_passport = forms.ImageField()
     MIN_LENGTH = 4
 
     class Meta:
@@ -36,7 +39,7 @@ class RegisterForm(forms.ModelForm):
         # fields = ['country_code', 'phone_number', 'password1', 'password2']
         fields = ['country_code', 'phone_number', 'password1', 'password2',
                   'first_name', 'last_name', 'avatar', 'driver_license_number', 'driving_experience', 'iin', 'city',
-                  'trip_from_price', 'trip_hour_price','average_arrival', 'knowledgecity', 'bio']
+                  'trip_from_price', 'trip_hour_price','average_arrival', 'knowledgecity', 'bio', 'front_passport', 'back_passport', 'together_passport']
 
         # widgets = {
         #     'date_contract': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')

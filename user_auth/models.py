@@ -45,7 +45,7 @@ class User(AbstractUser):
     trip_from_price = models.PositiveIntegerField(default=0)
     trip_hour_price = models.PositiveIntegerField(default=0)
     average_arrival = models.PositiveIntegerField(default=0)
-    knowledgecity = models.CharField(max_length=10, null=True, blank=True,choices=KNOWLEDGE_CITY_CHOICES)
+    knowledgecity = models.CharField(max_length=10, null=True, blank=True, choices=KNOWLEDGE_CITY_CHOICES)
     bio = models.CharField('Информация о водителя', max_length=18, null=True, blank=True)
     phone_number = models.BigIntegerField('Телефон', unique=True)
     country_code = models.IntegerField()
@@ -55,10 +55,14 @@ class User(AbstractUser):
     subscription_day = models.DateTimeField('Дата окончание подписки', null=True, blank=True)
     is_free = models.BooleanField(default=True)
     is_block = models.BooleanField('Заблокированный', default=False)
+    front_passport = models.FileField('Уд. лич. (Лицевая сторона)', blank=True, null=True, upload_to='passports/')
+    back_passport = models.FileField('Уд. лич. (Обратная сторона)', blank=True, null=True)
+    together_passport = models.FileField('Фото с уд. личности', blank=True, null=True)
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['country_code']
 
     objects = UserManager()
+
     def __str__(self):
         return self.first_name
 
@@ -84,5 +88,3 @@ class User(AbstractUser):
             return 0
 
         return round(avg_rating)
-
-

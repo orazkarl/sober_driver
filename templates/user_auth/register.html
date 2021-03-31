@@ -102,8 +102,29 @@
                     <label for="4-registration-input"><span class="text-in-registration-window">Ваше фото</span></label>
                     <p style="color: red">{{ form.avatar.errors }}</p>
                     <input class="registration-input" style="font-size: 16px;" type="file" id="4-registration-input"
-                           name="avatar"
-                           placeholder="Файл не выбран" accept="image/*" capture="camera" required>
+                           name="avatar" accept="image/*" capture="camera"
+                           placeholder="Файл не выбран" фото required>
+                </div>
+                  <div class="div-in-window-registration">
+                    <label for="4-registration-input"><span class="text-in-registration-window">Водительское удос. и удос личности (лицевая сторона)</span></label>
+                    <p style="color: red">{{ form.front_passport.errors }}</p>
+                    <input class="registration-input" style="font-size: 16px;" type="file" id="4-registration-input"
+                           name="front_passport"
+                           placeholder="Файл не выбран" фото required>
+                </div>
+                  <div class="div-in-window-registration">
+                    <label for="4-registration-input"><span class="text-in-registration-window">Водительское удос. и удос личности (обратная сторона)</span></label>
+                    <p style="color: red">{{ form.back_passport.errors }}</p>
+                    <input class="registration-input" style="font-size: 16px;" type="file" id="4-registration-input"
+                           name="back_passport"
+                           placeholder="Файл не выбран" фото required>
+                </div>
+                  <div class="div-in-window-registration">
+                    <label for="4-registration-input"><span class="text-in-registration-window">Ваше фото с водительским удос. и удос личности</span></label>
+                    <p style="color: red">{{ form.together_passport.errors }}</p>
+                    <input class="registration-input" style="font-size: 16px;" type="file" id="4-registration-input"
+                           name="together_passport"
+                           placeholder="Файл не выбран" фото required>
                 </div>
 
 

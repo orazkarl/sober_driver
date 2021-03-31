@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'ckeditor',
     'mathfilters',
+    'django_social_share',
 
 
 ]

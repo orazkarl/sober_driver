@@ -10,6 +10,8 @@
           rel="stylesheet">
     <link rel="stylesheet" href="/static/css/stylefor.css">
     <link rel="icon" type="image/png" href="/static/img/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
 <main class="page">
@@ -23,12 +25,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </div>
+        <div style="position: absolute; margin-top: -52px; margin-left: 60px">
+                        <a href="#" class="fa fa-share-alt" style="color: #10C7F1; font-size: 35px;"></a>
+
+        </div>
 
         <div id="nav-content">
             <div class="yellow-box">
                 <p class="name-in-yellow-box">{{ request.user.first_name }}</p>
 
-                <div class="div-for-image-in-yellow-box"><img src="{{ request.user.avatar.url }}" width="60px" alt="img"></div>
+                <div class="div-for-image-in-yellow-box"><img src="{{ request.user.avatar.url }}" width="60px"
+                                                              alt="img"></div>
                 <p class="money-in-yellow-box">{{ request.user.balance }} тг</p>
                 <p class="city-in-yellow-box">{{ request.user.city }}</p>
             </div>
@@ -47,7 +54,7 @@
         </div>
 
     </div> <!---------------------nav-container ------------ -->
-{% block content %}
+    {% block content %}
     {% endblock %}
 
 </main> <!---------------------- page ---------------------->

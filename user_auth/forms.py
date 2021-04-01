@@ -22,24 +22,23 @@ class RegisterForm(forms.ModelForm):
     last_name = forms.CharField()
     avatar = forms.ImageField()
     driver_license_number = forms.CharField()
-    driving_experience = forms.IntegerField()
-    trip_from_price = forms.IntegerField()
-    trip_hour_price = forms.IntegerField()
-    average_arrival = forms.IntegerField()
-    knowledgecity = forms.CharField()
-    bio = forms.CharField()
+    # driving_experience = forms.IntegerField()
+    # trip_from_price = forms.IntegerField()
+    # trip_hour_price = forms.IntegerField()
+    # average_arrival = forms.IntegerField()
+    # knowledgecity = forms.CharField()
+    # bio = forms.CharField()
     iin = forms.CharField()
-    front_passport = forms.ImageField()
-    back_passport = forms.ImageField()
-    together_passport = forms.ImageField()
+    # front_passport = forms.ImageField()
+    # back_passport = forms.ImageField()
+    # together_passport = forms.ImageField()
     MIN_LENGTH = 4
 
     class Meta:
         model = User
         # fields = ['country_code', 'phone_number', 'password1', 'password2']
         fields = ['country_code', 'phone_number', 'password1', 'password2',
-                  'first_name', 'last_name', 'avatar', 'driver_license_number', 'driving_experience', 'iin', 'city',
-                  'trip_from_price', 'trip_hour_price','average_arrival', 'knowledgecity', 'bio', 'front_passport', 'back_passport', 'together_passport']
+                  'first_name', 'last_name', 'avatar', 'driver_license_number', 'iin', 'city',]
 
         # widgets = {
         #     'date_contract': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')

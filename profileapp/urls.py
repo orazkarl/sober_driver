@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
 urlpatterns = [
-    path('profile/', views.ProfileView.as_view(), name='prodile_view'),
+    path('profile/', views.ProfileView.as_view(), name='profile_view'),
     path('orders/', views.OrdersView.as_view(), name='orders_view'),
     path('order/detail/<int:pk>', views.OrderDetailView.as_view(), name='order_detail'),
     path('ajax/getOrders', views.getOrders, name='get_orders'),

@@ -89,20 +89,20 @@ def PhoneVerificationView(request, **kwargs):
 class LoginView(FormView):
     template_name = 'user_auth/login.html'
     form_class = LoginForm
-    success_url = 'prodile_view'
+    success_url = 'profile_view'
 
     def dispatch(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
 
             messages.add_message(self.request, messages.INFO, "Пользователь уже вошел в систему")
-            return redirect('prodile_view')
+            return redirect('profile_view')
         else:
             return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         user = form.login(self.request)
         login(self.request, user)
-        return redirect('prodile_view')
+        return redirect('profile_view')
 
 
 class RestorePasswordView(FormView):

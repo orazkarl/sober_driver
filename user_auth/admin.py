@@ -39,7 +39,7 @@ class UserAdmin(DjangoUserAdmin):
          {'fields': ('password', 'country_code', 'phone_number')}),
         (('Личная информация'),
          {'fields': (
-             'first_name', 'last_name', 'driving_experience', 'city', 'iin', 'driver_license_number', 'avatar',
+             'first_name', 'last_name', 'driving_experience', 'city', 'iin', 'driver_license_number', 'avatar', 'front_passport', 'back_passport', 'together_passport',
              'active_subscription', 'subscription_day', 'balance', 'bio')}),
         (('Права доступа'), {
             'fields': ('is_block', 'is_free'),

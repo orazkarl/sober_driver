@@ -9,16 +9,22 @@ from .models import TechInstructions
 from datetime import timedelta, datetime
 from django.http import JsonResponse
 from django.db import models
+from django.contrib.auth.decorators import user_passes_test
 
 
-@method_decorator(login_required(login_url='/login/'), name='dispatch')
+def pass_anketa(user):
+    if user.trip_from_price and user.trip_hour_price and user.average_arrival and user.knowledgecity and user.bio and user.front_passport and user.back_passport and user.together_passport and user.driving_experience:
+        return True
+    return False
+
+
+# @method_decorator(login_required(login_url='/login/'), name='dispatch')
+@method_decorator([login_required, user_passes_test(pass_anketa, login_url='/instruction/')], name='dispatch')
 class ProfileView(generic.TemplateView):
     template_name = 'profileapp/profile.html'
 
     def get(self, request, *args, **kwargs):
-        date_format = "%m/%d/%Y"
         d0 = datetime.now().date()
-
         if request.user.subscription_day:
             d1 = request.user.subscription_day.date()
             subscription_days = (d1 - d0).days
@@ -32,13 +38,22 @@ class ProfileView(generic.TemplateView):
         count_orders_month = Order.objects.filter(selected_driver=request.user, status='finished',
                                                   created__gte=datetime.today() - timedelta(days=30)).count()
         count_orders_all = Order.objects.filter(selected_driver=request.user, status='finished').count()
-        # print(OfferOrder.objects.values('price').annotate(price=models.Count('price').filter(driver_offer=request.user, order__created__gte=datetime.today() - timedelta(days=1), order__status='finished')))
-        # amount_income_day = OfferOrder.objects.filter(driver_offer=request.user, order__created__gte=datetime.today() - timedelta(days=1), order__status='finished')
-        # amount_income_day = OfferOrder.objects.values('price').annotate(amount_day=models.Sum('price')).filter(driver_offer=request.user,order__created__gte=datetime.today() - timedelta(days=1),order__status='finished')
-        amount_income_day = OfferOrder.objects.filter(driver_offer=request.user,order__created__gte=datetime.today() - timedelta(days=1),order__status='finished').aggregate(models.Sum('price'))['price__sum']
-        amount_income_week = OfferOrder.objects.filter(driver_offer=request.user,order__created__gte=datetime.today() - timedelta(days=7),order__status='finished').aggregate(models.Sum('price'))['price__sum']
-        amount_income_month = OfferOrder.objects.filter(driver_offer=request.user,order__created__gte=datetime.today() - timedelta(days=30),order__status='finished').aggregate(models.Sum('price'))['price__sum']
-        amount_income_all = OfferOrder.objects.filter(driver_offer=request.user,order__status='finished').aggregate(models.Sum('price'))['price__sum']
+        amount_income_day = \
+            OfferOrder.objects.filter(driver_offer=request.user,
+                                      order__created__gte=datetime.today() - timedelta(days=1),
+                                      order__status='finished').aggregate(models.Sum('price'))['price__sum']
+        amount_income_week = \
+            OfferOrder.objects.filter(driver_offer=request.user,
+                                      order__created__gte=datetime.today() - timedelta(days=7),
+                                      order__status='finished').aggregate(models.Sum('price'))['price__sum']
+        amount_income_month = \
+            OfferOrder.objects.filter(driver_offer=request.user,
+                                      order__created__gte=datetime.today() - timedelta(days=30),
+                                      order__status='finished').aggregate(models.Sum('price'))['price__sum']
+        amount_income_all = \
+            OfferOrder.objects.filter(driver_offer=request.user, order__status='finished').aggregate(
+                models.Sum('price'))[
+                'price__sum']
 
         self.extra_context = {
             'subscription_days': subscription_days,
@@ -67,16 +82,18 @@ class ProfileView(generic.TemplateView):
                 user.save()
             else:
                 messages.add_message(request, messages.ERROR, 'Недостаточно денег на балансе')
-        return redirect('prodile_view')
+        return redirect('profile_view')
 
 
-@method_decorator(login_required(login_url='/login/'), name='dispatch')
+@method_decorator([login_required, user_passes_test(pass_anketa, login_url='/instruction/')], name='dispatch')
 class OrdersView(generic.ListView):
     template_name = 'profileapp/orders.html'
     model = Order
 
     def get(self, request, *args, **kwargs):
-        all_orders = Order.objects.filter(status='started', started_date__lte=datetime.now() - timedelta(minutes=10)).exclude(selected_driver=None)
+        all_orders = Order.objects.filter(status='started',
+                                          started_date__lte=datetime.now() - timedelta(minutes=10)).exclude(
+            selected_driver=None)
         print(all_orders)
         for order in all_orders:
             order.status = 'finished'
@@ -118,14 +135,11 @@ def getOrders(request):
     else:
         orders = Order.objects.filter(selected_driver=user).exclude(status='finished').exclude(status='canceled')
 
-
-
-
-
     return render(request, 'profileapp/ajax_orders.html', {'orders': orders})
     # return JsonResponse({"orders": list(queryset.values())})
 
-@method_decorator(login_required(login_url='/login/'), name='dispatch')
+
+@method_decorator([login_required, user_passes_test(pass_anketa, login_url='/instruction/')], name='dispatch')
 class OrderDetailView(generic.DetailView):
     model = Order
     template_name = 'profileapp/order_detail.html'
@@ -167,8 +181,39 @@ class InstructionView(generic.TemplateView):
         }
         return super().get(request, *args, **kwargs)
 
-
-@method_decorator(login_required(login_url='/login/'), name='dispatch')
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        if 'change_bio' in request.POST:
+            driving_experience = request.POST['driving_experience']
+            trip_from_price = request.POST['trip_from_price']
+            trip_hour_price = request.POST['trip_hour_price']
+            average_arrival = request.POST['average_arrival']
+            knowledgecity = request.POST['knowledgecity']
+            bio = request.POST['bio']
+            user.driving_experience = driving_experience
+            user.trip_from_price = trip_from_price
+            user.trip_hour_price = trip_hour_price
+            user.average_arrival = average_arrival
+            user.knowledgecity = knowledgecity
+            user.bio = bio
+            user.save()
+        elif 'add_front_passport' in request.POST:
+            if request.FILES:
+                front_passport = request.FILES['front_passport']
+                user.front_passport = front_passport
+                user.save()
+        elif 'add_back_passport' in request.POST:
+            if request.FILES:
+                back_passport = request.FILES['back_passport']
+                user.back_passport = back_passport
+                user.save()
+        elif 'add_together_passport' in request.POST:
+            if request.FILES:
+                together_passport = request.FILES['together_passport']
+                user.together_passport = together_passport
+                user.save()
+        return redirect('instruction_view')
+@method_decorator([login_required, user_passes_test(pass_anketa, login_url='/instruction/')], name='dispatch')
 class SettingsView(generic.TemplateView):
     template_name = 'profileapp/settings.html'
 
@@ -201,18 +246,5 @@ class SettingsView(generic.TemplateView):
                 user.avatar = avatar
                 user.save()
                 messages.add_message(request, messages.SUCCESS, 'Фото изменено')
-        elif 'change_bio' in request.POST:
-            driving_experience = request.POST['driving_experience']
-            trip_from_price = request.POST['trip_from_price']
-            trip_hour_price = request.POST['trip_hour_price']
-            average_arrival = request.POST['average_arrival']
-            knowledgecity = request.POST['knowledgecity']
-            bio = request.POST['bio']
-            user.driving_experience = driving_experience
-            user.trip_from_price = trip_from_price
-            user.trip_hour_price = trip_hour_price
-            user.average_arrival = average_arrival
-            user.knowledgecity = knowledgecity
-            user.bio = bio
-            user.save()
+
         return redirect('settings_view')

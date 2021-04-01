@@ -86,8 +86,8 @@
             <div class="setting-div-3">
                 <form action="{% url 'instruction_view' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="set-div-1-1" style="height: 60px; padding-left: 13px"><p class="text-in-settings">
-                        Водительское удос. и удос. личности (лицевая сторона)</p></div>
+                    <div class="set-div-1-1" style="height: 80px; padding-left: 13px"><p class="text-in-settings">
+                        Водительское удостоверение и удостоверение личности (лицевая сторона)</p></div>
                     <input type="file" name="front_passport" id="file" accept="image/*" capture="camera"
                            class="inputfile"/>
                     <label for="file"><span class="span-in-label">Добавить фото</span></label>
@@ -104,11 +104,11 @@
     {% if not request.user.back_passport  %}
 
         <div>
-            <div class="setting-div-3">
+            <div class="setting-div-3" style="height: 180px" >
                 <form action="{% url 'instruction_view' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="set-div-1-1" style="height: 60px; padding-left: 13px"><p class="text-in-settings">
-                        Водительское удос. и удос. личности (обратная сторона)</p></div>
+                    <div class="set-div-1-1" style="height: 80px; padding-left: 13px"><p class="text-in-settings">
+                        Водительское удостоверение и удостоверение личности (обратная сторона)</p></div>
                     <input type="file" name="back_passport" id="file" accept="image/*" capture="camera"
                            class="inputfile"/>
                     <label for="file"><span class="span-in-label">Добавить фото</span></label>

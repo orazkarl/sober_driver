@@ -1,4 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
+from django.http import HttpResponseRedirect
+from django.contrib import messages
+
 from django.views import generic
 from .models import City, Order, OfferOrder, Review, Overpayment
 from user_auth.models import User
@@ -20,8 +23,9 @@ class HomeView(generic.TemplateView):
     template_name = 'mainapp/index.html'
 
     def get(self, request, *args, **kwargs):
-        all_orders = Order.objects.filter(status='started', started_date__lte=datetime.datetime.now() - datetime.timedelta(
-            minutes=10)).exclude(selected_driver=None)
+        all_orders = Order.objects.filter(status='started',
+                                          started_date__lte=datetime.datetime.now() - datetime.timedelta(
+                                              minutes=10)).exclude(selected_driver=None)
         for order in all_orders:
             order.status = 'finished'
             order.save()
@@ -58,6 +62,7 @@ class HomeView(generic.TemplateView):
             'count_online_drivers': count_online_drivers,
             'bookmark': bookmark,
         }
+        print(self.extra_context)
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -70,7 +75,9 @@ class HomeView(generic.TemplateView):
 
             Order.objects.create(user_ip=user_ip, from_address=from_address, to_address=to_address,
                                  phone_number=phone_number, city=city)
-            return render(request, template_name='mainapp/index.html', context={'top_scroll': 1})
+            messages.add_message(self.request, messages.SUCCESS, 'top_scrool')
+
+            # return render(request, template_name='mainapp/index.html', )
         elif 'choose' in request.POST:
             offer = OfferOrder.objects.get(id=int(request.POST['offer_id']))
             driver = offer.driver_offer

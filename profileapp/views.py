@@ -213,7 +213,7 @@ class InstructionView(generic.TemplateView):
                 user.together_passport = together_passport
                 user.save()
         return redirect('instruction_view')
-@method_decorator([login_required, user_passes_test(pass_anketa, login_url='/instruction/')], name='dispatch')
+# @method_decorator([login_required, user_passes_test(pass_anketa, login_url='/instruction/')], name='dispatch')
 class SettingsView(generic.TemplateView):
     template_name = 'profileapp/settings.html'
 

@@ -13,13 +13,25 @@ from django.contrib.auth.decorators import user_passes_test
 
 
 def pass_anketa(user):
-    if user.trip_from_price and user.trip_hour_price and user.average_arrival and user.knowledgecity and user.bio and user.front_passport and user.back_passport and user.together_passport and user.driving_experience:
+    if user.trip_from_price \
+            and user.trip_hour_price\
+            and user.average_arrival \
+            and user.knowledgecity \
+            and user.bio \
+            and user.front_passport \
+            and user.back_passport \
+            and user.together_passport \
+            and user.driving_experience \
+            and user.avatar \
+            and user.iin \
+            and user.driver_license_number\
+            and user.driving_experience:
         return True
     return False
 
 
 # @method_decorator(login_required(login_url='/login/'), name='dispatch')
-@method_decorator([login_required, user_passes_test(pass_anketa, login_url='/instruction/')], name='dispatch')
+@method_decorator([login_required, user_passes_test(pass_anketa, login_url='/anketa/')], name='dispatch')
 class ProfileView(generic.TemplateView):
     template_name = 'profileapp/profile.html'
 
@@ -85,7 +97,7 @@ class ProfileView(generic.TemplateView):
         return redirect('profile_view')
 
 
-@method_decorator([login_required, user_passes_test(pass_anketa, login_url='/instruction/')], name='dispatch')
+@method_decorator([login_required, user_passes_test(pass_anketa, login_url='/anketa/')], name='dispatch')
 class OrdersView(generic.ListView):
     template_name = 'profileapp/orders.html'
     model = Order
@@ -113,15 +125,6 @@ class OrdersView(generic.ListView):
         if 'close' in request.POST:
             order.is_view = False
             order.save()
-        # if 'in_progress' in request.POST:
-        #     order.status = 'in_progress'
-        #     order.save()
-        #
-        # elif 'finished' in request.POST:
-        #     order.status = 'finished'
-        #     order.save()
-        #     user.is_free = True
-        #     user.save()
 
         return redirect('orders_view')
 
@@ -131,7 +134,6 @@ def getOrders(request):
     if user.is_free:
         orders = Order.objects.filter(city=user.city, selected_driver=None).exclude(status='finished').exclude(
             status='canceled')
-
     else:
         orders = Order.objects.filter(selected_driver=user).exclude(status='finished').exclude(status='canceled')
 
@@ -139,7 +141,7 @@ def getOrders(request):
     # return JsonResponse({"orders": list(queryset.values())})
 
 
-@method_decorator([login_required, user_passes_test(pass_anketa, login_url='/instruction/')], name='dispatch')
+@method_decorator([login_required, user_passes_test(pass_anketa, login_url='/anketa/')], name='dispatch')
 class OrderDetailView(generic.DetailView):
     model = Order
     template_name = 'profileapp/order_detail.html'
@@ -170,7 +172,7 @@ class OrderDetailView(generic.DetailView):
         return redirect('orders_view')
 
 
-@method_decorator(login_required(login_url='/login/'), name='dispatch')
+@method_decorator([login_required, user_passes_test(pass_anketa, login_url='/anketa/')], name='dispatch')
 class InstructionView(generic.TemplateView):
     template_name = 'profileapp/instruction.html'
 
@@ -179,6 +181,58 @@ class InstructionView(generic.TemplateView):
         self.extra_context = {
             'instruction': instruction,
         }
+        return super().get(request, *args, **kwargs)
+
+
+@method_decorator([login_required, user_passes_test(pass_anketa, login_url='/anketa/')], name='dispatch')
+class SettingsView(generic.TemplateView):
+    template_name = 'profileapp/settings.html'
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+
+        if 'change_phone_number' in request.POST:
+            old_country_code = int(request.POST['old_country_code'])
+            old_phone_number = int(request.POST['old_phone_number'])
+            new_country_code = int(request.POST['new_country_code'])
+            new_phone_number = int(request.POST['new_phone_number'])
+            if old_country_code != (user.country_code):
+                messages.add_message(request, messages.ERROR, 'Неправильный код страны старого  номера')
+
+                return redirect('settings_view')
+            elif old_phone_number != user.phone_number:
+                messages.add_message(request, messages.ERROR, 'Неправильный старой номер телефона')
+                return redirect('settings_view')
+            elif User.objects.filter(phone_number=new_phone_number, country_code=new_country_code).exists():
+
+                messages.add_message(request, messages.ERROR, 'Этот номер уже используется')
+                return redirect('settings_view')
+            user.country_code = new_country_code
+            user.phone_number = new_phone_number
+            user.save()
+            messages.add_message(request, messages.SUCCESS, 'Номер телефона успешно изменен')
+        elif 'change_avatar' in request.POST:
+            if request.FILES:
+                avatar = request.FILES['avatar']
+                user.avatar = avatar
+                user.save()
+                messages.add_message(request, messages.SUCCESS, 'Фото изменено')
+        elif 'change_driver_license_number' in request.POST:
+            driver_license_number = request.POST['driver_license_number']
+            user.driver_license_number = driver_license_number
+            user.save()
+
+        return redirect('settings_view')
+
+
+@method_decorator(login_required(login_url='/login/'), name='dispatch')
+class AnketaView(generic.TemplateView):
+    template_name = 'profileapp/anketa.html'
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        if user.trip_from_price and user.trip_hour_price and user.average_arrival and user.knowledgecity and user.bio and user.front_passport and user.back_passport and user.together_passport and user.driving_experience and user.avatar and user.iin and user.driver_license_number and user.driving_experience:
+            return redirect('profile_view')
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -212,39 +266,17 @@ class InstructionView(generic.TemplateView):
                 together_passport = request.FILES['together_passport']
                 user.together_passport = together_passport
                 user.save()
-        return redirect('instruction_view')
-# @method_decorator([login_required, user_passes_test(pass_anketa, login_url='/instruction/')], name='dispatch')
-class SettingsView(generic.TemplateView):
-    template_name = 'profileapp/settings.html'
-
-    def post(self, request, *args, **kwargs):
-        user = request.user
-
-        if 'change_phone_number' in request.POST:
-            old_country_code = int(request.POST['old_country_code'])
-            old_phone_number = int(request.POST['old_phone_number'])
-            new_country_code = int(request.POST['new_country_code'])
-            new_phone_number = int(request.POST['new_phone_number'])
-            if old_country_code != (user.country_code):
-                messages.add_message(request, messages.ERROR, 'Неправильный код страны старого  номера')
-
-                return redirect('settings_view')
-            elif old_phone_number != user.phone_number:
-                messages.add_message(request, messages.ERROR, 'Неправильный старой номер телефона')
-                return redirect('settings_view')
-            elif User.objects.filter(phone_number=new_phone_number, country_code=new_country_code).exists():
-
-                messages.add_message(request, messages.ERROR, 'Этот номер уже используется')
-                return redirect('settings_view')
-            user.country_code = new_country_code
-            user.phone_number = new_phone_number
-            user.save()
-            messages.add_message(request, messages.SUCCESS, 'Номер телефона успешно изменен')
-        elif 'change_avatar' in request.POST:
+        elif 'add_avatar' in request.POST:
             if request.FILES:
                 avatar = request.FILES['avatar']
                 user.avatar = avatar
                 user.save()
-                messages.add_message(request, messages.SUCCESS, 'Фото изменено')
-
-        return redirect('settings_view')
+        elif 'add_driver_license_number' in request.POST:
+            driver_license_number = request.POST['driver_license_number']
+            user.driver_license_number = driver_license_number
+            user.save()
+        elif 'add_iin' in request.POST:
+            iin = request.POST['iin']
+            user.iin = iin
+            user.save()
+        return redirect('anketa_view')

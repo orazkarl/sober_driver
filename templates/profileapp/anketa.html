@@ -1,0 +1,233 @@
+{% extends 'profileapp/profile_base.html' %}
+{% block title %}
+    <title>Анкета</title>
+{% endblock %}
+{% block content %}
+    <h1 style="text-align: center">Анкета</h1>
+    {% if not request.user.iin %}
+        <div>
+            <div class="setting-div-3">
+                <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="set-div-1-1"><p class="text-in-settings">
+                        ИИН</p></div>
+                    <input class="registration-input" type="number" id="6-registration-input" placeholder="ИИН"
+                           name="iin" pattern="[0-9]{12}"
+                           required>
+                    <button class="btn-in-settings" name="add_iin" type="submit">Отправить</button>
+                </form>
+
+            </div>
+        </div>
+        {% endif %}
+    {% if not request.user.driver_license_number %}
+
+        <div>
+            <div class="setting-div-3" style="height: 160px">
+                <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="set-div-1-1"><p class="text-in-settings">
+                        Номер ВУ</p></div>
+                    <p style="color: red">{{ form.driver_license_number.errors }}</p>
+                    <p style="margin-left: 40px">Пример: AA№123456</p>
+                    <input class="registration-input" type="text" id="7-registration-input" name="driver_license_number"
+                           placeholder="Водительское удостоверение" autocomplete="off" pattern="[A-Z]{2}№[0-9]{6}"
+                           required>
+                    <button class="btn-in-settings" name="add_driver_license_number" type="submit">Отправить</button>
+                </form>
+
+            </div>
+        </div>
+    {% endif %}
+    {% if not request.user.avatar %}
+        <div>
+            <div class="setting-div-3">
+                <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="set-div-1-1"><p class="text-in-settings">
+                        Ваше фото</p></div>
+                    <input type="file" name="avatar" id="file" accept="image/*" capture="camera"
+                           class="inputfile"/>
+                    <label for="file"><span class="span-in-label">Добавить фото</span></label>
+                    <button class="btn-in-settings" name="add_avatar" type="submit">Отправить</button>
+                </form>
+
+            </div>
+            {#            <div style=" margin: 0 auto; text-align: center;">#}
+            {#                <h5 style="padding-bottom: 5px">Пример</h5>#}
+            {#                <img src="/static/img/example_passport.jpg" alt="" width="350px">#}
+            {#            </div>#}
+        </div>
+    {% endif %}
+    {% if not request.user.front_passport %}
+        <div>
+            <div class="setting-div-3" style="height: 180px">
+                <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="set-div-1-1" style="height: 80px; padding-left: 13px"><p class="text-in-settings">
+                        Водительское удостоверение и удостоверение личности (лицевая сторона)</p></div>
+                    <input type="file" name="front_passport" id="file" accept="image/*" capture="camera"
+                           class="inputfile"/>
+                    <label for="file"><span class="span-in-label">Добавить фото</span></label>
+                    <button class="btn-in-settings" name="add_front_passport" type="submit">Отправить</button>
+                </form>
+
+            </div>
+            <div style=" margin: 0 auto; text-align: center;">
+                <h5 style="padding-bottom: 5px">Пример</h5>
+                <img src="/static/img/example_passport.jpg" alt="" width="350px">
+            </div>
+        </div>
+    {% endif %}
+    {% if not request.user.back_passport %}
+
+        <div>
+            <div class="setting-div-3" style="height: 180px">
+                <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="set-div-1-1" style="height: 80px; padding-left: 13px"><p class="text-in-settings">
+                        Водительское удостоверение и удостоверение личности (обратная сторона)</p></div>
+                    <input type="file" name="back_passport" id="file" accept="image/*" capture="camera"
+                           class="inputfile"/>
+                    <label for="file"><span class="span-in-label">Добавить фото</span></label>
+                    <button class="btn-in-settings" name="add_back_passport" type="submit">Отправить</button>
+                </form>
+
+            </div>
+            <div style=" margin: 0 auto; text-align: center;">
+                <h5 style="padding-bottom: 5px">Пример</h5>
+                <img src="/static/img/example_passport.jpg" alt="" width="350px">
+            </div>
+        </div>
+    {% endif %}
+    {% if not request.user.together_passport %}
+
+        <div>
+            <div class="setting-div-3" style="height: 155px">
+                <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="set-div-1-1" style="height: 60px; padding-left: 13px"><p class="text-in-settings">
+                        Подтверждение личности</p></div>
+                    <input type="file" name="together_passport" id="file" accept="image/*" capture="camera"
+                           class="inputfile"/>
+                    <label for="file"><span class="span-in-label">Добавить фото</span></label>
+                    <button class="btn-in-settings" name="add_together_passport" type="submit">Отправить</button>
+                </form>
+
+            </div>
+            <div style="width: 350px; margin: 0 auto; text-align: center;">
+                <p>Поднесите водительские права и удостоверение личности перед собой и сделайте фото как на примере:</p>
+                <p>На фото должно быть отчетливо видно лицо, водительские права и удостоверение личности</p>
+                <p>Не допускаются фотографии в солнцезащитных очках</p>
+                <img src="/static/img/example_together_passport.jpg" alt="" width="350px">
+            </div>
+        </div>
+    {% endif %}
+    {% if not request.user.bio or not request.user.driving_experience or not request.user.trip_from_price or not request.user.trip_hour_price or not request.user.average_arrival or not request.user.knowledgecity %}
+
+        <div>
+
+            <div class="setting-div-1" style="height: 280px">
+                <form action="{% url 'anketa_view' %}" method="post">
+                    {% csrf_token %}
+                    <div class="set-div-1-1"><p class="text-in-settings">Информация о себе</p></div>
+                    {#            <input type="text" class="registration-input"  style="" name="bio" placeholder="Пример: Цена от 1000 тг, знания города, опыт вождения 10 лет.">#}
+
+                    <div style="padding: 5px">
+                        <p>Стаж работы: <select class="about-input" name="driving_experience" id="5-registration-input"
+                                                required>
+                            <option selected disabled>---</option>
+                            <option value="2" {% if request.user.driving_experience == 2 %}selected{% endif %}>2
+                            </option>
+                            <option value="3" {% if request.user.driving_experience == 3 %}selected{% endif %}>3
+                            </option>
+                            <option value="4" {% if request.user.driving_experience == 4 %}selected{% endif %}>4
+                            </option>
+                            <option value="5" {% if request.user.driving_experience == 5 %}selected{% endif %}>5
+                            </option>
+                            <option value="6" {% if request.user.driving_experience == 6 %}selected{% endif %}>6
+                            </option>
+                            <option value="7" {% if request.user.driving_experience == 7 %}selected{% endif %}>7
+                            </option>
+                            <option value="8" {% if request.user.driving_experience == 8 %}selected{% endif %}>8
+                            </option>
+                            <option value="9" {% if request.user.driving_experience == 9 %}selected{% endif %}>9
+                            </option>
+                            <option value="10" {% if request.user.driving_experience == 10 %}selected{% endif %}>10
+                            </option>
+                            <option value="11" {% if request.user.driving_experience == 11 %}selected{% endif %}>11
+                            </option>
+                            <option value="12" {% if request.user.driving_experience == 12 %}selected{% endif %}>12
+                            </option>
+                            <option value="13" {% if request.user.driving_experience == 13 %}selected{% endif %}>13
+                            </option>
+                            <option value="14" {% if request.user.driving_experience == 14 %}selected{% endif %}>14
+                            </option>
+                            <option value="15" {% if request.user.driving_experience == 15 %}selected{% endif %}>15
+                            </option>
+                            <option value="16" {% if request.user.driving_experience == 16 %}selected{% endif %}>16
+                            </option>
+                            <option value="17" {% if request.user.driving_experience == 17 %}selected{% endif %}>17
+                            </option>
+                            <option value="18" {% if request.user.driving_experience == 18 %}selected{% endif %}>18
+                            </option>
+                            <option value="19" {% if request.user.driving_experience == 19 %}selected{% endif %}>19
+                            </option>
+                            <option value="20" {% if request.user.driving_experience == 20 %}selected{% endif %}>20
+                            </option>
+
+                        </select> лет/год
+                        </p>
+                        <p>Поездка: от <input type="number" class="about-input" style="width: 60px" max="9999"
+                                              name="trip_from_price" placeholder="1500" value="
+                                {% if request.user.trip_from_price %}{{ request.user.trip_from_price }}{% endif %}"> тг
+                            в
+                            чертах
+                            города;
+                            <input type="number" class="about-input" style="width: 60px" max="9999"
+                                   name="trip_hour_price"
+                                   placeholder="1000" value="
+                                    {% if request.user.trip_hour_price %}{{ request.user.trip_hour_price }}{% endif %}">тг/час
+                        </p>
+                        <p>Прибытие в среднем: <input type="number" class="about-input" style="width: 60px" max="99"
+                                                      name="average_arrival" placeholder="15"
+                                                      value="
+                                                              {% if request.user.average_arrival %}{{ request.user.average_arrival }}{% endif %}">мин
+                        </p>
+                        <p>Знание города <select name="knowledgecity" id="" class="about-input">
+                            <option selected disabled>-----</option>
+                            <option value="5" {% if request.user.knowledgecity == '5' %}selected{% endif %}>отлично
+                            </option>
+                            <option value="4" {% if request.user.knowledgecity == '4' %}selected{% endif %}>хорошо
+                            </option>
+                            <option value="3" {% if request.user.knowledgecity == '3' %}selected{% endif %}>нормально
+                            </option>
+                            <option value="2" {% if request.user.knowledgecity == '2' %}selected{% endif %}>немножко
+                            </option>
+                            <option value="1" {% if request.user.knowledgecity == '1' %}selected{% endif %}>незнаю
+                            </option>
+
+                        </select></p>
+                        <p>О себе:
+                            <input type="text" class="about-input" style="width: 280px" name="bio"
+                                   placeholder="Информация о себе" maxlength="18"
+                                   value="{% if request.user.bio %}{{ request.user.bio }}{% endif %}">
+                        </p>
+                    </div>
+                    {#            <textarea name="bio" class="registration-input" style="height: 100px; font-family: 'Roboto', sans-serif "#}
+                    {#                      maxlength="50"#}
+                    {#                      placeholder="Пример: Здравствуйте я оказываю услуги трезвого водителя, перегон авто в любую точку,ответственно подхожу к работе. Цена от 1000 тг.">{% if request.user.bio %}#}
+                    {#                {{ request.user.bio }}{% endif %}</textarea>#}
+
+
+                    <button class="btn-in-settings" name="change_bio" type="submit">Изменить</button>
+                </form>
+
+            </div>
+            <div style=" margin: 0 auto; text-align: center;">
+                <h5 style="padding-bottom: 5px">Пример</h5>
+                <img src="/static/img/example_info_driver.PNG" alt="" width="350px">
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

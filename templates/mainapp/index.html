@@ -1,5 +1,3 @@
-{% load social_share %}
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -114,11 +112,13 @@
             -webkit-text-stroke: 3px #F0F8FF;
         }
 
-        .share-telegram {
-            color: #06b6ef;
-            font-size: 35px;
-            -webkit-text-stroke: 3px #F0F8FF;
-
+        .share-button {
+            background-color: white;
+            border: 1px solid #06b6ef;
+            {#padding: 5px;#}
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
         }
 
     </style>
@@ -127,10 +127,12 @@
 
 <div class="page"> <!-- ------------------Logo-------------- -->
     <div style="position:absolute; left: 310px; top: 10px">
-        {% post_to_telegram "New Song: {{object.title}}" object_or_url " " "fa fa-share-alt share-telegram" %}
-        {% post_to_whatsapp object_or_url " " "fa fa-share-alt share-whatsapp" %}
-        <button class="share-button" type="button" title="Share this article">
-            <span>Share</span>
+{#        {% post_to_telegram "New Song: {{object.title}}" object_or_url " " "fa fa-share-alt share-telegram" %}#}
+{#        {% post_to_whatsapp object_or_url " " "fa fa-share-alt share-whatsapp" %}#}
+        <button class="share-button" type="button">
+           <span> <i class="fa fa-share-alt" style="    color: #06b6ef;
+            font-size: 35px;
+            -webkit-text-stroke: 3px #F0F8FF;"></i></span>
         </button>
 
         {#    {% post_to_whatsapp_url "New Song: {{object.title}}. Check it out!" object_or_url "Post to Twitter" %}#}
@@ -334,14 +336,12 @@
 
 <script>
     {% if messages %}
-        console.log('topscrool');
         $(window).scrollTop(1000);
     {% endif %}
 
     const shareButton = document.querySelector('.share-button');
-    console.log(navigator);
     shareButton.addEventListener('click', event => {
-        {#if (navigator.share) {#}
+        if (navigator.share) {
             navigator.share({
                 title: 'Поделиться',
                 url: 'http://orazkarl99.pythonanywhere.com/'
@@ -349,10 +349,10 @@
                 console.log('Thanks for sharing!');
             })
                 .catch(console.error);
-        {# } else {#}
-        {#    console.log('No!');#}
-        {##}
-        {# }#}
+        } else {
+            console.log('No!');
+
+        }
     });
 
 

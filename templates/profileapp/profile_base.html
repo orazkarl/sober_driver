@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="/static/css/stylefor.css">
     <link rel="icon" type="image/png" href="/static/img/favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
 
+    </style>
 </head>
 <body>
 <main class="page">
@@ -26,7 +28,11 @@
             <span class="icon-bar"></span>
         </div>
         <div style="position: absolute; margin-top: -52px; margin-left: 60px">
-                        <a href="#" class="fa fa-share-alt" style="color: #10C7F1; font-size: 35px; -webkit-text-stroke: 3px #F0F8FF ;"></a>
+                          <button class="share-button" style="border: none" type="button">
+           <span> <i class="fa fa-share-alt" style="    color: #06b6ef;
+            font-size: 35px;
+            -webkit-text-stroke: 3px #F0F8FF;"></i></span>
+        </button>
 
 
         </div>
@@ -34,8 +40,7 @@
         <div id="nav-content">
             <div class="yellow-box">
                 <p class="name-in-yellow-box">{{ request.user.first_name }}</p>
-
-                <div class="div-for-image-in-yellow-box"><img src="{{ request.user.avatar.url }}" width="60px"
+                <div class="div-for-image-in-yellow-box"><img src="{% if request.user.avatar %}{{ request.user.avatar.url }}{% else %}/static/img/profile-3.png{% endif %}" width="60px"
                                                               alt="img"></div>
                 <p class="money-in-yellow-box">{{ request.user.balance }} тг</p>
                 <p class="city-in-yellow-box">{{ request.user.city }}</p>
@@ -45,7 +50,7 @@
                 <hr>
                 <li><a href="{% url 'profile_view' %}">Профиль</a></li>
                 <hr>
-                <li><a href="{% url 'instruction_view' %}">Анкета</a></li>
+                <li><a href="{% url 'instruction_view' %}">Техинструкция</a></li>
                 <hr>
                 <li><a href="{% url 'settings_view' %}">Настройки аккаунта</a></li>
                 <hr>
@@ -66,6 +71,23 @@
         <p>Email: vgraduse.kz@gmail.com</p>
     </div>
 </footer>
+<script>
+        const shareButton = document.querySelector('.share-button');
+    shareButton.addEventListener('click', event => {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Трезвый водитель',
+                text: 'Для водителей',
+                url: 'http://orazkarl99.pythonanywhere.com/'
+            }).then(() => {
+                console.log('Thanks for sharing!');
+            })
+                .catch(console.error);
+        } else {
+            console.log('No!');
 
+        }
+    });
+</script>
 </body>
 </html>

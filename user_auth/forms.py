@@ -1,9 +1,7 @@
 from django import forms
-from django.conf import settings
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 from .models import User
-from django.core.files.images import get_image_dimensions
 from mainapp.models import City
 from datetime import datetime, timedelta
 
@@ -20,29 +18,12 @@ class RegisterForm(forms.ModelForm):
     city = forms.ChoiceField(choices=[(city.name, city.name) for city in City.objects.all()])
     first_name = forms.CharField()
     last_name = forms.CharField()
-    avatar = forms.ImageField()
-    driver_license_number = forms.CharField()
-    # driving_experience = forms.IntegerField()
-    # trip_from_price = forms.IntegerField()
-    # trip_hour_price = forms.IntegerField()
-    # average_arrival = forms.IntegerField()
-    # knowledgecity = forms.CharField()
-    # bio = forms.CharField()
-    iin = forms.CharField()
-    # front_passport = forms.ImageField()
-    # back_passport = forms.ImageField()
-    # together_passport = forms.ImageField()
     MIN_LENGTH = 4
 
     class Meta:
         model = User
-        # fields = ['country_code', 'phone_number', 'password1', 'password2']
-        fields = ['country_code', 'phone_number', 'password1', 'password2',
-                  'first_name', 'last_name', 'avatar', 'driver_license_number', 'iin', 'city',]
+        fields = ['country_code', 'phone_number', 'password1', 'password2','first_name', 'last_name', 'city']
 
-        # widgets = {
-        #     'date_contract': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
-        # }
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
@@ -51,9 +32,6 @@ class RegisterForm(forms.ModelForm):
             visible.field.widget.attrs['autocomplete'] = 'off'
             visible.field.widget.attrs['placeholder'] = visible.field.label
 
-    # def clean_username(self):
-    #     username = self.data.get('username')
-    #     return username
 
     def clean_password1(self):
         password = self.data.get('password1')
@@ -90,10 +68,8 @@ class PhoneVerificationForm(forms.Form):
 class LoginForm(forms.Form):
     phone_number = forms.IntegerField(label='Ваш номер телефона', required=True,
                                       widget=forms.NumberInput(attrs={'placeholder': '7777777777'}))
-    # username = forms.CharField()
     password = forms.CharField()
 
-    #
     class Meta:
         fields = ['phone_number', 'password']
 
@@ -150,9 +126,3 @@ class InsertNewPasswordForm(forms.Form):
             raise forms.ValidationError("Пароли не соответствуют")
         return password
 
-    # def save(self, *args, **kwargs):
-    #     user = super(InsertNewPasswordForm, self).save(*args, **kwargs)
-    #     user.set_password(self.cleaned_data['password1'])
-    #     # print('Saving user with country_code', user.country_code)
-    #     user.save()
-    #     return user

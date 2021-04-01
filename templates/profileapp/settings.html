@@ -83,5 +83,19 @@
         <a href="{% url 'password_change' %}" class="change_password">Изменить пароль</a>
 
     </div>
+             <div class="setting-div-3" style="height: 160px">
+                <form action="{% url 'settings_view' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="set-div-1-1"><p class="text-in-settings">
+                       Изменить номер ВУ</p></div>
+                    <p style="color: red">{{ form.driver_license_number.errors }}</p>
+                    <p style="margin-left: 40px">Пример: AA№123456</p>
+                    <input class="registration-input" type="text" id="7-registration-input" name="driver_license_number" value="{% if request.user.driver_license_number %}{{ request.user.driver_license_number }}{% endif %}"
+                           placeholder="Водительское удостоверение" autocomplete="off" pattern="[A-Z]{2}№[0-9]{6}"
+                           required>
+                    <button class="btn-in-settings" name="change_driver_license_number" type="submit">Изменить</button>
+                </form>
+
+            </div>
 
 {% endblock %}

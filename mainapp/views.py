@@ -55,14 +55,13 @@ class HomeView(generic.TemplateView):
         if orders.exists():
             city = orders.first().city
         count_online_drivers = User.objects.filter(id__in=user_id_list, is_free=True, city__name=city).count()
-
+        list(messages.get_messages(request))
         self.extra_context = {
             'cities': cities,
             # 'my_orders': my_orders,
             'count_online_drivers': count_online_drivers,
             'bookmark': bookmark,
         }
-        print(self.extra_context)
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -75,6 +74,8 @@ class HomeView(generic.TemplateView):
 
             Order.objects.create(user_ip=user_ip, from_address=from_address, to_address=to_address,
                                  phone_number=phone_number, city=city)
+            for message in messages.get_messages(request):
+                print(message)
             messages.add_message(self.request, messages.SUCCESS, 'top_scrool')
 
             # return render(request, template_name='mainapp/index.html', )

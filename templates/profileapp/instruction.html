@@ -39,26 +39,15 @@
                     </select> лет/год
                     </p>
                     <p>Поездка: от <input type="number" class="about-input" style="width: 60px" max="9999"
-                                          name="trip_from_price" placeholder="1500" value="
-                            {% if request.user.trip_from_price %}{{ request.user.trip_from_price }}{% endif %}"> тг в
+                                          name="trip_from_price" placeholder="1500" value="{% if request.user.trip_from_price %}{{ request.user.trip_from_price }}{% endif %}"> тг в
                         чертах
                         города;
                         <input type="number" class="about-input" style="width: 60px" max="9999" name="trip_hour_price"
-                               placeholder="1000" value="
-                                {% if request.user.trip_hour_price %}{{ request.user.trip_hour_price }}{% endif %}">тг/час
+                               placeholder="1000" value="{% if request.user.trip_hour_price %}{{ request.user.trip_hour_price }}{% endif %}">тг/час
                     </p>
                     <p>Прибытие в среднем: <input type="number" class="about-input" style="width: 60px" max="99"
                                                   name="average_arrival" placeholder="15"
-                                                  value="
-
-
-
-
-
-
-
-                                                          {% if request.user.average_arrival %}{{ request.user.average_arrival }}{% endif %}">
-                        мин
+                                                  value="{% if request.user.average_arrival %}{{ request.user.average_arrival }}{% endif %}">мин
                     </p>
                     <p>Знание города <select name="knowledgecity" id="" class="about-input">
                         <option selected disabled>-----</option>

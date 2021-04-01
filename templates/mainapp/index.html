@@ -1,4 +1,4 @@
-
+{% load social_share %}
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -104,38 +104,55 @@
             }
         }
 
+        .share-whatsapp {
+            color: #48CC4D;
+            font-size: 35px;
+            -webkit-text-stroke: 3px #F0F8FF;
+        }
+
+        .share-telegram {
+            color: #06b6ef;
+            font-size: 35px;
+            -webkit-text-stroke: 3px #F0F8FF;
+
+        }
 
     </style>
 </head>
 <body>
 
 <div class="page"> <!-- ------------------Logo-------------- -->
-<div style="position:absolute; left: 330px; top: 10px">
-      <a href="#" class="fa fa-share-alt" style="color: #48CC4D; font-size: 35px;"></a>
-</div>
+    <div style="position:absolute; left: 310px; top: 10px">
+        {% post_to_telegram "New Song: {{object.title}}" object_or_url " " "fa fa-share-alt share-telegram" %}
+        {% post_to_whatsapp object_or_url " " "fa fa-share-alt share-whatsapp" %}
+
+
+        {#    {% post_to_whatsapp_url "New Song: {{object.title}}. Check it out!" object_or_url "Post to Twitter" %}#}
+
+
+        {#      <a href="#" class="fa fa-share-alt" style=""></a>#}
+    </div>
     <div class="header-1">
         <div class="logo-div"><img class="logo" src="/static/img/logo-1.svg" alt="logo"></div>
     </div>
 
 
-
-
     <!---------------- content ----------------->
-{#    {% if bookmark %}#}
-{#        <div class="bookmark-modal" id="bookmark-modal" style="">#}
-{#            <div class="bookmark-modal-content">#}
-{##}
-{#                <div class="bookmark-div">#}
-{#                    <div class="new-blue-block">#}
-                        {#                    <img src="/static/img/bookmarks-1.png" alt="">#}
-{#                        <p>Обязательно сохраните наш сайт<br>в закладках, чтобы не забыть</p>#}
-{##}
-{#                    </div>#}
-{#                    <span class="bookmark-close" id="bookmark-close">&times;</span>#}
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    {% endif %}#}
+    {#    {% if bookmark %}#}
+    {#        <div class="bookmark-modal" id="bookmark-modal" style="">#}
+    {#            <div class="bookmark-modal-content">#}
+    {##}
+    {#                <div class="bookmark-div">#}
+    {#                    <div class="new-blue-block">#}
+    {#                    <img src="/static/img/bookmarks-1.png" alt="">#}
+    {#                        <p>Обязательно сохраните наш сайт<br>в закладках, чтобы не забыть</p>#}
+    {##}
+    {#                    </div>#}
+    {#                    <span class="bookmark-close" id="bookmark-close">&times;</span>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    {% endif %}#}
     <div class="new-div-1">
         <div class="new-yellow-block">
             {#            <img src="/static/img/Ellipse-green.png" alt="">#}
@@ -170,7 +187,7 @@
             </div>
             <div class="text-input-1">
                 <p>Куда</p>
-                <a class="text-green" href="#" onclick="AgreeOnTheSpot()" style="color: white" >
+                <a class="text-green" href="#" onclick="AgreeOnTheSpot()" style="color: white">
                     договориться на месте
                 </a>
             </div>

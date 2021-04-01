@@ -113,9 +113,8 @@
         }
 
         .share-button {
-            background-color: white;
-            border: 1px solid #06b6ef;
-            {#padding: 5px;#}
+            background-color: #F0F8FF;
+        {#border: 1px solid #06b6ef;#}{#padding: 5px;#} border: none;
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -127,8 +126,8 @@
 
 <div class="page"> <!-- ------------------Logo-------------- -->
     <div style="position:absolute; left: 310px; top: 10px">
-{#        {% post_to_telegram "New Song: {{object.title}}" object_or_url " " "fa fa-share-alt share-telegram" %}#}
-{#        {% post_to_whatsapp object_or_url " " "fa fa-share-alt share-whatsapp" %}#}
+        {#        {% post_to_telegram "New Song: {{object.title}}" object_or_url " " "fa fa-share-alt share-telegram" %}#}
+        {#        {% post_to_whatsapp object_or_url " " "fa fa-share-alt share-whatsapp" %}#}
         <button class="share-button" type="button">
            <span> <i class="fa fa-share-alt" style="    color: #06b6ef;
             font-size: 35px;
@@ -141,6 +140,7 @@
         {#      <a href="#" class="fa fa-share-alt" style=""></a>#}
     </div>
     <div class="header-1">
+
         <div class="logo-div"><img class="logo" src="/static/img/logo-1.svg" alt="logo"></div>
     </div>
 

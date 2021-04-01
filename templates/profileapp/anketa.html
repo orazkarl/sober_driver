@@ -19,7 +19,7 @@
 
             </div>
         </div>
-        {% endif %}
+    {% endif %}
     {% if not request.user.driver_license_number %}
 
         <div>
@@ -53,10 +53,14 @@
                 </form>
 
             </div>
-            {#            <div style=" margin: 0 auto; text-align: center;">#}
-            {#                <h5 style="padding-bottom: 5px">Пример</h5>#}
-            {#                <img src="/static/img/example_passport.jpg" alt="" width="350px">#}
-            {#            </div>#}
+            <div style="width: 350px; margin: 0 auto; text-align: center;">
+                <ul>
+                    <li>Отчетливо видно лицо</li>
+                <li>Без солнцезащитных очков</li>
+                <li>Хорошее освещение и без фильтров</li>
+                </ul>
+                <img src="/static/img/example_together_passport.jpg" alt="" width="350px">
+            </div>
         </div>
     {% endif %}
     {% if not request.user.front_passport %}
@@ -179,20 +183,17 @@
                         </select> лет/год
                         </p>
                         <p>Поездка: от <input type="number" class="about-input" style="width: 60px" max="9999"
-                                              name="trip_from_price" placeholder="1500" value="
-                                {% if request.user.trip_from_price %}{{ request.user.trip_from_price }}{% endif %}"> тг
+                                              name="trip_from_price" placeholder="1500" value="{% if request.user.trip_from_price %}{{ request.user.trip_from_price }}{% endif %}"> тг
                             в
                             чертах
                             города;
                             <input type="number" class="about-input" style="width: 60px" max="9999"
                                    name="trip_hour_price"
-                                   placeholder="1000" value="
-                                    {% if request.user.trip_hour_price %}{{ request.user.trip_hour_price }}{% endif %}">тг/час
+                                   placeholder="1000" value="{% if request.user.trip_hour_price %}{{ request.user.trip_hour_price }}{% endif %}">тг/час
                         </p>
                         <p>Прибытие в среднем: <input type="number" class="about-input" style="width: 60px" max="99"
                                                       name="average_arrival" placeholder="15"
-                                                      value="
-                                                              {% if request.user.average_arrival %}{{ request.user.average_arrival }}{% endif %}">мин
+                                                      value="{% if request.user.average_arrival %}{{ request.user.average_arrival }}{% endif %}">мин
                         </p>
                         <p>Знание города <select name="knowledgecity" id="" class="about-input">
                             <option selected disabled>-----</option>

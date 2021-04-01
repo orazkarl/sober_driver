@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta data-react-helmet="true" name="description" content="Трезвый водитель"/>
     <title>В градусе KZ</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&family=Roboto:wght@300;400;500;700&display=swap"
@@ -125,7 +126,9 @@
     <div style="position:absolute; left: 310px; top: 10px">
         {% post_to_telegram "New Song: {{object.title}}" object_or_url " " "fa fa-share-alt share-telegram" %}
         {% post_to_whatsapp object_or_url " " "fa fa-share-alt share-whatsapp" %}
-
+        <button class="share-button" type="button" title="Share this article">
+            <span>Share</span>
+        </button>
 
         {#    {% post_to_whatsapp_url "New Song: {{object.title}}. Check it out!" object_or_url "Post to Twitter" %}#}
 
@@ -330,7 +333,27 @@
         $(window).scrollTop(1000);
     {% endif %}
 
+    const shareButton = document.querySelector('.share-button');
+const shareDialog = document.querySelector('.share-dialog');
+const closeButton = document.querySelector('.close-button');
 
+shareButton.addEventListener('click', event => {
+  if (navigator.share) {
+   navigator.share({
+      title: 'WebShare API Demo',
+      url: 'https://codepen.io/ayoisaiah/pen/YbNazJ'
+    }).then(() => {
+      console.log('Thanks for sharing!');
+    })
+    .catch(console.error);
+    } else {
+        shareDialog.classList.add('is-open');
+    }
+});
+
+closeButton.addEventListener('click', event => {
+  shareDialog.classList.remove('is-open');
+});
 </script>
 
 </body>

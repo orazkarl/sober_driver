@@ -113,7 +113,7 @@
         }
 
         .share-button {
-            background-color: #F0F8FF;
+            background: none;
         {#border: 1px solid #06b6ef;#}{#padding: 5px;#} border: none;
             border-radius: 50%;
             width: 50px;
@@ -125,22 +125,14 @@
 <body>
 
 <div class="page"> <!-- ------------------Logo-------------- -->
-    <div style="position:absolute; left: 310px; top: 10px">
-        {#        {% post_to_telegram "New Song: {{object.title}}" object_or_url " " "fa fa-share-alt share-telegram" %}#}
-        {#        {% post_to_whatsapp object_or_url " " "fa fa-share-alt share-whatsapp" %}#}
+    <div style="position: absolute; left: 75%;  ">
         <button class="share-button" type="button">
            <span> <i class="fa fa-share-alt" style="    color: #06b6ef;
             font-size: 35px;
             -webkit-text-stroke: 3px #F0F8FF;"></i></span>
         </button>
-
-        {#    {% post_to_whatsapp_url "New Song: {{object.title}}. Check it out!" object_or_url "Post to Twitter" %}#}
-
-
-        {#      <a href="#" class="fa fa-share-alt" style=""></a>#}
     </div>
     <div class="header-1">
-
         <div class="logo-div"><img class="logo" src="/static/img/logo-1.svg" alt="logo"></div>
     </div>
 
@@ -193,15 +185,13 @@
                        placeholder="Откуда поедем" maxlength="25"
                        required>
             </div>
-            <div class="text-input-1" style="    position: relative;
-    z-index: 2;">
+            <div class="text-input-1">
                 <p>Куда</p>
                 <a class="text-green" href="#" onclick="AgreeOnTheSpot()" style="color: white">
                     договориться на месте
                 </a>
             </div>
-            <div class="div-from" style="    position: relative;
-    z-index: 1;">
+            <div class="div-from" >
                 <input class="input-to " type="text" name="to_address" placeholder="Куда поедем"
                        id="id_to_address" maxlength="25" required>
             </div>

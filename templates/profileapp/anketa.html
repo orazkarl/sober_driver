@@ -41,6 +41,14 @@
     {% endif %}
     {% if not request.user.avatar %}
         <div>
+              <div style="width: 350px; margin: 0 auto; text-align: center;">
+                <img src="/static/img/example_avatar.jpg" alt="" width="350px">
+                        <ul>
+                    <li>Отчетливо видно лицо</li>
+                <li>Без солнцезащитных очков</li>
+                <li>Хорошее освещение и без фильтров</li>
+                </ul>
+            </div>
             <div class="setting-div-3">
                 <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -53,18 +61,15 @@
                 </form>
 
             </div>
-            <div style="width: 350px; margin: 0 auto; text-align: center;">
-                <ul>
-                    <li>Отчетливо видно лицо</li>
-                <li>Без солнцезащитных очков</li>
-                <li>Хорошее освещение и без фильтров</li>
-                </ul>
-                <img src="/static/img/example_together_passport.jpg" alt="" width="350px">
-            </div>
+
         </div>
     {% endif %}
     {% if not request.user.front_passport %}
         <div>
+               <div style=" margin: 0 auto; text-align: center;">
+                <h5 style="padding-bottom: 5px">Пример</h5>
+                <img src="/static/img/example_passport.jpg" alt="" width="350px">
+            </div>
             <div class="setting-div-3" style="height: 180px">
                 <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -77,15 +82,16 @@
                 </form>
 
             </div>
-            <div style=" margin: 0 auto; text-align: center;">
-                <h5 style="padding-bottom: 5px">Пример</h5>
-                <img src="/static/img/example_passport.jpg" alt="" width="350px">
-            </div>
+
         </div>
     {% endif %}
     {% if not request.user.back_passport %}
 
         <div>
+              <div style=" margin: 0 auto; text-align: center;">
+                <h5 style="padding-bottom: 5px">Пример</h5>
+                <img src="/static/img/example_passport.jpg" alt="" width="350px">
+            </div>
             <div class="setting-div-3" style="height: 180px">
                 <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -98,15 +104,18 @@
                 </form>
 
             </div>
-            <div style=" margin: 0 auto; text-align: center;">
-                <h5 style="padding-bottom: 5px">Пример</h5>
-                <img src="/static/img/example_passport.jpg" alt="" width="350px">
-            </div>
+
         </div>
     {% endif %}
     {% if not request.user.together_passport %}
 
         <div>
+            <div style="width: 350px; margin: 0 auto; text-align: center;">
+                <p>Поднесите водительские права и удостоверение личности перед собой и сделайте фото как на примере:</p>
+                <p>На фото должно быть отчетливо видно лицо, водительские права и удостоверение личности</p>
+                <p>Не допускаются фотографии в солнцезащитных очках</p>
+                <img src="/static/img/example_together_passport.jpg" alt="" width="350px">
+            </div>
             <div class="setting-div-3" style="height: 155px">
                 <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -119,18 +128,16 @@
                 </form>
 
             </div>
-            <div style="width: 350px; margin: 0 auto; text-align: center;">
-                <p>Поднесите водительские права и удостоверение личности перед собой и сделайте фото как на примере:</p>
-                <p>На фото должно быть отчетливо видно лицо, водительские права и удостоверение личности</p>
-                <p>Не допускаются фотографии в солнцезащитных очках</p>
-                <img src="/static/img/example_together_passport.jpg" alt="" width="350px">
-            </div>
+
         </div>
     {% endif %}
     {% if not request.user.bio or not request.user.driving_experience or not request.user.trip_from_price or not request.user.trip_hour_price or not request.user.average_arrival or not request.user.knowledgecity %}
 
         <div>
-
+     <div style=" margin: 0 auto; text-align: center;">
+                <h5 style="padding-bottom: 5px">Пример</h5>
+                <img src="/static/img/example_info_driver.PNG" alt="" width="350px">
+            </div>
             <div class="setting-div-1" style="height: 280px">
                 <form action="{% url 'anketa_view' %}" method="post">
                     {% csrf_token %}
@@ -225,10 +232,7 @@
                 </form>
 
             </div>
-            <div style=" margin: 0 auto; text-align: center;">
-                <h5 style="padding-bottom: 5px">Пример</h5>
-                <img src="/static/img/example_info_driver.PNG" alt="" width="350px">
-            </div>
+
         </div>
     {% endif %}
 {% endblock %}

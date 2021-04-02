@@ -800,7 +800,7 @@ input::-webkit-inner-spin-button {
 
 .order-modal {
     position: fixed;
-    z-index: 1;
+    z-index: 4;
     padding-top: 100px;
     left: 0;
     top: 0;
@@ -822,7 +822,7 @@ input::-webkit-inner-spin-button {
     margin: auto;
     padding: 5px;
 
-    width: 220px;
+    width: 270px;
 }
 
 /* The Close Button */
@@ -867,17 +867,24 @@ input::-webkit-inner-spin-button {
 
 .order-call-btn {
     background-color: #FCE406;
-    padding: 5px 45px 5px 45px;
-    margin: 20px 10px 0 10px;
+    padding: 5px 65px 5px 65px;
+    /*margin: 20px 20px 0 10px;*/
+    /*width: 50%; margin: 0 auto;*/
+    /*margin-left: auto;*/
     border-radius: 25px
 }
 
 .rating {
+    /*width: 250px;*/
+
+    /*margin: 0 auto;*/
+    text-align: center;
     display: inline-block;
     position: relative;
     height: 50px;
     line-height: 50px;
     font-size: 50px;
+    margin-left: 18px;
 
 }
 
@@ -1046,7 +1053,7 @@ input::-webkit-inner-spin-button {
 }
 
 .about-input {
-    padding:  3px;
+    padding: 3px;
     margin: 3px auto;
     color: #333;
     border: 1px solid #ccc;

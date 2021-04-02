@@ -141,8 +141,10 @@
                                         +7{{ order.selected_driver.phone_number }}</p>
                                 </div>
                                 <br>
-                                <a href="tel:7{{ order.selected_driver.phone_number }}"
+                                <div style="margin: 0 auto; text-align: center;">
+                                    <a href="tel:7{{ order.selected_driver.phone_number }}"
                                    class="order-call-btn">Позвонить</a>
+                                </div>
                                 <div class="rating">
 
                                     <input type="hidden" name="order_id" value="{{ order.id }}">

@@ -884,7 +884,7 @@ input::-webkit-inner-spin-button {
     height: 50px;
     line-height: 50px;
     font-size: 50px;
-    margin-left: 18px;
+    margin-left: 36px;
 
 }
 
@@ -930,7 +930,7 @@ input::-webkit-inner-spin-button {
 .rating label .icon {
     float: left;
     color: transparent;
-    font-size: 45px;
+    font-size: 40px;
 }
 
 .rating label:last-child .icon {

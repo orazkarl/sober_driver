@@ -1,3 +1,5 @@
+{% load mathfilters %}
+
 {% if my_orders %}
     <style>
         #id_my_orders {
@@ -122,7 +124,7 @@
                                         <p style="font-size: 11px;margin-top: -5px">Цена:
                                             {% for offer in order.offers.all %}
                                                 {% if offer.driver_offer == order.selected_driver %}
-                                                    {{ offer.price }}
+                                                    <del style="font-size: 11px;">{{ offer.price|mul:1.15 }}</del> {{ offer.price }}
                                                 {% endif %}
                                             {% endfor %} тг</p>
                                         {#                                        <p style="font-size: 10px;margin-top: -5px">Комментария водителя: </p>#}
@@ -179,11 +181,16 @@
                                     </label>
 
                                 </div>
+                                    <div>
+                                        <p style="font-size: 11px">Уважаемый клиент, вы получили персональную скидку в размере 15%!</p>
+                                        <p style="font-size: 11px">Объязательно соохраните наш сайт в закладках, чтобы не потерять.</p>
+                                    </div>
                                 </div>
 
                             </div>
                             <hr color="#d0d0d0" size="1" style="border-radius: 25px">
                             <br>
+
                             <div class="order-modal-footer">
                                 <p style="font-size: 13px">Уважаемый клиент</p>
                                 <p style="font-size: 11px">-------</p>
@@ -360,7 +367,7 @@
                                         <p>{{ offer.time }} минут</p></div>
                                     <p>Цена:</p>
                                     <div style="background-color: #FCE406; border-radius: 25px; padding: 1px 2px 3px 3px; width: 60px; margin-top: 3px">
-                                        <p>{{ offer.price }} тг</p></div>
+                                        <p>{{ offer.price|mul:1.15 }} тг</p></div>
 
 
                                 </div>

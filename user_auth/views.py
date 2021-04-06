@@ -9,7 +9,7 @@ from django.contrib import messages
 import json
 from .forms import RegisterForm, LoginForm, PhoneVerificationForm, RestorePasswordForm, RestorePasswordConfirmForm, InsertNewPasswordForm
 from .authy_api import send_verfication_code, verify_sent_code
-from .models import User
+from .models import User, PrivacyPolicy
 
 
 class RegisterView(SuccessMessageMixin, FormView):
@@ -179,3 +179,13 @@ class InsertNewPassword(FormView):
 def logout_user(request):
     logout(request)
     return redirect('login_view')
+
+
+class PrivacyPolicyView(TemplateView):
+    template_name = 'user_auth/privacypolicy.html'
+
+    def get(self, request, *args, **kwargs):
+        self.extra_context = {
+            'privacypolicy': PrivacyPolicy.objects.first()
+        }
+        return super().get(request, *args, **kwargs)

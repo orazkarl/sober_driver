@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'mathfilters',
     'django_social_share',
-
+    'admin_totals',
 
 ]
 

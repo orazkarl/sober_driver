@@ -221,7 +221,20 @@ class SettingsView(generic.TemplateView):
             driver_license_number = request.POST['driver_license_number']
             user.driver_license_number = driver_license_number
             user.save()
-
+        elif 'change_bio' in request.POST:
+            driving_experience = request.POST['driving_experience']
+            trip_from_price = request.POST['trip_from_price']
+            trip_hour_price = request.POST['trip_hour_price']
+            average_arrival = request.POST['average_arrival']
+            knowledgecity = request.POST['knowledgecity']
+            bio = request.POST['bio']
+            user.driving_experience = driving_experience
+            user.trip_from_price = trip_from_price
+            user.trip_hour_price = trip_hour_price
+            user.average_arrival = average_arrival
+            user.knowledgecity = knowledgecity
+            user.bio = bio
+            user.save()
         return redirect('settings_view')
 
 

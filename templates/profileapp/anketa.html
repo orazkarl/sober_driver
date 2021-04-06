@@ -64,6 +64,30 @@
 
         </div>
     {% endif %}
+        {% if not request.user.together_passport %}
+
+        <div>
+            <div style="width: 350px; margin: 0 auto; text-align: center;">
+                <p>Поднесите водительские права и удостоверение личности перед собой и сделайте фото как на примере:</p>
+                <p>На фото должно быть отчетливо видно лицо, водительские права и удостоверение личности</p>
+                <p>Не допускаются фотографии в солнцезащитных очках</p>
+                <img src="/static/img/example_together_passport.jpg" alt="" width="350px">
+            </div>
+            <div class="setting-div-3" style="height: 155px">
+                <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="set-div-1-1" style="height: 60px; padding-left: 13px"><p class="text-in-settings">
+                        Подтверждение личности</p></div>
+                    <input type="file" name="together_passport" id="file" accept="image/*" capture="camera"
+                           class="inputfile"/>
+                    <label for="file"><span class="span-in-label">Добавить фото</span></label>
+                    <button class="btn-in-settings" name="add_together_passport" type="submit">Отправить</button>
+                </form>
+
+            </div>
+
+        </div>
+    {% endif %}
     {% if not request.user.front_passport %}
         <div>
                <div style=" margin: 0 auto; text-align: center;">
@@ -107,30 +131,7 @@
 
         </div>
     {% endif %}
-    {% if not request.user.together_passport %}
 
-        <div>
-            <div style="width: 350px; margin: 0 auto; text-align: center;">
-                <p>Поднесите водительские права и удостоверение личности перед собой и сделайте фото как на примере:</p>
-                <p>На фото должно быть отчетливо видно лицо, водительские права и удостоверение личности</p>
-                <p>Не допускаются фотографии в солнцезащитных очках</p>
-                <img src="/static/img/example_together_passport.jpg" alt="" width="350px">
-            </div>
-            <div class="setting-div-3" style="height: 155px">
-                <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="set-div-1-1" style="height: 60px; padding-left: 13px"><p class="text-in-settings">
-                        Подтверждение личности</p></div>
-                    <input type="file" name="together_passport" id="file" accept="image/*" capture="camera"
-                           class="inputfile"/>
-                    <label for="file"><span class="span-in-label">Добавить фото</span></label>
-                    <button class="btn-in-settings" name="add_together_passport" type="submit">Отправить</button>
-                </form>
-
-            </div>
-
-        </div>
-    {% endif %}
     {% if not request.user.bio or not request.user.driving_experience or not request.user.trip_from_price or not request.user.trip_hour_price or not request.user.average_arrival or not request.user.knowledgecity %}
 
         <div>

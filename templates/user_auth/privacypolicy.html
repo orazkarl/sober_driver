@@ -1,0 +1,13 @@
+{% extends 'user_auth/user_auth_base.html' %}
+{% block content %}
+
+    <main class="page">
+        <div style="margin: 20px 100px">
+            <h1>Политики конфиденциальности</h1>
+            <br>
+            {{ privacypolicy.content|safe }}
+        </div>
+
+    </main>
+
+{% endblock %}

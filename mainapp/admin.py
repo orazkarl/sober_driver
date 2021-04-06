@@ -1,9 +1,13 @@
 from django.contrib import admin
 from .models import City, Order, OfferOrder, Review, Overpayment
-from django.db.models import Count
+from django.db.models import Count, Sum
 # admin.site.register(Review)
-from django.contrib.sites.models import  Site
+from django.contrib.sites.models import Site
 import datetime
+from django_with_extra_context_admin.admin import DjangoWithExtraContextAdmin
+from django.db.models.functions import Cast, Coalesce
+from admin_totals.admin import ModelAdminTotals
+
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
     list_display = ['name']
@@ -20,7 +24,7 @@ class CityAdmin(admin.ModelAdmin):
 
 
 class OrderMonthFilter(admin.SimpleListFilter):
-    title = 'Фильтр по месяцам "'+ str(datetime.datetime.now().year)+  ' год"'
+    title = 'Фильтр по месяцам "' + str(datetime.datetime.now().year) + ' год"'
     parameter_name = 'month'
 
     def lookups(self, request, model_admin):
@@ -66,15 +70,18 @@ class OrderMonthFilter(admin.SimpleListFilter):
             return queryset.filter(created__month='12', created__year=datetime.datetime.now().year)
 
 
-
-
 @admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
-    list_display = ['phone_number', 'city', 'from_address', 'to_address', 'status', 'created','updated',  'selected_driver']
+class OrderAdmin(ModelAdminTotals):
+    list_display = ['phone_number', 'city', 'from_address', 'to_address', 'status', 'created',
+                    'selected_driver']
+    # list_totals = [('amount', lambda field: Coalesce(Sum(field), 0)), ('amount', Sum)]
+
     list_filter = ['status', 'city', OrderMonthFilter, 'created']
     fieldsets = (
-        (None,{'fields': ('phone_number', 'city', 'from_address', 'to_address', 'status', 'created', 'selected_driver')}),
+        (None,
+         {'fields': ('phone_number', 'city', 'from_address', 'to_address', 'status', 'created', 'selected_driver')}),
     )
+
     def has_add_permission(self, request):
         return False
 
@@ -84,34 +91,15 @@ class OrderAdmin(admin.ModelAdmin):
     # def has_delete_permission(self, request, obj=None):
     #     return False
 
-# class OverpaymentFilter(admin.SimpleListFilter)
-#     title = 'Фильтр по городам'
-#     parameter_name = 'date'
-#
-#     def lookups(self, request, model_admin):
-#         return (
-#             ('день', 'День'),
-#             ('неделя', 'Неделя'),
-#             ('месяц', 'Месяц'),
-#             ('год', 'Год'),
-#
-#         )
-#
-#     def queryset(self, request, queryset):
-#         if self.value() == 'день':
-#             return queryset.filter(created__gte=datetime.datetime.today() - datetime.timedelta(days=1))
-#         if self.value() == 'неделя':
-#             return queryset.filter(created__gte=datetime.datetime.today() - datetime.timedelta(days=7))
-#         if self.value() == 'месяц':
-#             return queryset.filter(created__gte=datetime.datetime.today() - datetime.timedelta(days=30))
-#         if self.value() == 'год':
-#             return queryset.filter(created__gte=datetime.datetime.today() - datetime.timedelta(days=365))
 
 
 @admin.register(Overpayment)
-class OverpaymentAdmin(admin.ModelAdmin):
+class OverpaymentAdmin(ModelAdminTotals):
     list_display = ['driver', 'amount']
     list_filter = ['driver__city', 'order__created']
+    list_totals = [('amount', lambda field: Coalesce(Sum(field), 0)), ('amount', Sum)]
+
+
     def has_add_permission(self, request):
         return False
 
@@ -120,5 +108,6 @@ class OverpaymentAdmin(admin.ModelAdmin):
 
     # def has_delete_permission(self, request, obj=None):
     #     return False
+
 
 admin.site.unregister(Site)

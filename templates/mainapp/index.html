@@ -32,25 +32,28 @@
         }
 
         .visuallyhidden {
-            -webkit-animation: mymove 5s; /* Chrome, Safari, Opera */
-            animation: mymove 5s;
+            -webkit-animation: mymove 1s; /* Chrome, Safari, Opera */
+            animation: mymove 1s;
         }
 
         @-webkit-keyframes mymove {
             100% {
-                opacity: 1;
+                margin-top: 0;
+
             }
             0% {
-                opacity: 0;
+                margin-top: 30px;
             }
         }
 
         @keyframes mymove {
             100% {
-                opacity: 1;
+                margin-bottom: 0px;
+            {#opacity: 1;#}
             }
             0% {
-                opacity: 0;
+                margin-bottom: -83px;
+            {#opacity: 0;#}
             }
         }
 
@@ -61,31 +64,22 @@
         @-webkit-keyframes mymove13 {
             100% {
                 transform: translateY(0%);
-            {#margin-top: 0;#}{#    opacity: 1;#}
             }
             0% {
                 transform: translateY(100%);
-            {#margin-top: 50px;#}{#    opacity: 0;#}
             }
         }
 
         .animate_to_address {
-
             -webkit-animation: mymove3 1s; /* Chrome, Safari, Opera */
         }
 
         @-webkit-keyframes mymove3 {
             100% {
-
-                margin-top: -50px;
-            {#opacity: 0;#}
-
-
+                margin-top: -30px;
             }
-        {#50% {#}{#    opacity: 0.5;#}{# }#}
             0% {
-            {#opacity: 1;#} margin-top: 0;
-
+                margin-top: 0;
             }
         }
 
@@ -95,14 +89,10 @@
 
         @-webkit-keyframes mymove4 {
             100% {
-
                 margin-top: 0;
-                opacity: 1;
             }
             0% {
-
-                margin-top: -50px;
-                opacity: 1;
+                margin-top: -30px;
             }
         }
 
@@ -120,20 +110,54 @@
             height: 50px;
         }
 
+        #header-text1 {
+            opacity: 0;
+            animation: fadeIn 8s infinite;
+        }
+
+        #header-text2 {
+            opacity: 0;
+            animation: fadeIn 8s infinite;
+            animation-delay: 4s;
+        }
+
+        @keyframes fadeIn {
+            20% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
 
 <div class="page"> <!-- ------------------Logo-------------- -->
-    <div style="position: absolute; left: 75%;  ">
+    <div style="position: absolute; left: 83%; top: 13px  ">
         <button class="share-button" type="button">
            <span> <i class="fa fa-share-alt" style="    color: #06b6ef;
             font-size: 35px;
             -webkit-text-stroke: 3px #F0F8FF;"></i></span>
         </button>
+        <div style="background-color: #06b6ef; border-radius: 25px; padding: 2">
+            <p style="font-size: 7px; margin-top: -8px; color: #fff; text-align: center">Получите 15% скидку</p>
+        </div>
     </div>
+    <br>
     <div class="header-1">
-        <div class="logo-div"><img class="logo" src="/static/img/logo-1.svg" alt="logo"></div>
+        <div class="header-animate">
+            <div class="header-animate-content" >
+                <div id="header-text1" style="position: absolute ">
+                    <p> Обязательно сохраните наш сайт <br>в закладках, чтобы не забыть
+                    </p>
+                </div>
+                <div id="header-text2" style=" ">
+                    <p> a сохраните наш сайт <br>в закладках, чтобы не забыть
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -157,7 +181,7 @@
         <div class="new-yellow-block">
             {#            <img src="/static/img/Ellipse-green.png" alt="">#}
             <div class="pulsating-circle"></div>
-            <p style="margin-left: 8px">{{ count_online_drivers }} водителя онлайн ждут вашего заказа</p>
+            <p style="margin-left: 8px">{{ count_online_drivers }} водителя онлайн сейчас ждут  заказ</p>
         </div>
     </div>
 
@@ -165,7 +189,7 @@
     <form action="{% url 'home_view' %}" method="post">
         {% csrf_token %}
         <div class="input-form">
-            <div class="hidden visuallyhidden cities" id="id_cities">
+            <div class="hidden" id="id_cities" style="">
                 <div class="text-input"><p>Ваш город</p></div>
                 <select class="input-city" name="city" id="id_city" required>
                     {% for city in cities %}
@@ -182,7 +206,7 @@
             </div>
             <div class="div-from">
                 <input class="input-from" type="text" name="from_address" id="id_from_address"
-                       placeholder="Откуда поедем" maxlength="25"
+                       placeholder="Откуда поедем" maxlength="25" autocomplete="off"
                        required>
             </div>
             <div class="text-input-1">
@@ -191,7 +215,7 @@
                     договориться на месте
                 </a>
             </div>
-            <div class="div-from" >
+            <div class="div-from">
                 <input class="input-to " type="text" name="to_address" placeholder="Куда поедем"
                        id="id_to_address" maxlength="25" required>
             </div>
@@ -305,7 +329,10 @@
     $('#id_from_address').on('click', function () {
         if (id_cities.hasClass('hidden')) {
             id_cities.removeClass('hidden');
+            {#document.getElementById('id_cities').style.opacity = 1;#}
             id_cities.addClass('visuallyhidden');
+
+
         }
     });
     $('#bookmark-close').on('click', function () {

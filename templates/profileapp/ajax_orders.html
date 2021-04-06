@@ -91,6 +91,9 @@
                 {% if request.user.is_block == False and request.user.balance >= request.user.city.overpayment and request.user.active_subscription == True %}
                     <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить заявку</a>
                     </p>
+                {% else %}
+                    <p><a class="orders-text-4" style="background-color: gray" disabled="">Отправить заявку</a>
+                    </p>
                 {% endif %}
 
             {% else %}
@@ -103,9 +106,12 @@
                         <p><a class="orders-text-5" disabled="">Отправлено</a>
                         </p>
                     {% else %}
-                {% if request.user.is_block == False and request.user.balance >= request.user.city.overpayment and request.user.active_subscription == True %}
-                            <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить заявку</a>
+                        {% if request.user.is_block == False and request.user.balance >= request.user.city.overpayment and request.user.active_subscription == True %}
+                            <p><a class="orders-text-4"  href="{% url 'order_detail' order.id %}">Отправить заявку</a>
                             </p>
+                            {% else %}
+                    <p><a class="orders-text-4"style="background-color: gray" disabled="">Отправить заявку</a>
+                    </p>
                         {% endif %}
                     {% endif %}
                 {% endfor %}

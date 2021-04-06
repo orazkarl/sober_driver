@@ -1,9 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 
-from .models import User
+from .models import User, PrivacyPolicy
 
 import datetime
+
+admin.site.register(PrivacyPolicy)
 
 
 class DriverFilter(admin.SimpleListFilter):
@@ -15,32 +17,41 @@ class DriverFilter(admin.SimpleListFilter):
             ('active', 'Активные водители'),
             ('new', 'Новые водители'),
 
-
         )
 
     def queryset(self, request, queryset):
         if self.value() == 'active':
-            return queryset.filter(orders__status='finished', orders__created__gte=datetime.datetime.today() - datetime.timedelta(days=7)).distinct()
+            return queryset.filter(orders__status='finished',
+                                   orders__created__gte=datetime.datetime.today() - datetime.timedelta(
+                                       days=7)).distinct()
         if self.value() == 'new':
             return queryset.filter(date_joined__gte=datetime.datetime.today() - datetime.timedelta(days=7))
 
+
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
-    list_display = ['phone_number','first_name', 'last_name', 'balance', 'count_orders_day', 'count_orders_week', 'count_orders_month', 'count_orders', 'average_rating']
-    list_filter = ['active_subscription', DriverFilter]
+    list_display = ['phone_number', 'first_name', 'last_name', 'balance', 'count_orders_day', 'count_orders_week',
+                    'count_orders_month', 'count_orders', 'average_rating']
+    list_filter = ['active_subscription', DriverFilter, 'city']
     # search_fields = ['username']
     # paginator = 30
     ordering = ['first_name']
 
-    # readonly_fields = ['password', 'country_code', 'phone_number', 'first_name', 'last_name', 'driver_license_number',
-    #                    'avatar', 'active_subscription', 'subscription_day', 'last_login', 'date_joined']
+    readonly_fields = ['password', 'country_code', 'phone_number', 'first_name', 'last_name', 'driver_license_number',
+                       'avatar', 'active_subscription', 'subscription_day', 'last_login', 'date_joined',
+                       'driving_experience', 'city', 'iin', 'front_passport', 'back_passport', 'together_passport',
+                       'bio', 'trip_from_price', 'trip_hour_price', 'average_arrival', 'knowledgecity']
     fieldsets = (
         (None,
          {'fields': ('password', 'country_code', 'phone_number')}),
         (('Личная информация'),
          {'fields': (
-             'first_name', 'last_name', 'driving_experience', 'city', 'iin', 'driver_license_number', 'avatar', 'front_passport', 'back_passport', 'together_passport',
-             'active_subscription', 'subscription_day', 'balance', 'bio')}),
+             'first_name', 'last_name', 'driving_experience', 'city', 'iin', 'driver_license_number', 'avatar',
+             'front_passport', 'back_passport', 'together_passport',
+             'active_subscription', 'subscription_day', 'balance')}),
+        (('Информация о водителя'),
+         {'fields': (
+             'bio', 'trip_from_price', 'trip_hour_price', 'average_arrival', 'knowledgecity')}),
         (('Права доступа'), {
             'fields': ('is_block', 'is_free'),
         }),
@@ -61,17 +72,24 @@ class UserAdmin(DjangoUserAdmin):
     def has_add_permission(self, request):
         return False
 
-    def count_orders_day(self,obj=None):
+    def count_orders_day(self, obj=None):
         return f"{obj.orders.filter(status='finished', created__gte=datetime.datetime.today() - datetime.timedelta(days=1)).count()}"
+
     count_orders_day.short_description = 'Кол. заказов за день'
-    def count_orders_week(self,obj=None):
+
+    def count_orders_week(self, obj=None):
         return f"{obj.orders.filter(status='finished', created__gte=datetime.datetime.today() - datetime.timedelta(days=7)).count()}"
+
     count_orders_week.short_description = 'Кол. заказов за неделю'
-    def count_orders_month(self,obj=None):
+
+    def count_orders_month(self, obj=None):
         return f"{obj.orders.filter(status='finished', created__gte=datetime.datetime.today() - datetime.timedelta(days=30)).count()}"
+
     count_orders_month.short_description = 'Кол. заказов за месяц'
-    def count_orders(self,obj=None):
+
+    def count_orders(self, obj=None):
         return f"{obj.orders.filter(status='finished').count()}"
+
     count_orders.short_description = 'Общ. кол. заказов'
 
 

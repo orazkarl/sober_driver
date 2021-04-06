@@ -5,6 +5,7 @@ import datetime
 from sober_driver import settings
 from mainapp.models import City
 import numpy as np
+from ckeditor.fields import RichTextField
 
 
 class UserManager(BaseUserManager):
@@ -36,16 +37,16 @@ class User(AbstractUser):
     ]
     username = None
     driving_experience = models.PositiveIntegerField('Стаж вождение', default=0)
-    avatar = models.FileField(upload_to='avatars/', blank=True)
+    avatar = models.FileField('Фото', upload_to='avatars/', blank=True)
     iin = models.CharField('ИИН', max_length=12, blank=True)
     driver_license_number = models.CharField('Номер водительского удостоверение', max_length=20, blank=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='users', verbose_name='Город', blank=True,
                              null=True)
 
-    trip_from_price = models.PositiveIntegerField(default=0)
-    trip_hour_price = models.PositiveIntegerField(default=0)
-    average_arrival = models.PositiveIntegerField(default=0)
-    knowledgecity = models.CharField(max_length=10, null=True, blank=True, choices=KNOWLEDGE_CITY_CHOICES)
+    trip_from_price = models.PositiveIntegerField('В чертах города', default=0)
+    trip_hour_price = models.PositiveIntegerField('В час', default=0)
+    average_arrival = models.PositiveIntegerField('ППрибытие в среднем (мин)', default=0)
+    knowledgecity = models.CharField('Знание города', max_length=10, null=True, blank=True, choices=KNOWLEDGE_CITY_CHOICES)
     bio = models.CharField('Информация о водителя', max_length=18, null=True, blank=True)
     phone_number = models.BigIntegerField('Телефон', unique=True)
     country_code = models.IntegerField()
@@ -53,7 +54,7 @@ class User(AbstractUser):
     balance = models.IntegerField('Баланс', default=0)
     active_subscription = models.BooleanField('Есть подписка?', default=False)
     subscription_day = models.DateTimeField('Дата окончание подписки', null=True, blank=True)
-    is_free = models.BooleanField(default=True)
+    is_free = models.BooleanField('Свободный?', default=True)
     is_block = models.BooleanField('Заблокированный', default=False)
     front_passport = models.FileField('Уд. лич. (Лицевая сторона)', blank=True, null=True, upload_to='passports/')
     back_passport = models.FileField('Уд. лич. (Обратная сторона)', blank=True, null=True)
@@ -88,3 +89,11 @@ class User(AbstractUser):
             return 0
 
         return round(avg_rating)
+
+
+class PrivacyPolicy(models.Model):
+    content = RichTextField('Контент')
+
+    class Meta:
+        verbose_name = 'Политики конфиденциальности'
+        verbose_name_plural = 'Политики конфиденциальности'

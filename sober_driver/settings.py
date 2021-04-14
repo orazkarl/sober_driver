@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'admin_totals',
     'rangefilter',
     'background_task',
-
     'debug_toolbar',
 
 ]
@@ -166,3 +165,4 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+

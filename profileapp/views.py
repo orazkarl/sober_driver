@@ -105,22 +105,22 @@ class OrdersView(generic.ListView):
     template_name = 'profileapp/orders.html'
     model = Order
 
-    def get(self, request, *args, **kwargs):
-        all_orders = Order.objects.filter(status='started',
-                                          started_date__lte=datetime.now() - timedelta(minutes=10)).exclude(
-            selected_driver=None)
-        print(all_orders)
-        for order in all_orders:
-            order.status = 'finished'
-            order.save()
-            driver = order.selected_driver
-            driver.is_free = True
-            driver.save()
-        all_orders = Order.objects.filter(status='request', created__lte=datetime.now() - timedelta(minutes=15))
-        for order in all_orders:
-            order.status = 'notselected'
-            order.save()
-        return super().get(request, *args, **kwargs)
+    # def get(self, request, *args, **kwargs):
+    #     all_orders = Order.objects.filter(status='started',
+    #                                       started_date__lte=datetime.now() - timedelta(minutes=10)).exclude(
+    #         selected_driver=None)
+    #     print(all_orders)
+    #     for order in all_orders:
+    #         order.status = 'finished'
+    #         order.save()
+    #         driver = order.selected_driver
+    #         driver.is_free = True
+    #         driver.save()
+    #     all_orders = Order.objects.filter(status='request', created__lte=datetime.now() - timedelta(minutes=15))
+    #     for order in all_orders:
+    #         order.status = 'notselected'
+    #         order.save()
+    #     return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         user = request.user
@@ -128,7 +128,6 @@ class OrdersView(generic.ListView):
         if 'close' in request.POST:
             order.is_view = False
             order.save()
-
         return redirect('orders_view')
 
 
@@ -139,9 +138,7 @@ def getOrders(request):
             status='canceled').exclude(status='notselected')
     else:
         orders = Order.objects.filter(selected_driver=user).exclude(status='finished').exclude(status='canceled').exclude(status='notselected')
-    print(orders)
     return render(request, 'profileapp/ajax_orders.html', {'orders': orders})
-    # return JsonResponse({"orders": list(queryset.values())})
 
 
 @method_decorator([login_required, user_passes_test(pass_anketa, login_url='/anketa/')], name='dispatch')

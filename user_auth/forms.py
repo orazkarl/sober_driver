@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate
 from .models import User
 from mainapp.models import City
 from datetime import datetime, timedelta
+from mainapp.tasks import update_user_restriction
+from background_task.tasks import Task
 
 
 class RegisterForm(forms.ModelForm):
@@ -15,15 +17,14 @@ class RegisterForm(forms.ModelForm):
     password2 = forms.CharField(label='Пароль (повторно)',
                                 widget=forms.PasswordInput(attrs={'placeholder': 'Пароль (повторно)'}))
     country_code = forms.ChoiceField(label='Код страны', required=True, choices=CHOICES)
-    city = forms.ChoiceField(choices=[(city.name, city.name) for city in City.objects.all()])
+    # city = forms.ChoiceField(choices=[(city.name, city.name) for city in City.objects.all()])
     first_name = forms.CharField()
     last_name = forms.CharField()
     MIN_LENGTH = 4
 
     class Meta:
         model = User
-        fields = ['country_code', 'phone_number', 'password1', 'password2','first_name', 'last_name', 'city']
-
+        fields = ['country_code', 'phone_number', 'password1', 'password2', 'first_name', 'last_name', 'city']
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
@@ -31,7 +32,6 @@ class RegisterForm(forms.ModelForm):
             visible.field.widget.attrs['class'] = 'registration-input'
             visible.field.widget.attrs['autocomplete'] = 'off'
             visible.field.widget.attrs['placeholder'] = visible.field.label
-
 
     def clean_password1(self):
         password = self.data.get('password1')
@@ -52,8 +52,7 @@ class RegisterForm(forms.ModelForm):
         user.avatar = self.cleaned_data.get('avatar')
         user.active_subscription = True
         user.subscription_day = datetime.now() + timedelta(days=7)
-
-        print('Saving user with country_code', user.country_code)
+        update_user_restriction(user_id=user.id, repeat=Task.DAILY)
         user.save()
         return user
 
@@ -119,10 +118,8 @@ class InsertNewPasswordForm(forms.Form):
         fields = ['password1', 'password2', 'phone_number']
 
     def clean_password1(self):
-        print(1)
         password = self.data.get('password1')
         validate_password(password)
         if password != self.data.get('password2'):
             raise forms.ValidationError("Пароли не соответствуют")
         return password
-

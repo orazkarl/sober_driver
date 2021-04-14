@@ -45,6 +45,10 @@ INSTALLED_APPS = [
     'mathfilters',
     'django_social_share',
     'admin_totals',
+    'rangefilter',
+    'background_task',
+
+    'debug_toolbar',
 
 ]
 
@@ -59,6 +63,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
 ]
 
 
@@ -154,5 +161,8 @@ CACHES = {
 }
 
 
-
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]

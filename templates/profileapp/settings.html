@@ -98,12 +98,14 @@
         </form>
 
     </div>
-    <div class="setting-div-1" style="height: 280px">
+    <div class="setting-div-1" style="height: 425px">
         <form action="{% url 'settings_view' %}" method="post">
             {% csrf_token %}
             <div class="set-div-1-1"><p class="text-in-settings">Информация о себе</p></div>
             {#            <input type="text" class="registration-input"  style="" name="bio" placeholder="Пример: Цена от 1000 тг, знания города, опыт вождения 10 лет.">#}
-
+   <div style=" margin: -12px auto 0 auto; text-align: center;">
+                        <img src="/static/img/example_info_driver.PNG" alt="" width="350px">
+                    </div>
             <div style="padding: 5px">
                 <p>Стаж работы: <select class="about-input" name="driving_experience" id="5-registration-input"
                                         required>
@@ -181,9 +183,14 @@
                     </option>
 
                 </select></p>
+            <p>Район проживание:
+                    <input type="text" class="about-input" style="width: 180px" name="disctrict"
+                           placeholder="Район проживание" maxlength="20"
+                           value="{% if request.user.disctrict %}{{ request.user.disctrict }}{% endif %}">
+                </p>
                 <p>О себе:
                     <input type="text" class="about-input" style="width: 280px" name="bio"
-                           placeholder="Информация о себе" maxlength="18"
+                           placeholder="Информация о себе" maxlength="50"
                            value="{% if request.user.bio %}{{ request.user.bio }}{% endif %}">
                 </p>
             </div>

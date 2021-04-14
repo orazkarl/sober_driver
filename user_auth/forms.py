@@ -51,7 +51,7 @@ class RegisterForm(forms.ModelForm):
         user.set_password(self.cleaned_data['password1'])
         user.avatar = self.cleaned_data.get('avatar')
         user.active_subscription = True
-        user.subscription_day = datetime.now() + timedelta(days=30)
+        user.subscription_day = datetime.now() + timedelta(days=7)
 
         print('Saving user with country_code', user.country_code)
         user.save()

@@ -1,14 +1,12 @@
 from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponseRedirect
 from django.contrib import messages
-
 from django.views import generic
 from .models import City, Order, OfferOrder, Review, Overpayment
 from user_auth.models import User
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 import datetime
-
+from .tasks import update_order_status
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -23,28 +21,24 @@ class HomeView(generic.TemplateView):
     template_name = 'mainapp/index.html'
 
     def get(self, request, *args, **kwargs):
-        all_orders = Order.objects.filter(status='started',
-                                          started_date__lte=datetime.datetime.now() - datetime.timedelta(
-                                              minutes=10)).exclude(selected_driver=None)
-        for order in all_orders:
-            order.status = 'finished'
-            order.save()
-            driver = order.selected_driver
-            driver.is_free = True
-            driver.save()
-        all_orders = Order.objects.filter(status='request',
-                                          created__lte=datetime.datetime.now() - datetime.timedelta(minutes=30))
-        for order in all_orders:
-            order.status = 'canceled'
-            order.save()
+        # all_orders = Order.objects.filter(status='started',
+        #                                   started_date__lte=datetime.datetime.now() - datetime.timedelta(
+        #                                       minutes=10)).exclude(selected_driver=None)
+        # for order in all_orders:
+        #     order.status = 'finished'
+        #     order.save()
+        #     driver = order.selected_driver
+        #     driver.is_free = True
+        #     driver.save()
+        # all_orders = Order.objects.filter(status='request',
+        #                                   created__lte=datetime.datetime.now() - datetime.timedelta(minutes=15))
+        # for order in all_orders:
+        #     order.status = 'notselected'
+        #     order.save()
         cities = City.objects.all()
         count_online_drivers = 0
         user_ip = get_client_ip(request)
         orders = Order.objects.filter(user_ip=user_ip)
-        bookmark = False
-        if orders.count() >= 1 and orders.count() < 2:
-            if orders.first().status == 'request':
-                bookmark = True
         active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
         user_id_list = []
         for session in active_sessions:
@@ -60,7 +54,6 @@ class HomeView(generic.TemplateView):
             'cities': cities,
             # 'my_orders': my_orders,
             'count_online_drivers': count_online_drivers,
-            'bookmark': bookmark,
         }
         return super().get(request, *args, **kwargs)
 
@@ -87,10 +80,13 @@ class HomeView(generic.TemplateView):
             offer.is_selected = True
             # if driver.balance < offer.order.city.overpayment:
             #     return redirect('home_view')
-            driver.balance -= offer.order.city.overpayment
+            if driver.restriction < 1:
+                driver.balance -= offer.order.city.overpayment
+                Overpayment.objects.create(driver=driver, amount=int(offer.order.city.overpayment), order=offer.order)
+            else:
+                driver.restriction -= 1
             driver.is_free = False
             driver.save()
-            Overpayment.objects.create(driver=driver, amount=int(offer.order.city.overpayment), order=offer.order)
             order = offer.order
             order.selected_driver = driver
             order.status = 'started'
@@ -98,6 +94,7 @@ class HomeView(generic.TemplateView):
             order.is_view = True
             order.save()
             offer.save()
+            update_order_status(order.id, schedule=10)
         elif 'cancel' in request.POST:
             order = Order.objects.get(id=int(request.POST['cancel']))
             order.status = 'canceled'
@@ -118,19 +115,7 @@ def getMyOrders(request):
     user_ip = get_client_ip(request)
     yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
     my_orders = Order.objects.filter(user_ip=user_ip, created__gte=yesterday).exclude(status='canceled').exclude(
-        status='finished')
-    for order in my_orders.filter(status='started').exclude(selected_driver=None):
-        for offer in order.offers.all():
-            if order.minutes and order.seconds:
-                duration = order.minutes * 60 + order.seconds
-            else:
-                if offer.driver_offer == order.selected_driver:
-                    duration = offer.time * 60
-            duration -= 1
-            minutes = int(duration / 60)
-            seconds = int(duration % 60)
-            order.minutes = minutes
-            order.seconds = seconds
-            order.save()
-
+        status='finished').exclude(status='notselected')
     return render(request, 'mainapp/ajax_my_orders.html', {'my_orders': my_orders})
+
+

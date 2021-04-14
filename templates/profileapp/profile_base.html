@@ -27,20 +27,40 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </div>
-        <div style="position: absolute; margin-top: -52px; margin-left: 60px">
-                          <button class="share-button" style="border: none" type="button">
+        <div class="header-1">
+
+            <div id=flip>
+
+                <div>
+                    <div>Выбирайте водителя сами. Лучшие цены в вашем городе</div>
+                </div>
+                <div>
+                    <div>Сохраните наш сайт для следующий безопасный поездки</div>
+                </div>
+                <div>
+                    <div>Поделитесь друзьями и получайте скидку <i class="fa fa-arrow-right"
+                                                                   style="font-size: 15px; -webkit-text-stroke: 1px #DC143C;"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div style="position: absolute; margin-top: -52px;left: 85%; ">
+            <button class="share-button" style="border: none; background: none" type="button">
            <span> <i class="fa fa-share-alt" style="    color: #06b6ef;
             font-size: 35px;
             -webkit-text-stroke: 3px #F0F8FF;"></i></span>
-        </button>
-
-
+            </button>
         </div>
 
         <div id="nav-content">
             <div class="yellow-box">
                 <p class="name-in-yellow-box">{{ request.user.first_name }}</p>
-                <div class="div-for-image-in-yellow-box"><img src="{% if request.user.avatar %}{{ request.user.avatar.url }}{% else %}/static/img/profile-3.png{% endif %}" width="60px"
+                <div class="div-for-image-in-yellow-box"><img src="
+
+
+                        {% if request.user.avatar %}{{ request.user.avatar.url }}{% else %}/static/img/profile-3.png{% endif %}"
+                                                              width="60px"
                                                               alt="img"></div>
                 <p class="money-in-yellow-box">{{ request.user.balance }} тг</p>
                 <p class="city-in-yellow-box">{{ request.user.city }}</p>
@@ -72,7 +92,7 @@
     </div>
 </footer>
 <script>
-        const shareButton = document.querySelector('.share-button');
+    const shareButton = document.querySelector('.share-button');
     shareButton.addEventListener('click', event => {
         if (navigator.share) {
             navigator.share({

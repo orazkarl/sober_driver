@@ -7,20 +7,11 @@ import datetime
 from django_with_extra_context_admin.admin import DjangoWithExtraContextAdmin
 from django.db.models.functions import Cast, Coalesce
 from admin_totals.admin import ModelAdminTotals
+from rangefilter.filter import DateRangeFilter
 
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
     list_display = ['name']
-
-    # def get_count_orders(self, obj):
-    #     return f"{Order.objects.filter(city=obj, status='finished').count()}"
-    #
-    # get_count_orders.short_description = 'Количество заказов'
-    #
-    # def get_income_orders(self, obj):
-    #     return f"{Order.objects.filter(city=obj, status='finished').count() * obj.overpayment}"
-    #
-    # get_income_orders.short_description = 'Доход от заказов'
 
 
 class OrderMonthFilter(admin.SimpleListFilter):
@@ -76,7 +67,7 @@ class OrderAdmin(ModelAdminTotals):
                     'selected_driver']
     # list_totals = [('amount', lambda field: Coalesce(Sum(field), 0)), ('amount', Sum)]
 
-    list_filter = ['status', 'city', OrderMonthFilter, 'created']
+    list_filter = ['status', 'city', OrderMonthFilter, 'created',('created', DateRangeFilter)]
     fieldsets = (
         (None,
          {'fields': ('phone_number', 'city', 'from_address', 'to_address', 'status', 'created', 'selected_driver')}),
@@ -96,7 +87,7 @@ class OrderAdmin(ModelAdminTotals):
 @admin.register(Overpayment)
 class OverpaymentAdmin(ModelAdminTotals):
     list_display = ['driver', 'amount']
-    list_filter = ['driver__city', 'order__created']
+    list_filter = ['order__city', 'order__created', ('order__created', DateRangeFilter)]
     list_totals = [('amount', lambda field: Coalesce(Sum(field), 0)), ('amount', Sum)]
 
 

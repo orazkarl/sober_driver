@@ -41,19 +41,21 @@
     {% endif %}
     {% if not request.user.avatar %}
         <div>
-              <div style="width: 350px; margin: 0 auto; text-align: center;">
-                <img src="/static/img/example_avatar.jpg" alt="" width="350px">
-                        <ul>
-                    <li>Отчетливо видно лицо</li>
-                <li>Без солнцезащитных очков</li>
-                <li>Хорошее освещение и без фильтров</li>
-                </ul>
-            </div>
-            <div class="setting-div-3">
+
+            <div class="setting-div-3" style="height: 550px">
+                <div class="set-div-1-1"><p class="text-in-settings">
+                    Ваше фото</p></div>
+                <div style="width: 350px; margin: -12px auto 0 auto; text-align: center;">
+                    <img src="/static/img/example_avatar.jpg" alt="" width="350px">
+                    <ul>
+                        <li>Отчетливо видно лицо</li>
+                        <li>Без солнцезащитных очков</li>
+                        <li>Хорошее освещение и без фильтров</li>
+                    </ul>
+                </div>
                 <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="set-div-1-1"><p class="text-in-settings">
-                        Ваше фото</p></div>
+
                     <input type="file" name="avatar" id="file" accept="image/*" capture="camera"
                            class="inputfile"/>
                     <label for="file"><span class="span-in-label">Добавить фото</span></label>
@@ -64,20 +66,23 @@
 
         </div>
     {% endif %}
-        {% if not request.user.together_passport %}
+    {% if not request.user.together_passport %}
 
         <div>
-            <div style="width: 350px; margin: 0 auto; text-align: center;">
-                <p>Поднесите водительские права и удостоверение личности перед собой и сделайте фото как на примере:</p>
-                <p>На фото должно быть отчетливо видно лицо, водительские права и удостоверение личности</p>
-                <p>Не допускаются фотографии в солнцезащитных очках</p>
-                <img src="/static/img/example_together_passport.jpg" alt="" width="350px">
-            </div>
-            <div class="setting-div-3" style="height: 155px">
+
+            <div class="setting-div-3" style="height: 650px">
+                <div class="set-div-1-1"><p class="text-in-settings">
+                    Подтверждение личности</p></div>
+                <div style="width: 350px; margin: 0 auto; text-align: center;">
+                    <p>Поднесите водительские права и удостоверение личности перед собой и сделайте фото как на
+                        примере:</p>
+                    <p>На фото должно быть отчетливо видно лицо, водительские права и удостоверение личности</p>
+                    <p>Не допускаются фотографии в солнцезащитных очках</p>
+                    <img src="/static/img/example_together_passport.jpg" alt="" width="350px">
+                </div>
                 <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="set-div-1-1" style="height: 60px; padding-left: 13px"><p class="text-in-settings">
-                        Подтверждение личности</p></div>
+
                     <input type="file" name="together_passport" id="file" accept="image/*" capture="camera"
                            class="inputfile"/>
                     <label for="file"><span class="span-in-label">Добавить фото</span></label>
@@ -90,15 +95,16 @@
     {% endif %}
     {% if not request.user.front_passport %}
         <div>
-               <div style=" margin: 0 auto; text-align: center;">
-                <h5 style="padding-bottom: 5px">Пример</h5>
-                <img src="/static/img/example_passport.jpg" alt="" width="350px">
-            </div>
-            <div class="setting-div-3" style="height: 180px">
+
+            <div class="setting-div-3" style="height: 390px">
+                <div class="set-div-1-1" style="height: 80px; padding-left: 13px; "><p class="text-in-settings">
+                    Водительское удостоверение и удостоверение личности (лицевая сторона)</p></div>
+                <div style=" margin: -12px auto 0 auto; text-align: center;">
+                    <img src="/static/img/example_passport.jpg" alt="" width="350px">
+                </div>
                 <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="set-div-1-1" style="height: 80px; padding-left: 13px"><p class="text-in-settings">
-                        Водительское удостоверение и удостоверение личности (лицевая сторона)</p></div>
+
                     <input type="file" name="front_passport" id="file" accept="image/*" capture="camera"
                            class="inputfile"/>
                     <label for="file"><span class="span-in-label">Добавить фото</span></label>
@@ -112,15 +118,15 @@
     {% if not request.user.back_passport %}
 
         <div>
-              <div style=" margin: 0 auto; text-align: center;">
-                <h5 style="padding-bottom: 5px">Пример</h5>
-                <img src="/static/img/example_passport.jpg" alt="" width="350px">
-            </div>
-            <div class="setting-div-3" style="height: 180px">
+
+            <div class="setting-div-3" style="height: 390px">
                 <form action="{% url 'anketa_view' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="set-div-1-1" style="height: 80px; padding-left: 13px"><p class="text-in-settings">
                         Водительское удостоверение и удостоверение личности (обратная сторона)</p></div>
+                    <div style=" margin: -12px auto 0 auto; text-align: center;">
+                        <img src="/static/img/example_passport.jpg" alt="" width="350px">
+                    </div>
                     <input type="file" name="back_passport" id="file" accept="image/*" capture="camera"
                            class="inputfile"/>
                     <label for="file"><span class="span-in-label">Добавить фото</span></label>
@@ -135,16 +141,15 @@
     {% if not request.user.bio or not request.user.driving_experience or not request.user.trip_from_price or not request.user.trip_hour_price or not request.user.average_arrival or not request.user.knowledgecity %}
 
         <div>
-     <div style=" margin: 0 auto; text-align: center;">
-                <h5 style="padding-bottom: 5px">Пример</h5>
-                <img src="/static/img/example_info_driver.PNG" alt="" width="350px">
-            </div>
-            <div class="setting-div-1" style="height: 280px">
+
+            <div class="setting-div-1" style="height: 425px">
                 <form action="{% url 'anketa_view' %}" method="post">
                     {% csrf_token %}
                     <div class="set-div-1-1"><p class="text-in-settings">Информация о себе</p></div>
                     {#            <input type="text" class="registration-input"  style="" name="bio" placeholder="Пример: Цена от 1000 тг, знания города, опыт вождения 10 лет.">#}
-
+                    <div style=" margin: -12px auto 0 auto; text-align: center;">
+                        <img src="/static/img/example_info_driver.PNG" alt="" width="350px">
+                    </div>
                     <div style="padding: 5px">
                         <p>Стаж работы: <select class="about-input" name="driving_experience" id="5-registration-input"
                                                 required>
@@ -190,7 +195,8 @@
 
                         </select> лет/год
                         </p>
-                        <p>Поездка: от <input type="number" class="about-input" style="width: 60px" max="9999"
+                        <p>Поездка: от
+                            <input type="number" class="about-input" style="width: 60px" max="9999"
                                               name="trip_from_price" placeholder="1500" value="{% if request.user.trip_from_price %}{{ request.user.trip_from_price }}{% endif %}"> тг
                             в
                             чертах
@@ -199,9 +205,11 @@
                                    name="trip_hour_price"
                                    placeholder="1000" value="{% if request.user.trip_hour_price %}{{ request.user.trip_hour_price }}{% endif %}">тг/час
                         </p>
-                        <p>Прибытие в среднем: <input type="number" class="about-input" style="width: 60px" max="99"
-                                                      name="average_arrival" placeholder="15"
-                                                      value="{% if request.user.average_arrival %}{{ request.user.average_arrival }}{% endif %}">мин
+                        <p>Прибытие в среднем:
+                            <input type="number" class="about-input" style="width: 60px" max="99"
+                                   name="average_arrival" placeholder="15"
+                                   value="{% if request.user.average_arrival %}{{ request.user.average_arrival }}{% endif %}">
+                            мин
                         </p>
                         <p>Знание города <select name="knowledgecity" id="" class="about-input">
                             <option selected disabled>-----</option>
@@ -217,9 +225,14 @@
                             </option>
 
                         </select></p>
+                       <p>Район проживание:
+                    <input type="text" class="about-input" style="width: 180px" name="disctrict"
+                           placeholder="Район проживание" maxlength="20"
+                           value="{% if request.user.disctrict %}{{ request.user.disctrict }}{% endif %}">
+                </p>
                         <p>О себе:
                             <input type="text" class="about-input" style="width: 280px" name="bio"
-                                   placeholder="Информация о себе" maxlength="18"
+                                   placeholder="Информация о себе" maxlength="50"
                                    value="{% if request.user.bio %}{{ request.user.bio }}{% endif %}">
                         </p>
                     </div>

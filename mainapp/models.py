@@ -4,8 +4,9 @@ from django.conf import settings
 
 class City(models.Model):
     name = models.CharField('Название', max_length=50)
-    overpayment = models.PositiveIntegerField('Цена за каждый заказ', default=0)
+    overpayment = models.PositiveIntegerField('Цена за каждый заказ после лимита', default=0)
     subscription_price = models.PositiveIntegerField('Цена подписки', default=0)
+    restriction = models.PositiveIntegerField('Ограничение заказа в день', default=0)
     def __str__(self):
         return self.name
 
@@ -20,7 +21,8 @@ class Order(models.Model):
         ('started', 'Началось'),
         # ('in_progress', 'В процессе'),
         ('finished', 'Завершенный'),
-        ('canceled', 'Отменен')
+        ('canceled', 'Отменен'),
+        ('notselected', 'Невыбран'),
     )
 
     selected_driver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,

@@ -31,16 +31,17 @@ class DriverFilter(admin.SimpleListFilter):
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
     list_display = ['phone_number', 'first_name', 'last_name', 'balance', 'count_orders_day', 'count_orders_week',
-                    'count_orders_month', 'count_orders', 'average_rating']
+                    'count_orders_month', 'count_orders', 'average_rating', 'restriction']
     list_filter = ['active_subscription', DriverFilter, 'city']
     # search_fields = ['username']
     # paginator = 30
     ordering = ['first_name']
 
-    readonly_fields = ['password', 'country_code', 'phone_number', 'first_name', 'last_name', 'driver_license_number',
-                       'avatar', 'active_subscription', 'subscription_day', 'last_login', 'date_joined',
-                       'driving_experience', 'city', 'iin', 'front_passport', 'back_passport', 'together_passport',
-                       'bio', 'trip_from_price', 'trip_hour_price', 'average_arrival', 'knowledgecity']
+    readonly_fields = ['password', 'country_code', 'phone_number', 'first_name', 'last_name',
+                        'active_subscription', 'subscription_day', 'last_login', 'date_joined',
+                       'driving_experience',  ]
+    # 'iin', 'front_passport', 'back_passport', 'together_passport','city',
+    # 'bio', 'trip_from_price', 'trip_hour_price', 'average_arrival', 'knowledgecity' 'avatar', 'driver_license_number',
     fieldsets = (
         (None,
          {'fields': ('password', 'country_code', 'phone_number')}),

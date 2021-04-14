@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 def pass_anketa(user):
     if user.trip_from_price \
-            and user.trip_hour_price\
+            and user.trip_hour_price \
             and user.average_arrival \
             and user.knowledgecity \
             and user.bio \
@@ -24,10 +24,13 @@ def pass_anketa(user):
             and user.driving_experience \
             and user.avatar \
             and user.iin \
-            and user.driver_license_number\
+            and user.driver_license_number \
             and user.driving_experience:
         return True
     return False
+
+
+
 
 
 # @method_decorator(login_required(login_url='/login/'), name='dispatch')
@@ -88,9 +91,9 @@ class ProfileView(generic.TemplateView):
                 user.balance -= 500
                 user.active_subscription = True
                 if user.subscription_day:
-                    user.subscription_day = user.subscription_day + timedelta(days=30)
+                    user.subscription_day = user.subscription_day + timedelta(days=7)
                 else:
-                    user.subscription_day = datetime.now() + timedelta(days=30)
+                    user.subscription_day = datetime.now() + timedelta(days=7)
                 user.save()
             else:
                 messages.add_message(request, messages.ERROR, 'Недостаточно денег на балансе')
@@ -113,9 +116,9 @@ class OrdersView(generic.ListView):
             driver = order.selected_driver
             driver.is_free = True
             driver.save()
-        all_orders = Order.objects.filter(status='request', created__lte=datetime.now() - timedelta(minutes=30))
+        all_orders = Order.objects.filter(status='request', created__lte=datetime.now() - timedelta(minutes=15))
         for order in all_orders:
-            order.status = 'canceled'
+            order.status = 'notselected'
             order.save()
         return super().get(request, *args, **kwargs)
 
@@ -133,10 +136,10 @@ def getOrders(request):
     user = request.user
     if user.is_free:
         orders = Order.objects.filter(city=user.city, selected_driver=None).exclude(status='finished').exclude(
-            status='canceled')
+            status='canceled').exclude(status='notselected')
     else:
-        orders = Order.objects.filter(selected_driver=user).exclude(status='finished').exclude(status='canceled')
-
+        orders = Order.objects.filter(selected_driver=user).exclude(status='finished').exclude(status='canceled').exclude(status='notselected')
+    print(orders)
     return render(request, 'profileapp/ajax_orders.html', {'orders': orders})
     # return JsonResponse({"orders": list(queryset.values())})
 
@@ -227,12 +230,14 @@ class SettingsView(generic.TemplateView):
             trip_hour_price = request.POST['trip_hour_price']
             average_arrival = request.POST['average_arrival']
             knowledgecity = request.POST['knowledgecity']
+            disctrict = request.POST['disctrict']
             bio = request.POST['bio']
             user.driving_experience = driving_experience
             user.trip_from_price = trip_from_price
             user.trip_hour_price = trip_hour_price
             user.average_arrival = average_arrival
             user.knowledgecity = knowledgecity
+            user.disctrict = disctrict
             user.bio = bio
             user.save()
         return redirect('settings_view')
@@ -245,7 +250,7 @@ class AnketaView(generic.TemplateView):
     def get(self, request, *args, **kwargs):
         user = request.user
         if user.trip_from_price and user.trip_hour_price and user.average_arrival and user.knowledgecity and user.bio and user.front_passport and user.back_passport and user.together_passport and user.driving_experience and user.avatar and user.iin and user.driver_license_number and user.driving_experience:
-            return redirect('profile_view')
+            return redirect('instruction_view')
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -256,12 +261,14 @@ class AnketaView(generic.TemplateView):
             trip_hour_price = request.POST['trip_hour_price']
             average_arrival = request.POST['average_arrival']
             knowledgecity = request.POST['knowledgecity']
+            disctrict = request.POST['disctrict']
             bio = request.POST['bio']
             user.driving_experience = driving_experience
             user.trip_from_price = trip_from_price
             user.trip_hour_price = trip_hour_price
             user.average_arrival = average_arrival
             user.knowledgecity = knowledgecity
+            user.disctrict = disctrict
             user.bio = bio
             user.save()
         elif 'add_front_passport' in request.POST:

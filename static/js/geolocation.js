@@ -17,6 +17,7 @@ function init() {
             balloonContentBody: 'Мое местоположение'
         });
         myMap.geoObjects.add(result.geoObjects);
+        sendRequest(result.geoObjects.get(0).geometry.getCoordinates());
         myMap.setCenter([result.geoObjects.get(0).geometry.getCoordinates()[0], result.geoObjects.get(0).geometry.getCoordinates()[1]], 14, {checkZoomRange: true});
 
     });
@@ -27,14 +28,7 @@ function init() {
 
 
 
-
-
-
-
-
-
 function sendRequest(state){
-    console.log(state);
     const Http = new XMLHttpRequest();
     const url = 'https://geocode-maps.yandex.ru/1.x?geocode=' + state[1] +',' + state[0] +  '&apikey=7af4d9cc-1a22-44c4-82cf-dbd6503a6696&kind=house';
     Http.open("GET", url);
@@ -49,8 +43,21 @@ function sendRequest(state){
         var city = value.getElementsByTagName('Component')[2].getElementsByTagName("name")[0].childNodes[0].nodeValue;
         var address = value.getElementsByTagName('Component')[3].getElementsByTagName("name")[0].childNodes[0].nodeValue +',' +  value.getElementsByTagName('Component')[4].getElementsByTagName("name")[0].childNodes[0].nodeValue;
         document.querySelector('#id_cities').style.display = 'block'
-        document.querySelector('#id_city').value = city
-        document.querySelector('#id_from_address').value = address
+        var cities = []
+        for (var i=0; i< document.querySelector('#id_city').options.length; i++ ){
+            c = document.querySelector('#id_city').options[i]
+            if (c != undefined){
+                cities.push(c.innerHTML)
+            }
+        }
+        if (cities.includes(city)) {
+            document.querySelector('#id_city').value = city
+            document.querySelector('#id_from_address').value = address
+        }
+        else {
+            document.querySelector('#error-geolocation').innerHTML = 'Город "' + city +'" не обслуживается'
+        }
+
     });
 
 

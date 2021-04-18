@@ -76,7 +76,6 @@ class HomeView(generic.TemplateView):
             offer.save()
             update_order_status_finished(order_id=order.id)
             task = Task.objects.get(verbose_name='task' + str(order.id))
-            print(task)
             task.delete()
         elif 'cancel' in request.POST:
             order = Order.objects.get(id=int(request.POST['cancel']))
@@ -86,11 +85,6 @@ class HomeView(generic.TemplateView):
             order = Order.objects.get(id=int(request.POST['order_id']))
             rating = request.POST['rating']
             Review.objects.create(order=order, rating=rating)
-        elif 'not_review' in request.POST:
-            order = Order.objects.get(id=int(request.POST['order_id']))
-            Review.objects.create(order=order, rating=1)
-            order.no_rating = True
-            order.save()
         return redirect('home_view')
 
 

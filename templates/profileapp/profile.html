@@ -1,7 +1,7 @@
 {% extends 'profileapp/profile_base.html' %}
 {% load mathfilters %}
 {% block title %}
-    <title>Профиль</title>
+    <title>saparda.kz | Профиль</title>
 {% endblock %}
 {% block content %}
 
@@ -36,22 +36,27 @@
             {% csrf_token %}
             <p class="title-in-token-block">Состояние подписки</p>
 
-            <p class="text-in-token-block">Стоимость подписки за 1 неделю: {{ request.user.city.subscription_price }}
-                тенге</p>
-         <div class="bar-border">
-        <div class="bar-text" style="width: 160px; margin-left: 73px">Лимит {{ request.user.restriction }} заказа из {{ request.user.city.restriction }}</div>
-                <div class="bar-green" style="height:24px;width: {% widthratio  request.user.city.restriction|sub:request.user.restriction  request.user.city.restriction 100 %}%">
+            <p class="text-in-token-block">Стоимость подписки за 1 неделю: <span
+                    style="background-color: #48CC4D; padding: 1px 4px; border-radius: 25px"> {{ request.user.city.subscription_price }} тенге</span>
+            </p>
+            <div class="bar-border">
+                <div class="bar-text" style="width: 160px; margin-left: 73px">Лимит {{ request.user.restriction }}
+                    заказа из {{ request.user.city.restriction }}</div>
+                <div class="bar-green"
+                     style="height:24px;width: {% widthratio request.user.restriction request.user.city.restriction 100 %}%">
                 </div>
-                <div class="bar-red" style="margin-left:-4px;height:24px;width:{% widthratio request.user.restriction  request.user.city.restriction 100 %}%">
-{#                    {{ subscription_days }} дней из 30#}
+                <div class="bar-red"
+                     style="margin-left:-4px;height:24px;width:{% widthratio request.user.city.restriction|sub:request.user.restriction request.user.city.restriction 100 %}%">
+                    {#                    {{ subscription_days }} дней из 30#}
                 </div>
             </div>
             <div class="bar-border">
-        <div class="bar-text">{{ subscription_days }} дней из 7</div>
+                <div class="bar-text">{{ subscription_days }} дней из 7</div>
                 <div class="bar-green" style="height:24px;width:{% widthratio subscription_days 7 100 %}%">
                 </div>
-                <div class="bar-red" style="margin-left:-4px;height:24px;width: {% widthratio 7|sub:subscription_days 7 100 %}%">
-{#                    {{ subscription_days }} дней из 30#}
+                <div class="bar-red"
+                     style="margin-left:-4px;height:24px;width: {% widthratio 7|sub:subscription_days 7 100 %}%">
+                    {#                    {{ subscription_days }} дней из 30#}
                 </div>
             </div>
             <div class="div-in-token-block">
@@ -75,7 +80,9 @@
 
     <div class="token-block-1">
         <p class="title-in-token-block">Пополнить баланс</p>
-        <p class="text-in-token-block">Ставка за 1 заказ после лимита: {{ request.user.city.overpayment }} тенге</p>
+        <p class="text-in-token-block">Ставка за 1 заказ после лимита: <span
+                style="background-color: #48CC4D; padding: 1px 4px; border-radius: 25px"> {{ request.user.city.overpayment }} тенге</span>
+        </p>
         <div class="div-in-token-block">
             <span class="span-in-token-block">Ваш баланс: {{ request.user.balance }} тенге</span>
             <a class="btn-in-token-block-2" href="#">Пополнить баланс</a>

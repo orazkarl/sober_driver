@@ -1,6 +1,6 @@
 {% extends 'profileapp/profile_base.html' %}
 {% block title %}
-    <title>Настройки аккаунта</title>
+    <title>saparda.kz | Настройки аккаунта</title>
 {% endblock %}
 {% block content %}
     <style>
@@ -103,9 +103,9 @@
             {% csrf_token %}
             <div class="set-div-1-1"><p class="text-in-settings">Информация о себе</p></div>
             {#            <input type="text" class="registration-input"  style="" name="bio" placeholder="Пример: Цена от 1000 тг, знания города, опыт вождения 10 лет.">#}
-   <div style=" margin: -12px auto 0 auto; text-align: center;">
-                        <img src="/static/img/example_info_driver.PNG" alt="" width="350px">
-                    </div>
+            <div style=" margin: -12px auto 0 auto; text-align: center;">
+                <img src="/static/img/example_info_driver.PNG" alt="" width="350px">
+            </div>
             <div style="padding: 5px">
                 <p>Стаж работы: <select class="about-input" name="driving_experience" id="5-registration-input"
                                         required>
@@ -183,7 +183,7 @@
                     </option>
 
                 </select></p>
-            <p>Район проживание:
+                <p>Район проживание:
                     <input type="text" class="about-input" style="width: 180px" name="disctrict"
                            placeholder="Район проживание" maxlength="20"
                            value="{% if request.user.disctrict %}{{ request.user.disctrict }}{% endif %}">

@@ -818,7 +818,7 @@ footer {
 
 
 .header-1 {
-    margin: -48px auto 0 60px;
+    margin: -55px auto 0 60px;
 
     width: 250px;
     position: absolute;
@@ -833,8 +833,9 @@ footer {
     /*display: block;*/
 
 }
+
 #flip {
-    height: 38px;
+    height: 37px;
     overflow: hidden;
     border-radius: 25px;
     /*width: 100%;*/
@@ -842,8 +843,7 @@ footer {
 
 #flip > div > div {
     color: #fff;
-    /*padding: 5px 12px;*/
-    padding: 6px 12px 0 12px;
+    padding: 4px 12px;
     height: 45px;
     margin-bottom: 45px;
     display: inline-block;
@@ -863,19 +863,33 @@ footer {
 }
 
 #flip div:last-child div {
-
     background: #DC143C;
 }
 
 @keyframes show {
-  0% {margin-top:-180px;}
-  5% {margin-top:-120px;}
-  33% {margin-top:-120px;}
-  38% {margin-top:-55px;}
-  66% {margin-top:-55px;}
-  71% {margin-top:0px;}
-  99.99% {margin-top:0px;}
-  100% {margin-top:-180px;}
+    0% {
+        margin-top: -180px;
+    }
+    5% {
+        margin-top: -130px;
+    }
+    33% {
+        margin-top: -130px;
+    }
+    38% {
+        margin-top: -58px;
+    }
+    66% {
+        margin-top: -58px;
+    }
+    71% {
+        margin-top: 0px;
+    }
+    99.99% {
+        margin-top: 0px;
+    }
+    100% {
+        margin-top: -180px;
+    }
 }
-
 

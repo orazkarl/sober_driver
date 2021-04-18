@@ -6,16 +6,22 @@
             height: 400px
         }
     </style>
-    <div class="div-title-orders"><span class="title-orders">Сейчас появятся предложения от<br>водителей,пожалуйста подождите</span>
-    </div>
+
     {% for order in my_orders %}
         {% if order.selected_driver == None %}
-
+            <div class="div-title-orders"><span class="title-orders">Сейчас появятся предложения от<br>водителей,пожалуйста подождите</span>
+            </div>
             <div class="lds-ellipsis">
                 <div></div>
                 <div></div>
                 <div></div>
                 <div></div>
+            </div>
+
+        {% else %}
+            <div class="div-title-orders"><span class="title-orders">Уважаемый клиент, вы получили персональную скидку в
+                                            размере 15%! <br>Объязательно соохраните наш сайт в закладках, чтобы
+                                            не потерять.</span>
             </div>
         {% endif %}
         <div class="orders-index">
@@ -25,6 +31,17 @@
                 <div class="cancel-div-1">
                     <span class="cancel-span-1">Откуда:</span><br>
                     <span class="cancel-span-2">Куда:</span>
+
+                    {% if order.selected_driver %}
+                        <style>
+                            .orders-index-1 {
+                                height: 125px;
+                            }
+                        </style>
+                        <span class="cancel-span-5" style="font-size: 13px">Уважаемые клиент сейчас вам позвонит водитель , прежде чем передать управление водителю в
+                            обязательном порядке проверьте удостоверение личности и водительские удостоверения
+                           водителя</span>
+                    {% endif %}
                     {#                <span class="cancel-span-2" style="top: 55px">Статус: </span>#}
                     {#                <span class="cancel-span-2" style="top: 75px">Номер телефона: </span>#}
                 </div>
@@ -47,9 +64,6 @@
                             }
                         {% endif %}
                     </style>
-                    {#                <span class="cancel-span-4" style="top: 55px">{{ order.get_status_display }} </span>#}
-                    {#                <span class="cancel-span-4" style="top: 75px; left: 145px"><a#}
-                    {#                        href="tel:{{ order.selected_driver.phone_number }}">{{ order.selected_driver.phone_number }}</a> </span>#}
                 </div>
                 <br>
                 {% if order.status == 'request' %}
@@ -65,236 +79,142 @@
         </div>
 
         {% if order.selected_driver %}
-
-            {% if order.review %}
-                <div></div>
-            {% else %}
-                <div class="order-modal" id="id_modal" style="">
-                    <div class="order-modal-content">
-
-                        {#            <span class="close" id="id_close">&times;</span>#}
-                        <form action="{% url 'home_view' %}" class="" method="post" id="form_rating">
-                            {% csrf_token %}
-                            <div class="order-modal-header">
-                                <p>Ваш водитель</p>
-                            </div>
-                            <hr color="#d0d0d0" size="1" style="margin-top: 8px; border-radius: 25px">
-                            <div class="order-modal-body">
-                                <div style="width: 100%; height: auto; display: flex">
-                                    <div style="width: 30%; margin: 1px; height: 70px">
-                                        <div class="div-for-img">
-                                            <div style="border-radius: 50%; overflow: hidden; ">
-                                                <img src="{{ order.selected_driver.avatar.url }}"
-                                                     style="display: block;margin-left: auto;margin-right: auto; height: 35px;"
-                                                     alt="">
-                                            </div>
-                                            <div style="margin: 3px 0 0 3px">
-                                                <span style=" font-size: 11px">Стаж: 5 лет </span>
-                                                <p style="font-size:11px; margin: -5px 0 0 -5px">
-                                                    {% if order.selected_driver.average_rating < 0.5 %}
-                                                        <span
-                                                                style="color: #FCE406;font-size: 11px">☆☆☆☆☆</span>
-                                                    {% elif order.selected_driver.average_rating >= 0.5 and  order.selected_driver.average_rating < 1.5 %}
-                                                        <span
-                                                                style="color: #FCE406;font-size: 11px">★☆☆☆☆</span>
-                                                    {% elif order.selected_driver.average_rating >= 1.5 and  order.selected_driver.average_rating < 2.5 %}
-                                                        <span
-                                                                style="color: #FCE406;font-size: 11px">★★☆☆☆</span>
-                                                    {% elif order.selected_driver.average_rating >= 2.5 and  order.selected_driver.average_rating < 3.5 %}
-                                                        <span
-                                                                style="color: #FCE406;font-size: 11px">★★★☆☆</span>
-                                                    {% elif order.selected_driver.average_rating >= 3.5 and  order.selected_driver.average_rating < 4.5 %}
-                                                        <span
-                                                                style="color: #FCE406;font-size: 11px">★★★★☆</span>
-                                                    {% elif order.selected_driver.average_rating >= 4.5 %}
-                                                        <span
-                                                                style="color: #FCE406;font-size: 11px">★★★★★</span>
-                                                    {% endif %}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div style="width: 70%; margin: 1px; height: 70px;">
-                                        <p style="font-size: 11px; margin-top: -5px">Время:
-                                            {% for offer in order.offers.all %}
-                                                {% if offer.driver_offer == order.selected_driver %}
-                                                    {{ offer.time }}
-                                                {% endif %}
-                                            {% endfor %} минут</p>
-                                        <p style="font-size: 11px;margin-top: -5px">Цена:
-                                            {% for offer in order.offers.all %}
-                                                {% if offer.driver_offer == order.selected_driver %}
-                                                    <del style="font-size: 11px; color: red">{{ offer.price|add:500 }}</del>
-                                                    {{ offer.price }}
-                                                {% endif %}
-                                            {% endfor %} тг
-                                        </p>
-                                        {#                                        <p style="font-size: 10px;margin-top: -5px">Комментария водителя: </p>#}
-
-                                    </div>
-                                </div>
-                                <div>
-                                    <p style="font-size: 11px">Откуда:{{ order.from_address }} </p>
-                                    <p style="font-size: 11px">Куда:
-                                        {% if order.to_address == 'договориться на месте' %}
-                                            <span style="background-color: #48CC4D; padding: 2px; border-radius: 5px; font-size: 11px;color: white">{{ order.to_address }}</span>
-                                        {% else %}
-                                            {{ order.to_address }}
-                                        {% endif %}</p>
-                                    <p style="font-size: 11px">Номер водителя:
-                                        +7{{ order.selected_driver.phone_number }}</p>
-                                </div>
-                                <br>
-                                <div style="margin: 0 auto; text-align: center;">
-                                    <a href="tel:7{{ order.selected_driver.phone_number }}"
-                                       class="order-call-btn">Позвонить</a>
-                                    <div class="rating">
-
-                                        <input type="hidden" name="order_id" value="{{ order.id }}">
-                                        <label>
-                                            <input type="radio" name="rating" value="1"/>
-                                            <span class="icon">★</span>
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="rating" value="2"/>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="rating" value="3"/>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="rating" value="4"/>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="rating" value="5"/>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                            <span class="icon">★</span>
-                                        </label>
-
-                                    </div>
-                                    <div>
-                                        <p style="font-size: 11px">Уважаемый клиент, вы получили персональную скидку в
-                                            размере 15%!</p>
-                                        <p style="font-size: 11px">Объязательно соохраните наш сайт в закладках, чтобы
-                                            не потерять.</p>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <hr color="#d0d0d0" size="1" style="border-radius: 25px">
-                            <br>
-
-                            <div class="order-modal-footer">
-                                <p style="font-size: 13px">Уважаемый клиент</p>
-                                <p style="font-size: 11px">-------</p>
-                                <br>
-                                <button type="submit" class="order-call-btn" name="not_review"
-                                        style="background-color: #e68a00; color: white; padding: 5px 15px 5px 15px; border: none">
-                                    Заказать еще
-                                    водителя
-                                </button>
-                            </div>
-                        </form>
-                        <br>
+            <div class="table">
+                <div class="table-block-1">
+                    <div class="div-for-img">
+                        <span style="background-color: #FCE406; border-radius: 25px; font-size: 11px; padding: 2px; ">
+                            Ваш водитель
+                        </span>
+                        <div style="border-radius: 50%; overflow: hidden; margin: 2px">
+                            <img src="{{ order.selected_driver.avatar.url }}"
+                                 style="display: block;margin-left: auto;margin-right: auto; height: 65px;"
+                                 alt="">
+                        </div>
+                        <div style="margin: -3px 0 0 17px">
+                            <span style=" font-size: 10px; ">Стаж: {{ order.selected_driver.driving_experience }}лет </span>
+                            <p style="font-size:12px; margin-left: -10px ">
+                                {% if order.selected_driver.average_rating < 0.5 %}
+                                    <span
+                                            style="color: #FCE406;font-size: 17px">☆☆☆☆☆</span>
+                                {% elif order.selected_driver.average_rating >= 0.5 and  order.selected_driver.average_rating < 1.5 %}
+                                    <span
+                                            style="color: #FCE406;font-size: 13px">★☆☆☆☆</span>
+                                {% elif order.selected_driver.average_rating >= 1.5 and  order.selected_driver.average_rating < 2.5 %}
+                                    <span
+                                            style="color: #FCE406;font-size: 13px">★★☆☆☆</span>
+                                {% elif order.selected_driver.average_rating >= 2.5 and  order.selected_driver.average_rating < 3.5 %}
+                                    <span
+                                            style="color: #FCE406;font-size: 13px">★★★☆☆</span>
+                                {% elif order.selected_driver.average_rating >= 3.5 and  order.selected_driver.average_rating < 4.5 %}
+                                    <span
+                                            style="color: #FCE406;font-size: 13px">★★★★☆</span>
+                                {% elif order.selected_driver.average_rating >= 4.5 %}
+                                    <span
+                                            style="color: #FCE406;font-size: 13px">★★★★★</span>
+                                {% endif %}
+                            </p>
+                        </div>
                     </div>
+                    <div style=" border-left: 1px solid #ccc; padding: 3px; width: 280px">
+                        <p style="font-size: 11px; font-weight: bold">
+                            Информация о водителя
+                        </p>
+                        <p style="font-size: 11px">
+                            Поездка: от {{ order.selected_driver.trip_from_price }} тг в чертах
+                            города; {{ order.selected_driver.trip_hour_price }}тг/час
+                        </p>
+                        <p style="font-size: 11px">
+                            Прибытие в среднем: {{ order.selected_driver.average_arrival }} мин
+                        </p>
+                        <p style="font-size: 11px">
+                            Знание города: {{ order.selected_driver.get_knowledgecity_display }}
+                        </p>
+                        <p style="font-size: 11px">
+                            Район проживание: {{ order.selected_driver.disctrict }}
+                        </p>
+                        <p style="font-size: 11px">
+                            О себе: {{ order.selected_driver.bio }}
+                        </p>
+                    </div>
+                </div>
+                <div class="table-block-2">
 
+                    <div class="tenge">
+                        <p style="font-size: 11px">Время: </p>
+                        <div style="background-color: #FCE406; border-radius: 25px; width: 60px; padding: 0 3px; height: 12px ">
+                            <p style="font-size: 11px">{% for offer in order.offers.all %}
+                                {% if offer.driver_offer == order.selected_driver %}
+                                    {{ offer.time }}
+                                {% endif %}
+                            {% endfor %}  минут</p>
+                        </div>
+                    </div>
+                    <div class="tenge" style="margin-left: 5px">
+                        <p style="font-size: 11px"> Цена:</p>
+                        <div style="background-color: #FCE406; border-radius: 25px; padding: 0 3px; width: 60px; height: 12px">
+                            <p style="font-size: 11px"> {% for offer in order.offers.all %}
+                                {% if offer.driver_offer == order.selected_driver %}
+                                    {{ offer.price }}
+                                {% endif %}
+                            {% endfor %}  тг</p></div>
+                        <input type="hidden" name="choose">
+                    </div>
+                </div>
+                <div class="table-block-3">
+                    <a style=""
+                       href="tel:+
+
+
+
+                               {{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}">+{{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}</a>
+                </div>
+            </div>
+            {% if order.review %}
+            {% else %}
+                <div class="rating-table">
+                    <form action="{% url 'home_view' %}" class="" method="post" id="form_rating">
+                        {% csrf_token %}
+                        <h5>Оставить отзыв</h5>
+
+                        <div class="rating">
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <label>
+                                <input type="radio" name="rating" value="1"/>
+                                <span class="icon">★</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="rating" value="2"/>
+                                <span class="icon">★</span>
+                                <span class="icon">★</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="rating" value="3"/>
+                                <span class="icon">★</span>
+                                <span class="icon">★</span>
+                                <span class="icon">★</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="rating" value="4"/>
+                                <span class="icon">★</span>
+                                <span class="icon">★</span>
+                                <span class="icon">★</span>
+                                <span class="icon">★</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="rating" value="5"/>
+                                <span class="icon">★</span>
+                                <span class="icon">★</span>
+                                <span class="icon">★</span>
+                                <span class="icon">★</span>
+                                <span class="icon">★</span>
+                            </label>
+
+                        </div>
+
+                    </form>
                 </div>
             {% endif %}
-            <div class="table">
-                            <div class="table-block-1">
-                                <div class="div-for-img">
-                                    <div style="border-radius: 50%; overflow: hidden; ">
-                                        <img src="{{ order.selected_driver.avatar.url }}"
-                                             style="display: block;margin-left: auto;margin-right: auto; height: 65px;"
-                                             alt="">
-                                    </div>
-                                    <div style="margin: -3px 0 0 17px">
-                                        <span style=" font-size: 10px; ">Стаж: {{ order.selected_driver.driving_experience }}лет </span>
-                                        <p style="font-size:12px; margin-left: -10px ">
-                                            {% if order.selected_driver.average_rating < 0.5 %}
-                                                <span
-                                                        style="color: #FCE406;font-size: 17px">☆☆☆☆☆</span>
-                                            {% elif order.selected_driver.average_rating >= 0.5 and  order.selected_driver.average_rating < 1.5 %}
-                                                <span
-                                                        style="color: #FCE406;font-size: 13px">★☆☆☆☆</span>
-                                            {% elif order.selected_driver.average_rating >= 1.5 and  order.selected_driver.average_rating < 2.5 %}
-                                                <span
-                                                        style="color: #FCE406;font-size: 13px">★★☆☆☆</span>
-                                            {% elif order.selected_driver.average_rating >= 2.5 and  order.selected_driver.average_rating < 3.5 %}
-                                                <span
-                                                        style="color: #FCE406;font-size: 13px">★★★☆☆</span>
-                                            {% elif order.selected_driver.average_rating >= 3.5 and  order.selected_driver.average_rating < 4.5 %}
-                                                <span
-                                                        style="color: #FCE406;font-size: 13px">★★★★☆</span>
-                                            {% elif order.selected_driver.average_rating >= 4.5 %}
-                                                <span
-                                                        style="color: #FCE406;font-size: 13px">★★★★★</span>
-                                            {% endif %}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div style=" border-left: 1px solid #ccc; padding: 3px; width: 280px">
-                                    <p style="font-size: 11px; font-weight: bold">
-                                        Информация о водителя
-                                    </p>
-                                    <p style="font-size: 11px">
-                                        Поездка: от {{ order.selected_driver.trip_from_price }} тг в чертах
-                                        города; {{ order.selected_driver.trip_hour_price }}тг/час
-                                    </p>
-                                    <p style="font-size: 11px">
-                                        Прибытие в среднем: {{ order.selected_driver.average_arrival }} мин
-                                    </p>
-                                    <p style="font-size: 11px">
-                                        Знание города: {{ order.selected_driver.get_knowledgecity_display }}
-                                    </p>
-                                    <p style="font-size: 11px">
-                                        Район проживание: {{ order.selected_driver.disctrict }}
-                                    </p>
-                                    <p style="font-size: 11px">
-                                        О себе: {{ order.selected_driver.bio }}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="table-block-2">
-
-                                <div class="tenge">
-                                    <p style="font-size: 11px">Время: </p>
-                                    <div style="background-color: #FCE406; border-radius: 25px; width: 60px; padding: 0 3px; height: 12px ">
-                                        <p style="font-size: 11px">{% for offer in order.offers.all %}
-                                                {% if offer.driver_offer == order.selected_driver %}
-                                                    {{ offer.time }}
-                                                {% endif %}
-                                            {% endfor %}  минут</p>
-                                    </div>
-                                </div>
-                                <div class="tenge" style="margin-left: 5px">
-                                    <p style="font-size: 11px"> Цена:</p>
-                                    <div style="background-color: #FCE406; border-radius: 25px; padding: 0 3px; width: 60px; height: 12px">
-                                        <p style="font-size: 11px"> {% for offer in order.offers.all %}
-                                                {% if offer.driver_offer == order.selected_driver %}
-                                                    {{ offer.price }}
-                                                {% endif %}
-                                            {% endfor %}  тг</p></div>
-                                    <input type="hidden" name="choose">
-                                </div>
-                            </div>
-                            <div class="table-block-3">
-                                <a style="" onclick="document.getElementById('choose_driver').submit();" href="#">Позвонить</a>
-                            </div>
-                        </div>
         {% else %}
-
             <form action="{% url 'home_view' %}" method="post" id="choose_driver">
                 {% csrf_token %}
                 {% for offer in order.offers.all %}

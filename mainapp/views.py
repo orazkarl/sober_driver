@@ -55,6 +55,7 @@ class HomeView(generic.TemplateView):
                 print(message)
             messages.add_message(self.request, messages.SUCCESS, 'top_scrool')
         elif 'choose' in request.POST:
+            print(111)
             offer = OfferOrder.objects.get(id=int(request.POST['offer_id']))
             driver = offer.driver_offer
             if driver.is_free == False:

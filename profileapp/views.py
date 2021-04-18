@@ -165,7 +165,9 @@ class OrderDetailView(generic.DetailView):
         if user.balance < user.city.overpayment:
             return redirect('orders_view')
         order = Order.objects.get(id=self.kwargs['pk'])
-        price = request.POST['price']
+        price = 0
+        if 'price' in request.POST:
+            price = request.POST['price']
         time = request.POST['time']
         # comment = request.POST['comment']
         OfferOrder.objects.create(order=order, driver_offer=request.user, time=time, price=price)

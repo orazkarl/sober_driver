@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta data-react-helmet="true" name="description" content="SAPARDA"/>
+    <meta data-react-helmet="true" name="description" content="Трезвый водитель. Выбирайте водителя сами. 100 водителей онлайн сейчас ждут заказ"/>
     <title>saparda.kz | Трезвый водитель</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300&family=Roboto:wght@300;400;500;700&display=swap"
@@ -350,6 +350,7 @@
         if (navigator.share) {
             navigator.share({
                 title: 'Поделиться',
+                {#text: 'Трезвый водитель! Вы',#}
                 url: 'https://www.saparda.kz/'
             }).then(() => {
                 console.log('Thanks for sharing!');

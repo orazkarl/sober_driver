@@ -762,7 +762,7 @@ footer {
 }
 
 .bar-border {
-    border-radius: 5px;
+    border-radius: 25px;
     border: 1px solid #ccc;
     height: 24px;
     margin: 5px 25px 5px 25px;

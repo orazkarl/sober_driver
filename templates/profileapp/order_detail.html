@@ -28,10 +28,10 @@
             {% endif %}
         </style>
         <p class="orders-text-2">Куда: {% if order.to_address == 'договориться на месте' %}
-                                            <span style="background-color: #48CC4D; padding: 2px; border-radius: 5px; font-size: 11px;color: white">{{ order.to_address }}</span>
-                                        {% else %}
-                                            {{ order.to_address }}
-                                        {% endif %}</p>
+            <span style="background-color: #48CC4D; padding: 2px; border-radius: 5px; font-size: 11px;color: white">{{ order.to_address }}</span>
+        {% else %}
+            {{ order.to_address }}
+        {% endif %}</p>
         <p class="orders-text-3">Время заявки: {{ order.created }}</p>
 
         {#                    <a class="orders-text-4" href="{% url 'order_detail' order.id%}">Отправить заявку</a>#}
@@ -43,22 +43,26 @@
             {{ order.comment }}
             <br>
             <div class="text-in-registration-window">Цена:</div>
-            <input type="number" class="registration-input" name="price" placeholder="Цена" value="{{ offer.price }}" disabled required>
+            <input type="number" class="registration-input" name="price" placeholder="Цена" value="{{ offer.price }}"
+                   disabled>
             <div class="text-in-registration-window">Время (минутах):</div>
-            <input type="number" class="registration-input" name="time" placeholder="Время (минутах)" value="{{ offer.time }}" disabled  required>
-{#            <div class="text-in-registration-window">Комментария к заказу</div>#}
-{#            <textarea name="comment" id="" cols="50" rows="10" class="registration-input" maxlength="50" disabled  style="resize: none"#}
-{#                      required>{{ offer.comment }}</textarea>#}
+            <input type="number" class="registration-input" name="time" placeholder="Время (минутах)"
+                   value="{{ offer.time }}" disabled required>
+            {#            <div class="text-in-registration-window">Комментария к заказу</div>#}
+            {#            <textarea name="comment" id="" cols="50" rows="10" class="registration-input" maxlength="50" disabled  style="resize: none"#}
+            {#                      required>{{ offer.comment }}</textarea>#}
         {% else %}
             <form action="{% url 'order_detail'  order.id %}" style="margin: 5px; " method="post">
                 {% csrf_token %}
-                <div class="text-in-registration-window">Цена:</div>
-                <input type="number" class="registration-input" name="price" placeholder="Цена" required>
+                {% if order.to_address != 'договориться на месте' %}
+                    <div class="text-in-registration-window">Цена:</div>
+                    <input type="number" class="registration-input" name="price" placeholder="Цена">
+                {% endif %}
                 <div class="text-in-registration-window">Время (минутах):</div>
                 <input type="number" class="registration-input" name="time" placeholder="Время (минутах)" required>
-{#                <div class="text-in-registration-window">Комментария к заказу</div>#}
-{#                <textarea name="comment" id="" cols="50" rows="10" class="registration-input"  maxlength="50" style="resize: none"#}
-{#                          required></textarea>#}
+                {#                <div class="text-in-registration-window">Комментария к заказу</div>#}
+                {#                <textarea name="comment" id="" cols="50" rows="10" class="registration-input"  maxlength="50" style="resize: none"#}
+                {#                          required></textarea>#}
 
                 <button class="orders-text-4" style="top: 155px; left: 115px" type="submit">Отправить заявку</button>
             </form>

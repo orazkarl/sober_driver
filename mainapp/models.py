@@ -52,7 +52,7 @@ class OfferOrder(models.Model):
     order = models.ForeignKey(Order, related_name='offers', on_delete=models.CASCADE, verbose_name='Заказ')
     driver_offer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='offers',
                                      verbose_name='Предложения водителя')
-    price = models.IntegerField('Цена', default=0)
+    price = models.IntegerField('Цена', null=True, blank=True)
     # comment = models.TextField('Комментария', max_length=50)
     time = models.IntegerField('Время (минутах)')
     is_selected = models.BooleanField('Выбран', default=False)

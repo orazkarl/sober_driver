@@ -149,6 +149,7 @@
                             {% endfor %}  минут</p>
                         </div>
                     </div>
+                     {% if order.to_address != 'договориться на месте' %}
                     <div class="tenge" style="margin-left: 5px">
                         <p style="font-size: 11px"> Цена:</p>
                         <div style="background-color: #FCE406; border-radius: 25px; padding: 0 3px; width: 60px; height: 12px">
@@ -159,10 +160,12 @@
                             {% endfor %}  тг</p></div>
                         <input type="hidden" name="choose">
                     </div>
+                         {% endif %}
                 </div>
                 <div class="table-block-3">
                     <a style=""
                        href="tel:+
+
 
 
 
@@ -236,19 +239,19 @@
                                                         style="color: #FCE406;font-size: 17px">☆☆☆☆☆</span>
                                             {% elif offer.driver_offer.average_rating >= 0.5 and  offer.driver_offer.average_rating < 1.5 %}
                                                 <span
-                                                        style="color: #FCE406;font-size: 13px">★☆☆☆☆</span>
+                                                        style="color: #FCE406;font-size: 17px">★☆☆☆☆</span>
                                             {% elif offer.driver_offer.average_rating >= 1.5 and  offer.driver_offer.average_rating < 2.5 %}
                                                 <span
-                                                        style="color: #FCE406;font-size: 13px">★★☆☆☆</span>
+                                                        style="color: #FCE406;font-size: 17px">★★☆☆☆</span>
                                             {% elif offer.driver_offer.average_rating >= 2.5 and  offer.driver_offer.average_rating < 3.5 %}
                                                 <span
-                                                        style="color: #FCE406;font-size: 13px">★★★☆☆</span>
+                                                        style="color: #FCE406;font-size: 17px">★★★☆☆</span>
                                             {% elif offer.driver_offer.average_rating >= 3.5 and  offer.driver_offer.average_rating < 4.5 %}
                                                 <span
-                                                        style="color: #FCE406;font-size: 13px">★★★★☆</span>
+                                                        style="color: #FCE406;font-size: 17px">★★★★☆</span>
                                             {% elif offer.driver_offer.average_rating >= 4.5 %}
                                                 <span
-                                                        style="color: #FCE406;font-size: 13zpx">★★★★★</span>
+                                                        style="color: #FCE406;font-size: 17px">★★★★★</span>
                                             {% endif %}
                                         </p>
                                     </div>
@@ -283,12 +286,15 @@
                                         <p style="font-size: 11px">{{ offer.time }} минут</p>
                                     </div>
                                 </div>
-                                <div class="tenge" style="margin-left: 5px">
-                                    <p style="font-size: 11px">Цена:</p>
-                                    <div style="background-color: #FCE406; border-radius: 25px; padding: 0 3px; width: 60px; height: 14px">
-                                        <p style="font-size: 11px"> {{ offer.price|add:500 }} тг</p></div>
-                                    <input type="hidden" name="choose">
-                                </div>
+                                {% if order.to_address != 'договориться на месте' %}
+                                    <div class="tenge" style="margin-left: 5px">
+                                        <p style="font-size: 11px">Цена:</p>
+                                        <div style="background-color: #FCE406; border-radius: 25px; padding: 0 3px; width: 60px; height: 14px">
+                                            <p style="font-size: 11px"> {{ offer.price|add:500 }} тг</p></div>
+
+                                    </div>
+                                {% endif %}
+                               <input type="hidden" name="choose">
                             </div>
                             <div class="table-block-3">
                                 <a style="" onclick="document.getElementById('choose_driver').submit();" href="#">Позвонить</a>

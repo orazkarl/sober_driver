@@ -20,10 +20,12 @@
                                 {{ order.to_address }}
                             {% endif %}
                         </p>
-                        <p class="">Ваша цена:
-                            {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}
-                                {{ offer.price }}
-                            {% endif %}{% endfor %} тг</p>
+                        {% if order.to_address != 'договориться на месте' %}
+                            <p class="">Ваша цена:
+                                {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}
+                                    {{ offer.price }}
+                                {% endif %}{% endfor %} тг</p>
+                        {% endif %}
                         <p class="">Ваша время:
                             {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}
                                 {{ offer.time }}
@@ -72,9 +74,11 @@
         {% if order.selected_driver == request.user %}
 
             <div style="left: 23px; top: 41px; position: absolute; font-size: 12px">
-                <p class="" style="">Ваша цена:
-                    {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}{{ offer.price }}
-                    {% endif %}{% endfor %} тг</p>
+                {% if order.to_address != 'договориться на месте' %}
+                    <p class="" style="">Ваша цена:
+                        {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}{{ offer.price }}
+                        {% endif %}{% endfor %} тг</p>
+                {% endif %}
                 <p class="" style="margin-top: 2px">Ваша время:
                     {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}{{ offer.time }}
                     {% endif %}{% endfor %} минут</p>
@@ -99,19 +103,21 @@
             {% else %}
                 {% for offer in order.offers.all %}
                     {% if offer.driver_offer == request.user %}
-                        <p class="orders-text-2" style="top: 40px">Ваша цена:
-                            {{ offer.price }}тг</p>
+                        {% if order.to_address != 'договориться на месте' %}
+                            <p class="orders-text-2" style="top: 40px">Ваша цена:
+                                {{ offer.price }}тг</p>
+                        {% endif %}
                         <p class="orders-text-2" style="top: 56px">Ваша время:
-                            {{ offer.time }}тг</p>
+                            {{ offer.time }} минут</p>
                         <p><a class="orders-text-5" disabled="">Отправлено</a>
                         </p>
                     {% else %}
                         {% if request.user.is_block == False and request.user.balance >= request.user.city.overpayment and request.user.active_subscription == True %}
-                            <p><a class="orders-text-4"  href="{% url 'order_detail' order.id %}">Отправить заявку</a>
+                            <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить заявку</a>
                             </p>
-                            {% else %}
-                    <p><a class="orders-text-4"style="background-color: gray" disabled="">Отправить заявку</a>
-                    </p>
+                        {% else %}
+                            <p><a class="orders-text-4" style="background-color: gray" disabled="">Отправить заявку</a>
+                            </p>
                         {% endif %}
                     {% endif %}
                 {% endfor %}

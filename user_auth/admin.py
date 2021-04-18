@@ -37,9 +37,9 @@ class UserAdmin(DjangoUserAdmin):
     # paginator = 30
     ordering = ['first_name']
 
-    readonly_fields = ['password', 'country_code', 'phone_number', 'first_name', 'last_name',
-                        'active_subscription', 'subscription_day', 'last_login', 'date_joined',
-                       'driving_experience',  ]
+    # readonly_fields = ['password', 'country_code', 'phone_number', 'first_name', 'last_name',
+    #                     'active_subscription', 'subscription_day', 'last_login', 'date_joined',
+    #                    'driving_experience',  ]
     # 'iin', 'front_passport', 'back_passport', 'together_passport','city',
     # 'bio', 'trip_from_price', 'trip_hour_price', 'average_arrival', 'knowledgecity' 'avatar', 'driver_license_number',
     fieldsets = (

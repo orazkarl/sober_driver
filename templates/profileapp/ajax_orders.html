@@ -2,9 +2,11 @@
     {% if order.is_view and order.selected_driver == request.user %}
         <form action="{% url 'orders_view' %}" method="post">
             {% csrf_token %}
+            <input type="hidden" name="order_id" value="{{ order.id }}">
             <div class="order-modal" id="id_modal" style="">
                 <div class="order-modal-content">
-                    <button name="close" class="close" id="id_close">&times;</button>
+                    {#                    <button   class="close" id="id_close">&times;</button>#}
+                    <a class="close" id="id_close" href="#" onclick="closeModal()">&#x2715;</a>
                     <div class="order-modal-header">
                         <p>Вас выбрали</p>
                     </div>
@@ -42,92 +44,87 @@
             </div>
         </form>
     {% endif %}
-    <div class="orders orders-top">
-        <p class="orders-text-1">Откуда: <span
-                style="  {% if order.from_address|length > 15  and order.from_address|length < 30 %}font-size: 10px;{% elif order.from_address|length >= 30 %}font-size: 10px;{% endif %}">{{ order.from_address }}</span>
-        </p>
-        <style>
-            {% if order.from_address|length > 15  and order.from_address|length < 30 %}
 
-                .orders-text-3 {
-                    left: 235px;
-                }
-
-            {% elif order.from_address|length >= 30 %}
-                .orders-text-3 {
-                    left: 245px;
-                }
-
-            {% endif %}
-        </style>
-        <p class="orders-text-2">Куда: {% if order.to_address == 'договориться на месте' %}
-            <span style="background-color: #48CC4D; padding: 2px; border-radius: 5px;color: white">{{ order.to_address }}</span>
-        {% else %}
-            {{ order.to_address }}
-        {% endif %}</p>
-
-        <p class="orders-text-3">Время заявки: {{ order.created }}</p>
-
-        {% if order.selected_driver == request.user %}
-
-            <div style="left: 23px; top: 41px; position: absolute; font-size: 12px">
-                {% if order.to_address != 'договориться на месте' %}
-                    <p class="" style="">Ваша цена:
-                        {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}{{ offer.price }}
-                        {% endif %}{% endfor %} тг</p>
-                {% endif %}
-                <p class="" style="margin-top: 2px">Ваша время:
-                    {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}{{ offer.time }}
-                    {% endif %}{% endfor %} минут</p>
-                <p style="margin-top: 2px">Номер клиента: <a href="tel:{{ order.phone_number }}"
-                                                             style="color: #3D5AFE">{{ order.phone_number }}</a></p>
-
-
-            </div>
-            <p><a class="orders-text-6" disabled="">Ваш заказ</a></p>
-        {% else %}
-
-            {% if not order.offers.all %}
-
-                {% if request.user.is_block == False and request.user.balance >= request.user.city.overpayment and request.user.active_subscription == True %}
-                    <p>
-                        <a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить
-                            заявку</a>
-                    </p>
+    <div class="orders">
+        <div class="orders-row">
+            <div class="orders-left">
+                <p>Откуда: {{ order.from_address }}</p>
+                <p>Куда: {% if order.to_address == 'договориться на месте' %}
+                    <span class="in-fact">{{ order.to_address }}</span>
                 {% else %}
-                    <p><a class="orders-text-4" style="background-color: gray" disabled="">Отправить заявку</a>
-                    </p>
-                {% endif %}
-
-            {% else %}
-                {% for offer in order.offers.all %}
-                    {% if offer.driver_offer == request.user %}
-                        {% if order.to_address != 'договориться на месте' %}
-                            <p class="orders-text-2" style="top: 40px">Ваша цена:
-                                {{ offer.price }}тг</p>
+                    {{ order.to_address }}
+                {% endif %}</p>
+                {% if order.selected_driver == request.user %}
+                    {% if order.to_address != 'договориться на месте' %}
+                        <p>Ваша цена:
+                            {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}
+                                {{ offer.price }}
+                            {% endif %}{% endfor %} тг</p>
+                    {% endif %}
+                    <p>Ваша время:
+                        {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}{{ offer.time }}
+                        {% endif %}{% endfor %} минут</p>
+                {% else %}
+                    {% for offer in order.offers.all %}
+                        {% if offer.driver_offer == request.user %}
+                            {% if order.to_address != 'договориться на месте' %}
+                                <p>Ваша цена: {{ offer.price }} тг</p>
+                            {% endif %}
+                            <p>Ваша время: {{ offer.time }} минут</p>
                         {% endif %}
-                        <p class="orders-text-2" style="top: 56px">Ваша время:
-                            {{ offer.time }} минут</p>
-                        <p><a class="orders-text-5" disabled="">Отправлено</a>
-                        </p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="orders-right">
+                <p>Время заявки: {{ order.created }}</p>
+                {% if  order.selected_driver == request.user %}
+                    <a class="btn-open-offer" style="background: #48CC4D">Ваш заказ</a>
+                {% else %}
+                    {% if order.offers.all %}
+                        {% for offer in order.offers.all %}
+                            {% if offer.driver_offer == request.user %}
+                                <a class="btn-open-offer" style="background: #FCE406">Отправлено</a>
+                            {% endif %}
+                        {% endfor %}
                     {% else %}
                         {% if request.user.is_block == False and request.user.balance >= request.user.city.overpayment and request.user.active_subscription == True %}
-                            <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить заявку</a>
-                            </p>
+                            <a href="{% url 'order_detail' order.id %}" id="btn-open-offer" class="btn-open-offer">Отправить
+                                заявку</a>
                         {% else %}
-                            <p><a class="orders-text-4" style="background-color: gray" disabled="">Отправить заявку</a>
-                            </p>
+                            <a class="btn-open-offer" style="background-color: gray" disabled>Отправить
+                                заявку</a>
                         {% endif %}
                     {% endif %}
-                {% endfor %}
-            {% endif %}
-        {% endif %}
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endfor %}
 <script>
 
     var modal = document.getElementById("id_modal");
     var btn = document.getElementById("id_close");
+
+    function closeModal() {
+        modal.style.display = 'none';
+        localStorage.setItem('show-modal', 'false');
+        $(document.body).load('/orders');
+    }
+
+    {#$('#id_close').one('submit', function () {#}
+    {#    event.preventDefault();#}
+    {#    $.ajax({#}
+    {#        type: 'POST',#}
+    {#        url: "{% url 'orders_view' %}",#}
+    {#        data: $(form).serialize(),#}
+    {#        success: function e() {#}
+    {#            console.log(e);#}
+    {#        },#}
+    {##}
+    {##}
+    {#    });#}
+    {#$(this).find('input[type="submit"]').attr('disabled', 'disabled');#}
+    {# } );#}
 
     $('#id_modal').scroll(function () {
         sessionStorage.scrollTopModal = $('#id_modal').scrollTop();
@@ -136,6 +133,16 @@
         if (sessionStorage.scrollTopModal != "undefined") {
             $('#id_modal').scrollTop(sessionStorage.scrollTopModal);
         }
+        var show_modal = localStorage.getItem('show-modal');
+        if (show_modal === 'false') {
+            document.getElementById("id_modal").style.display = "none";
+        }
+    });
+
+    $('#btn-open-offer').on("click", function (e) {
+        e.preventDefault(); // cancel click
+        var page = $(this).attr('href');
+        $(document.body).load(page);
     });
 
 </script>

@@ -87,6 +87,7 @@ class HomeView(generic.TemplateView):
             task = Task.objects.get(verbose_name='task' + str(order.id))
             task.delete()
         elif 'cancel' in request.POST:
+            print(111)
             order = Order.objects.get(id=int(request.POST['cancel']))
             order.status = 'canceled'
             order.save()

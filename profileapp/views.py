@@ -87,15 +87,6 @@ class OrdersView(generic.ListView):
     template_name = 'profileapp/orders.html'
     model = Order
 
-    # def post(self, request, *args, **kwargs):
-    #     user = request.user
-    #     order = Order.objects.get(id=int(request.POST['order_id']))
-    #     if 'close' in request.POST:
-    #         order.is_view = False
-    #         order.save()
-    #     return redirect('orders_view')
-
-
 def getOrders(request):
     user = request.user
 
@@ -114,7 +105,6 @@ class OrderDetailView(generic.DetailView):
 
     def get(self, request, *args, **kwargs):
         order = Order.objects.get(id=self.kwargs['pk'])
-
         if order.status == 'request':
             offer = ''
             if order.offers.filter(driver_offer=request.user).exists():
@@ -137,7 +127,7 @@ class OrderDetailView(generic.DetailView):
         time = request.POST['time']
         # comment = request.POST['comment']
         OfferOrder.objects.create(order=order, driver_offer=request.user, time=time, price=price)
-        return redirect('orders_view')
+        return super().get(request, *args, **kwargs)
 
 
 @method_decorator([login_required, user_passes_test(pass_anketa, login_url='/anketa/')], name='dispatch')

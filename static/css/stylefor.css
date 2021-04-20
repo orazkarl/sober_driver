@@ -247,23 +247,83 @@ footer {
 }
 
 .orders {
+    /*position: relative;*/
+    line-height: 17px;
     font-weight: 400;
     font-size: 11px;
-
     width: 352px;
+    padding: 5px 10px;
+    padding-bottom: 15px;
     height: 98px;
-
     border-radius: 25px;
+
     border: 1px solid #00c2e0;
+
     background-color: #fff;
 
-    position: relative;
-
     margin: 0 auto;
+    margin-top: 17px;
 }
 
-.orders-top {
-    margin-top: 17px;
+.in-fact {
+    background-color: #48CC4D;
+    padding: 2px;
+    border-radius: 5px;
+    font-size: 11px;
+    color: white
+}
+
+.orders-row {
+    display: flex;
+
+}
+
+.orders-left {
+    display: inline-block;
+    width: 280px;
+}
+
+.orders-right {
+    display: inline-block;
+
+
+}
+
+.btn-open-offer {
+    position: absolute;
+    margin-top: 15px;
+    border-radius: 15px;
+    background-color: #10C7F1;
+
+    padding: 8px;
+
+}
+
+.offer-input {
+    padding: 3px;
+
+    /*margin: 3px auto;*/
+    margin: 3px;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+}
+
+.offer-input :focus {
+    outline: none;
+    border-color: #66afe9;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+.btn-submit-offer {
+    /*position: absolute;*/
+    border-radius: 25px;
+    background-color: #10C7F1;
+    border: none;
+
+    padding: 5px 15px 5px 15px;
 }
 
 .orders-text-1 {
@@ -802,7 +862,7 @@ footer {
 
 
 .about-input {
-    padding:  3px;
+    padding: 3px;
     margin: 3px auto;
     color: #333;
     border: 1px solid #ccc;

@@ -89,10 +89,11 @@
             </div>
 
             <div class="text-input"><p>Телефон</p></div>
-            <input class="input-number" type="tel" name="phone_number" placeholder="87777777777" pattern="[0-9]{11}"
+            <input class="input-number" type="tel" name="phone_number" id="id_phone_number" placeholder="87777777777"
+                   pattern="[0-9]{11}"
                    required>
             <input type="hidden" name="order">
-            <input type="submit" class="btn-in-index" id="id_order_button" onsubmit="scrollWindow()"
+            <input type="submit" class="btn-in-index" id="id_order_button"
                    value="Заказать водителя">
         </div>
 
@@ -160,6 +161,7 @@
         }
     }
 
+
     var id_cities = $('#id_cities');
     $('#id_from_address').on('click', function () {
         if (id_cities.hasClass('hidden')) {
@@ -167,6 +169,7 @@
             id_cities.addClass('visuallyhidden');
         }
     });
+
 
     $(document).ready(function () {
         setInterval(function () {
@@ -183,17 +186,29 @@
         $('#id_my_orders').html(data)
     }
 
-    $('#orderForm').one('submit', function () {
-        $(this).find('input[type="submit"]').attr('disabled', 'disabled');
+    $('#orderForm').on('submit', function () {
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'home_view' %}",
+            data: $('#orderForm').serialize(),
+            success: function e() {
+                console.log(e);
+            },
+        });
+        document.getElementById('id_from_address').value = '';
+        document.getElementById('id_to_address').value = '';
+        document.getElementById('id_to_address').style.display = '';
+        document.getElementById('id_phone_number').value = '';
+        var id_to_address = $('#id_to_address');
+        id_to_address.removeClass('animate_to_address');
+
+        $(window).scrollTop(1000);
     });
 
-    function displayMap() {
-        document.getElementById('map').style.display = '';
-    }
 
-    {% if messages %}
-        $(window).scrollTop(1000);
-    {% endif %}
+
+
 
     const shareButton = document.querySelector('.share-button');
     shareButton.addEventListener('click', event => {
@@ -209,6 +224,11 @@
             console.log('No!');
         }
     });
+
+
+    function displayMap() {
+        document.getElementById('map').style.display = '';
+    }
 
 </script>
 

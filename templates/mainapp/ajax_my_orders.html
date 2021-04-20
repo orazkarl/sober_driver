@@ -67,10 +67,10 @@
                 </div>
                 <br>
                 {% if order.status == 'request' %}
-                    <form action="{% url 'home_view' %}" method="post">
+                    <form action="{% url 'home_view' %}" method="post" id="id-cancel-form">
                         {% csrf_token %}
-                        <button class="cancel-btn" style="border: none" type="submit" name="cancel"
-                                value="{{ order.id }}">
+                        <input type="hidden" name="cancel"   value="{{ order.id }}">
+                        <button type="submit"   class="cancel-btn" style="border: none">
                             Отменить заказ
                         </button>
                     </form>
@@ -149,27 +149,21 @@
                             {% endfor %}  минут</p>
                         </div>
                     </div>
-                     {% if order.to_address != 'договориться на месте' %}
-                    <div class="tenge" style="margin-left: 5px">
-                        <p style="font-size: 11px"> Цена:</p>
-                        <div style="background-color: #FCE406; border-radius: 25px; padding: 0 3px; width: 60px; height: 12px">
-                            <p style="font-size: 11px"> {% for offer in order.offers.all %}
-                                {% if offer.driver_offer == order.selected_driver %}
-                                    {{ offer.price }}
-                                {% endif %}
-                            {% endfor %}  тг</p></div>
-                        <input type="hidden" name="choose">
-                    </div>
-                         {% endif %}
+                    {% if order.to_address != 'договориться на месте' %}
+                        <div class="tenge" style="margin-left: 5px">
+                            <p style="font-size: 11px"> Цена:</p>
+                            <div style="background-color: #FCE406; border-radius: 25px; padding: 0 3px; width: 60px; height: 12px">
+                                <p style="font-size: 11px"> {% for offer in order.offers.all %}
+                                    {% if offer.driver_offer == order.selected_driver %}
+                                        {{ offer.price }}
+                                    {% endif %}
+                                {% endfor %}  тг</p></div>
+                            <input type="hidden" name="choose">
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="table-block-3">
-                    <a style=""
-                       href="tel:+
-
-
-
-
-                               {{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}">+{{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}</a>
+                    <a href="tel:+{{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}">+{{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}</a>
                 </div>
             </div>
             {% if order.review %}
@@ -294,11 +288,13 @@
 
                                     </div>
                                 {% endif %}
-                               <input type="hidden" name="choose">
+                                <input type="hidden" name="choose">
                             </div>
                             <div class="table-block-3">
-                                <a style="" onclick="document.getElementById('choose_driver').submit();" href="#">Позвонить</a>
+                                <button class="" type="submit">Позвонить</button>
                             </div>
+
+
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -309,6 +305,31 @@
 
 
 <script>
+    $('#id-cancel-form').on('submit', function () {
+        event.preventDefault();
+        console.log('asdasdasd');
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'home_view' %}",
+            data: $('#id-cancel-form').serialize(),
+            success: function e() {
+                console.log(e);
+            },
+         });
+    });
+
+      $('#choose_driver').on('submit', function () {
+        event.preventDefault();
+        console.log('123asd');
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'home_view' %}",
+            data: $('#choose_driver').serialize(),
+            success: function e() {
+                console.log(e);
+            },
+         });
+    });
     $('#id_modal').scroll(function () {
         sessionStorage.scrollTopModal = $('#id_modal').scrollTop();
     });
@@ -321,7 +342,5 @@
         }
     });
 
-    function callDriver() {
-        $('#choose_driver').submit
-    }
+
 </script>

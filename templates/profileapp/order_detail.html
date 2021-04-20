@@ -6,42 +6,24 @@
     <div class="city-in-orders">
         <p>{{ request.user.city }}</p>
     </div>
-
-
-
-    <div class="orders orders-top" style="">
-        <p class="orders-text-1">Откуда: <span
-                style="  {% if order.from_address|length > 15  and order.from_address|length < 30 %}font-size: 10px;{% elif order.from_address|length >= 30 %}font-size: 10px;{% endif %}">{{ order.from_address }}</span>
-        </p>
-        <style>
-            {% if order.from_address|length > 15  and order.from_address|length < 30 %}
-
-                .orders-text-3 {
-                    left: 235px;
-                }
-
-            {% elif order.from_address|length >= 30 %}
-                .orders-text-3 {
-                    left: 245px;
-                }
-
-            {% endif %}
-        </style>
-        <p class="orders-text-2">Куда: {% if order.to_address == 'договориться на месте' %}
-            <span style="background-color: #48CC4D; padding: 2px; border-radius: 5px; font-size: 11px;color: white">{{ order.to_address }}</span>
-        {% else %}
-            {{ order.to_address }}
-        {% endif %}</p>
-        <p class="orders-text-3">Время заявки: {{ order.created }}</p>
-
-        {#                    <a class="orders-text-4" href="{% url 'order_detail' order.id%}">Отправить заявку</a>#}
-
+    <div class="orders" style="height: 70px">
+        <div class="orders-row">
+            <div class="orders-left">
+                <p>Откуда: {{ order.from_address }}</p>
+                <p>Куда: {% if order.to_address == 'договориться на месте' %}
+                    <span class="in-fact">{{ order.to_address }}</span>
+                {% else %}
+                    {{ order.to_address }}
+                {% endif %}</p>
+            </div>
+            <div class="orders-right">
+                <p>Время заявки: {{ order.created }}</p>
+            </div>
+        </div>
     </div>
 
-    <div class="orders orders-top" style="height: 200px;">
+    <div class="orders offer-form" style="text-align: center; height: 105px">
         {% if offer %}
-            {{ order.comment }}
-            <br>
             <div class="text-in-registration-window">Цена:</div>
             <input type="number" class="registration-input" name="price" placeholder="Цена" value="{{ offer.price }}"
                    disabled>
@@ -52,22 +34,64 @@
             {#            <textarea name="comment" id="" cols="50" rows="10" class="registration-input" maxlength="50" disabled  style="resize: none"#}
             {#                      required>{{ offer.comment }}</textarea>#}
         {% else %}
-            <form action="{% url 'order_detail'  order.id %}" style="margin: 5px; " method="post">
+
+            <form action="{% url 'order_detail'  order.id %}" method="post" id="offer-form">
                 {% csrf_token %}
                 {% if order.to_address != 'договориться на месте' %}
-                    <div class="text-in-registration-window">Цена:</div>
-                    <input type="number" class="registration-input" name="price" placeholder="Цена">
+                    <input type="number" class="offer-input" name="price" placeholder="Цена">
+                {% else %}
+                    <style>
+                        .orders {
+                            height: 70px !important;
+                        }
+                    </style>
                 {% endif %}
-                <div class="text-in-registration-window">Время (минутах):</div>
-                <input type="number" class="registration-input" name="time" placeholder="Время (минутах)" required>
-                {#                <div class="text-in-registration-window">Комментария к заказу</div>#}
-                {#                <textarea name="comment" id="" cols="50" rows="10" class="registration-input"  maxlength="50" style="resize: none"#}
-                {#                          required></textarea>#}
+                <input type="number" class="offer-input" name="time" placeholder="Время (минутах)" min="1" max="999"
+                       required>
+                <div>
+                    <input type="submit" class="btn-submit-offer" id="btn-submit-offer">
+                </div>
 
-                <button class="orders-text-4" style="top: 155px; left: 115px" type="submit">Отправить заявку</button>
             </form>
+
         {% endif %}
+
     </div>
+    <!-- jQuery !-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <!-- jQuery UI !-->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script>
+
+        {#$('#btn-submit-offer').one('submit', function () {#}
+        {#    event.preventDefault();#}
+        {#    console.log('asd');#}
+        {#    $.ajax({#}
+        {#        type: 'POST',#}
+        {#        url: "{% url 'order_detail' order.id %}",#}
+        {#        data: $(form).serialize(),#}
+        {#        success: function e() {#}
+        {#            console.log(e);#}
+        {#        },#}
+        {##}
+        {##}
+        {#    });#}
+        {#$(this).find('input[type="submit"]').attr('disabled', 'disabled');#}
+        {# })#}
+        $('#offer-form').on('submit', function () {
+            event.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'order_detail' order.id %}",
+                data: $('#offer-form').serialize(),
+                success: function e() {
+                    $(document.body).load('/orders');
+                },
+            });
+        });
 
 
+    </script>
 {% endblock %}

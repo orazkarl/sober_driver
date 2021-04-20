@@ -8,53 +8,6 @@
     </div>
 
     <div id="id_orders">
-
-        {#    {% if request.user.balance >= request.user.city.overpayment %}#}
-        {#        {% for order in orders %}#}
-        {##}
-        {#            <div class="orders orders-top">#}
-        {#                <p class="orders-text-1">Откуда: {{ order.from_address }}</p>#}
-        {#                <p class="orders-text-2">Куда: {{ order.to_address }}</p>#}
-        {#                <p class="orders-text-3">Время заявки: {{ order.created }}#}
-        {##}
-        {#                    {% if order.selected_driver == request.user %}#}
-        {##}
-        {#                        <div style="left: 23px; top: 70px; position: absolute; font-size: 12px">#}
-        {#                        <p>Номер клиента: <a href="tel:{{ order.phone_number }}"#}
-        {#                                             style="color: #3D5AFE">{{ order.phone_number }}</a></p>#}
-        {##}
-        {#                        </div>#}
-        {#                        <p><a class="orders-text-6" disabled="">Ваш заказ</a></p>#}
-        {#                    {% else %}#}
-        {##}
-        {#                        {% if not order.offers.all %}#}
-        {#                            <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить заявку</a>#}
-        {#                            </p>#}
-        {##}
-        {#                        {% else %}#}
-        {#                            {% for offer in order.offers.all %}#}
-        {#                                {% if offer.driver_offer == request.user %}#}
-        {#                                    <p><a class="orders-text-5" href="{% url 'order_detail' order.id %}">Отправлено</a>#}
-        {#                                    </p>#}
-        {#                                {% else %}#}
-        {#                                    <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить#}
-        {#                                        заявку</a></p>#}
-        {#                                {% endif %}#}
-        {#                            {% endfor %}#}
-        {#                        {% endif %}#}
-        {#                    {% endif %}#}
-        {#                <form action="." method="post">#}
-        {#                    {% csrf_token %}#}
-        {#                    <input type="hidden" name="order_id" value="{{ order.id }}">#}
-        {##}
-        {#                </form>#}
-        {#            </div>#}
-        {#        {% endfor %}#}
-        {#    {% else %}#}
-        {#        <br>#}
-        {#        <h3 style="text-align: center">На балансе не хватает денег, чтобы принимать заказы!</h3>#}
-        {#        <h3 style="text-align: center">Пожалуйста, пополните баланс</h3>#}
-        {#    {% endif %}#}
     </div>
     <!-- jQuery !-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -62,6 +15,8 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script>
+
+
         $(document).ready(function () {
             setInterval(function () {
                 $.ajax({
@@ -70,16 +25,16 @@
                     success: displayData,
                     dataType: 'html',
 
-                })
+                });
+
+
             }, 1000);
         });
 
-        function displayData(data, textStatus, jqXHR) {
-            console.log(data);
-            $('#id_orders').html(data)
-        }
 
-
+            function displayData(data, textStatus, jqXHR) {
+                $('#id_orders').html(data)
+            }
 
 
     </script>

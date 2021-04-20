@@ -1,13 +1,14 @@
 from django.contrib import admin
-from .models import City, Order, OfferOrder, Review, Overpayment
-from django.db.models import Count, Sum
-# admin.site.register(Review)
+from django.db.models import Sum
 from django.contrib.sites.models import Site
-import datetime
-from django_with_extra_context_admin.admin import DjangoWithExtraContextAdmin
 from django.db.models.functions import Cast, Coalesce
+import datetime
+
 from admin_totals.admin import ModelAdminTotals
 from rangefilter.filter import DateRangeFilter
+
+from .models import City, Order, Overpayment
+
 
 @admin.register(City)
 class CityAdmin(admin.ModelAdmin):
@@ -65,9 +66,8 @@ class OrderMonthFilter(admin.SimpleListFilter):
 class OrderAdmin(ModelAdminTotals):
     list_display = ['phone_number', 'city', 'from_address', 'to_address', 'status', 'created',
                     'selected_driver']
-    # list_totals = [('amount', lambda field: Coalesce(Sum(field), 0)), ('amount', Sum)]
 
-    list_filter = ['status', 'city', OrderMonthFilter, 'created',('created', DateRangeFilter)]
+    list_filter = ['status', 'city', OrderMonthFilter, 'created', ('created', DateRangeFilter)]
     fieldsets = (
         (None,
          {'fields': ('phone_number', 'city', 'from_address', 'to_address', 'status', 'created', 'selected_driver')}),
@@ -83,13 +83,11 @@ class OrderAdmin(ModelAdminTotals):
     #     return False
 
 
-
 @admin.register(Overpayment)
 class OverpaymentAdmin(ModelAdminTotals):
     list_display = ['driver', 'amount']
     list_filter = ['order__city', 'order__created', ('order__created', DateRangeFilter)]
     list_totals = [('amount', lambda field: Coalesce(Sum(field), 0)), ('amount', Sum)]
-
 
     def has_add_permission(self, request):
         return False

@@ -4,13 +4,10 @@
             {% csrf_token %}
             <div class="order-modal" id="id_modal" style="">
                 <div class="order-modal-content">
-                    <input type="hidden" name="order_id" value="{{ order.id }}">
-                    <button type="submit" name="close" class="close" id="id_close">&times;</button>
-
+                    <button name="close" class="close" id="id_close">&times;</button>
                     <div class="order-modal-header">
                         <p>Вас выбрали</p>
                     </div>
-                    <hr color="#d0d0d0" size="1" style="margin-top: 8px; border-radius: 25px">
                     <div class="order-modal-body">
                         <p class="">Откуда: {{ order.from_address }}</p>
                         <p class="">Куда:
@@ -93,7 +90,9 @@
             {% if not order.offers.all %}
 
                 {% if request.user.is_block == False and request.user.balance >= request.user.city.overpayment and request.user.active_subscription == True %}
-                    <p><a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить заявку</a>
+                    <p>
+                        <a class="orders-text-4" href="{% url 'order_detail' order.id %}">Отправить
+                            заявку</a>
                     </p>
                 {% else %}
                     <p><a class="orders-text-4" style="background-color: gray" disabled="">Отправить заявку</a>
@@ -126,17 +125,14 @@
     </div>
 {% endfor %}
 <script>
+
     var modal = document.getElementById("id_modal");
     var btn = document.getElementById("id_close");
-    btn.onclick = function () {
-        {#modal.style.display = "none";#}
-    };
 
     $('#id_modal').scroll(function () {
         sessionStorage.scrollTopModal = $('#id_modal').scrollTop();
     });
     $(document).ready(function () {
-        console.log(sessionStorage.scrollTopModal);
         if (sessionStorage.scrollTopModal != "undefined") {
             $('#id_modal').scrollTop(sessionStorage.scrollTopModal);
         }

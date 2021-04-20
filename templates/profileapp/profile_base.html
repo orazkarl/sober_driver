@@ -27,21 +27,19 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </div>
-        <div class="header-1">
-
-            <div id=flip>
-
-                <div>
-                    <div>Пишите точное время прибытия, так как клиент может уехать не дожидаясь вас</div>
-                </div>
-                <div>
-                    <div>Предлогайте максимально выграшную цену, чаевых никто не отменял</div>
-                </div>
-                <div>
-                    <div>Приглашайте друзей на работу так как заказов все хватит  <i class="fa fa-arrow-right"
-                                                                   style="font-size: 15px; -webkit-text-stroke: 1px #DC143C;"></i>
-                    </div>
-                </div>
+        <div class="header">
+            <div class="header__container">
+                <ul class="header__container__list">
+                    <li class="header__container__list__item">Пишите точное время прибытия, так как клиент может уехать
+                        не дожидаясь вас</li>
+                    <li class="header__container__list__item">
+                        Предлогайте максимально выграшную цену, чаевых никто не отменял
+                    </li>
+                    <li class="header__container__list__item">
+                        Приглашайте друзей на работу так как заказов все хватит <i class="fa fa-arrow-right"
+                                                                                   style="font-size: 15px; -webkit-text-stroke: 1px #DC143C;"></i>
+                    </li>
+                </ul>
             </div>
 
         </div>
@@ -57,6 +55,7 @@
             <div class="yellow-box">
                 <p class="name-in-yellow-box">{{ request.user.first_name }}</p>
                 <div class="div-for-image-in-yellow-box"><img src="
+
 
 
                         {% if request.user.avatar %}{{ request.user.avatar.url }}{% else %}/static/img/profile-3.png{% endif %}"

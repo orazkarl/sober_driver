@@ -421,6 +421,7 @@ body {
     top: 25px;
     left: 90px;
 }
+
 .cancel-span-5 {
     font-size: 11px;
 
@@ -1115,27 +1116,70 @@ input::-webkit-inner-spin-button {
     color: #fff;
 }
 
-.header-1 {
+
+.header {
     margin: 0 auto;
     width: 250px;
 
-    color: #999;
+    color: #fff;
     text-transform: uppercase;
     font-size: 10px;
     font-weight: bold;
 
-    /*padding-top: 200px;*/
-    /*position: fixed;*/
-    /*bottom: 45%;*/
-    /*display: block;*/
 
 }
 
-#flip {
-    height: 37px;
+.header__container {
     overflow: hidden;
-    border-radius: 25px;
-    /*width: 100%;*/
+    height: 50px;
+    background: #DC143C;
+    /*border-radius: 25px;*/
+}
+
+.header__container__list {
+    margin: 0;
+    padding: 0 10px;
+    padding-top: 13px;
+    list-style: none;
+    animation-name: change;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.header__container__list__item {
+    /*line-height: 50px;*/
+    margin-bottom: 25px;
+    font-size: 11px;
+}
+
+@keyframes change {
+    0% {
+        transform: translate3d(0, 50px, 0);
+
+    }
+    25% {
+        transform: translate3d(0, 0, 0);
+
+    }
+    50% {
+        transform: translate3d(0, -50px, 0);
+
+    }
+    75% {
+        transform: translate3d(0, -100px, 0);
+
+    }
+    99.9999% {
+        transform: translate3d(0, -150px, 0);
+
+    }
+    100% {
+        transform: translate3d(0, 0, 0);
+
+    }
 }
 
 #flip > div > div {
@@ -1191,3 +1235,119 @@ input::-webkit-inner-spin-button {
 }
 
 
+#map {
+    width: 350px;
+    height: 100px;
+    padding: 0;
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.hidden {
+    display: none;
+}
+
+.visuallyhidden {
+    -webkit-animation: mymove 1s; /* Chrome, Safari, Opera */
+    animation: mymove 1s;
+}
+
+@-webkit-keyframes mymove {
+    100% {
+        margin-top: 0;
+
+    }
+    0% {
+        margin-top: 30px;
+    }
+}
+
+@keyframes mymove {
+    100% {
+        margin-bottom: 0;
+
+    }
+    0% {
+        margin-bottom: -83px;
+
+    }
+}
+
+.cities {
+    -webkit-animation: mymove13 1s; /* Chrome, Safari, Opera */
+}
+
+@-webkit-keyframes mymove13 {
+    100% {
+        transform: translateY(0%);
+    }
+    0% {
+        transform: translateY(100%);
+    }
+}
+
+.animate_to_address {
+    -webkit-animation: mymove3 1s; /* Chrome, Safari, Opera */
+}
+
+@-webkit-keyframes mymove3 {
+    100% {
+        margin-top: -53px;
+        opacity: 0;
+    }
+    0% {
+        margin-top: 0;
+        opacity: 1;
+    }
+}
+
+.animate_to_address2 {
+    -webkit-animation: mymove4 1s; /* Chrome, Safari, Opera */
+}
+
+@-webkit-keyframes mymove4 {
+    100% {
+        margin-top: 0;
+        opacity: 1;
+    }
+    0% {
+        margin-top: -30px;
+        opacity: 0;
+    }
+}
+
+.share-whatsapp {
+    color: #48CC4D;
+    font-size: 35px;
+    -webkit-text-stroke: 3px #F0F8FF;
+}
+
+.share-button {
+    background: none;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+#header-text1 {
+    opacity: 0;
+    animation: fadeIn 8s infinite;
+}
+
+#header-text2 {
+    opacity: 0;
+    animation: fadeIn 8s infinite;
+    animation-delay: 4s;
+}
+
+@keyframes fadeIn {
+    20% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}

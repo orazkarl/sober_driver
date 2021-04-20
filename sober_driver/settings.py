@@ -41,14 +41,14 @@ INSTALLED_APPS = [
     'user_auth.apps.UserAuthConfig',
     'profileapp.apps.ProfileappConfig',
 
-    'crispy_forms',
+    # 'crispy_forms',
+    # 'debug_toolbar',
     'ckeditor',
     'mathfilters',
     'django_social_share',
     'admin_totals',
     'rangefilter',
     'background_task',
-    'debug_toolbar',
 
 ]
 
@@ -64,7 +64,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 
 ]
 
@@ -147,23 +147,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 SITE_ID = 1
 AUTH_USER_MODEL = 'user_auth.User'
 
+
 # Authy Application Key
 AUTHY_KEY = 'aHhuNpkSzDD4rjrKHIY1jqId5QSEZtXg'
 # TWILIO_ACCOUNT_SID = 'AC1f65408e857c0148c14bfc4b0f1e11ef'
 # TWILIO_AUTH_TOKEN = '84464fe994e3997acc5f4bf56f4a6825'
 # TWILIO_VERIFICATION_SID = ''
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-        'LOCATION': '127.0.0.1:11211',
-    }
-}
-
-
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
-INTERNAL_IPS = [
-    '127.0.0.1',
-]
-
+# INTERNAL_IPS = [
+#     # ...
+#     '127.0.0.1',
+#     # ...
+# ]

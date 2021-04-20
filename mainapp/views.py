@@ -1,16 +1,23 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 from django.views import generic
-from .models import City, Order, OfferOrder, Review, Overpayment
-from user_auth.models import User
 from django.contrib.sessions.models import Session
 from django.utils import timezone
 import datetime
-from .tasks import update_order_status_finished, update_order_status_notselected
+
 from background_task.models import Task
+
+from .tasks import update_order_status_finished, update_order_status_notselected
+from .models import City, Order, OfferOrder, Review, Overpayment
+from user_auth.models import User
 
 
 def get_client_ip(request):
+    """
+     Get IP address request user
+    :param request:
+    :return:
+    """
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -20,6 +27,9 @@ def get_client_ip(request):
 
 
 class HomeView(generic.TemplateView):
+    """
+    Home View Page
+    """
     template_name = 'mainapp/index.html'
 
     def get(self, request, *args, **kwargs):
@@ -46,7 +56,6 @@ class HomeView(generic.TemplateView):
             to_address = request.POST['to_address']
             phone_number = request.POST['phone_number']
             city = City.objects.get(name=request.POST['city'])
-
             order = Order.objects.create(user_ip=user_ip, from_address=from_address, to_address=to_address,
                                          phone_number=phone_number, city=city)
             update_order_status_notselected(order_id=order.id, verbose_name='task' + str(order.id))
@@ -55,7 +64,6 @@ class HomeView(generic.TemplateView):
                 print(message)
             messages.add_message(self.request, messages.SUCCESS, 'top_scrool')
         elif 'choose' in request.POST:
-            print(111)
             offer = OfferOrder.objects.get(id=int(request.POST['offer_id']))
             driver = offer.driver_offer
             if driver.is_free == False:

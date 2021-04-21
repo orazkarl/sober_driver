@@ -7,7 +7,9 @@ import datetime
 from admin_totals.admin import ModelAdminTotals
 from rangefilter.filter import DateRangeFilter
 
-from .models import City, Order, Overpayment
+from .models import City, Order, Overpayment, Review
+
+admin.site.register(Review)
 
 
 @admin.register(City)

@@ -92,9 +92,15 @@ class HomeView(generic.TemplateView):
             order.status = 'canceled'
             order.save()
         elif 'rating' in request.POST:
+
             order = Order.objects.get(id=int(request.POST['order_id']))
+
             rating = request.POST['rating']
-            Review.objects.create(order=order, rating=rating)
+            print(order, rating)
+            try:
+                Review.objects.create(order=order, rating=rating)
+            except:
+                return redirect('home_view')
         return redirect('home_view')
 
 

@@ -334,13 +334,23 @@
         sessionStorage.scrollTopModal = $('#id_modal').scrollTop();
     });
     $(document).ready(function () {
-        $('input[name=rating]').change(function () {
-            $('#form_rating').submit();
-        });
         if (sessionStorage.scrollTopModal != "undefined") {
             $('#id_modal').scrollTop(sessionStorage.scrollTopModal);
         }
     });
+    $('#form_rating').on('change', function () {
+        event.preventDefault();
+        console.log('12asd3asd');
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'home_view' %}",
+            data: $('#form_rating').serialize(),
+            success: function e() {
+                console.log(e);
+            },
+         });
+    });
+
 
 
 </script>

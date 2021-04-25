@@ -19,26 +19,41 @@
             </div>
 
         {% else %}
-            <div class="div-title-orders"><span class="title-orders">Уважаемый клиент, вы получили персональную скидку в
-                                            размере 15%! <br>Объязательно соохраните наш сайт в закладках, чтобы
+            <div class="div-title-orders"><span class="title-orders">Объязательно соохраните наш сайт в закладках, чтобы
                                             не потерять.</span>
             </div>
         {% endif %}
         <div class="orders-index">
-
-            <div class="orders-index-1">
-
+            <div class="orders-index-1" style="height: {% if order.fourth_address %}
+                190px
+            {% elif order.third_address %}
+                170px
+            {% elif order.second_address %}
+                150px
+            {% else %}
+                100px
+            {% endif %}">
                 <div class="cancel-div-1">
                     <span class="cancel-span-1">Откуда:</span><br>
                     <span class="cancel-span-2">Куда:</span>
+                    {% if order.second_address %}
+                        <span class="cancel-span-2" style="top: 45px">2-й адрес:</span>
+                    {% endif %}
+                    {% if order.third_address %}
+                        <span class="cancel-span-2" style="top: 65px">3-й адрес:</span>
+                    {% endif %}
+                    {% if order.fourth_address %}
+                        <span class="cancel-span-2" style="top: 85px">4-й адрес:</span>
+                    {% endif %}
 
                     {% if order.selected_driver %}
-                        <style>
-                            .orders-index-1 {
-                                height: 130px;
-                            }
-                        </style>
-                        <span class="cancel-span-5" style="font-size: 13px">Уважаемые клиент сейчас вам позвонит водитель , прежде чем передать управление водителю в
+                        <span class="cancel-span-5" style="font-size: 13px; top: {% if order.fourth_address %}
+                110px
+            {% elif order.third_address %}
+                85px
+            {% elif order.second_address %}
+                65px
+            {% endif %}">Уважаемые клиент сейчас вам позвонит водитель , прежде чем передать управление водителю в
                             обязательном порядке проверьте удостоверение личности и водительские удостоверения
                            водителя</span>
                     {% endif %}
@@ -53,24 +68,22 @@
                     {% else %}
                         {{ order.to_address }}
                     {% endif %}</span>
-                    <style>
-                        {% if order.from_address|length > 15  and order.from_address|length < 30 %}
-                            .cancel-span-3 {
-                                font-size: 12px;
-                            }
-                        {% elif order.from_address|length >= 30 %}
-                            .cancel-span-3 {
-                                font-size: 11px;
-                            }
-                        {% endif %}
-                    </style>
+                    {% if order.second_address %}
+                        <span class="cancel-span-4" style="top: 45px">{{ order.second_address }}</span>
+                    {% endif %}
+                    {% if order.third_address %}
+                        <span class="cancel-span-4" style="top: 65px">{{ order.third_address }}</span>
+                    {% endif %}
+                    {% if order.fourth_address %}
+                        <span class="cancel-span-4" style="top: 85px">{{ order.fourth_address }}</span>
+                    {% endif %}
                 </div>
                 <br>
                 {% if order.status == 'request' %}
                     <form action="{% url 'home_view' %}" method="post" id="id-cancel-form">
                         {% csrf_token %}
-                        <input type="hidden" name="cancel"   value="{{ order.id }}">
-                        <button type="submit"   class="cancel-btn" style="border: none">
+                        <input type="hidden" name="cancel" value="{{ order.id }}">
+                        <button type="submit" class="cancel-btn" style="border: none">
                             Отменить заказ
                         </button>
                     </form>
@@ -79,15 +92,19 @@
         </div>
 
         {% if order.selected_driver %}
+            <div style="margin: 0 auto; width: 130px; margin-top: 7px">
+            <span style="background-color: #FCE406; border-radius: 25px; font-size: 15px; padding: 4px 10px;">
+                            Ваш водитель
+                        </span>
+
+            </div>
             <div class="table">
                 <div class="table-block-1">
                     <div class="div-for-img">
-                        <span style="background-color: #FCE406; border-radius: 25px; font-size: 11px; padding: 2px; ">
-                            Ваш водитель
-                        </span>
-                        <div style="border-radius: 50%; overflow: hidden; margin: 2px">
+
+                        <div style="border-radius: 50%; overflow: hidden; width: 60px; height: 60px; margin: 0 auto">
                             <img src="{{ order.selected_driver.avatar.url }}"
-                                 style="display: block;margin-left: auto;margin-right: auto; height: 65px;"
+                                 style="width: 65px; margin: 0 auto; "
                                  alt="">
                         </div>
                         <div style="margin: -3px 0 0 17px">
@@ -140,9 +157,9 @@
                 <div class="table-block-2">
 
                     <div class="tenge">
-                        <p style="font-size: 11px">Время: </p>
-                        <div style="background-color: #FCE406; border-radius: 25px; width: 60px; padding: 0 3px; height: 12px ">
-                            <p style="font-size: 11px">{% for offer in order.offers.all %}
+                        <p style="font-size: 12px">Время: </p>
+                        <div style="background-color: #FCE406; border-radius: 25px; width: 67px; padding: 0 3px; height: 15px ">
+                            <p style="font-size: 12px">{% for offer in order.offers.all %}
                                 {% if offer.driver_offer == order.selected_driver %}
                                     {{ offer.time }}
                                 {% endif %}
@@ -151,9 +168,9 @@
                     </div>
                     {% if order.to_address != 'договориться на месте' %}
                         <div class="tenge" style="margin-left: 5px">
-                            <p style="font-size: 11px"> Цена:</p>
-                            <div style="background-color: #FCE406; border-radius: 25px; padding: 0 3px; width: 60px; height: 12px">
-                                <p style="font-size: 11px"> {% for offer in order.offers.all %}
+                            <p style="font-size: 12px"> Цена:</p>
+                            <div style="background-color: #FCE406; border-radius: 25px; width: 67px; padding: 0 3px; height: 15px ">
+                                <p style="font-size: 12px"> {% for offer in order.offers.all %}
                                     {% if offer.driver_offer == order.selected_driver %}
                                         {{ offer.price }}
                                     {% endif %}
@@ -163,7 +180,16 @@
                     {% endif %}
                 </div>
                 <div class="table-block-3">
-                    <a href="tel:+{{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}">+{{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}</a>
+                    <a href="tel:+
+
+
+
+
+
+
+
+
+                            {{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}">+{{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}</a>
                 </div>
             </div>
             {% if order.review %}
@@ -171,7 +197,7 @@
                 <div class="rating-table">
                     <form action="{% url 'home_view' %}" class="" method="post" id="form_rating">
                         {% csrf_token %}
-                        <h5>Оставить отзыв</h5>
+                        <h5>Оцените водителя</h5>
 
                         <div class="rating">
                             <input type="hidden" name="order_id" value="{{ order.id }}">
@@ -220,12 +246,12 @@
                         <div class="table">
                             <div class="table-block-1">
                                 <div class="div-for-img">
-                                    <div style="border-radius: 50%; overflow: hidden; ">
+                                    <div style="border-radius: 50%; overflow: hidden; width: 60px; height: 60px; margin: 0 auto">
                                         <img src="{{ offer.driver_offer.avatar.url }}"
-                                             style="display: block;margin-left: auto;margin-right: auto; height: 65px;"
+                                             style="width: 65px; margin: 0 auto; "
                                              alt="">
                                     </div>
-                                    <div style="margin: -3px 0 0 17px">
+                                    <div style="margin: 0 0 0 17px">
                                         <span style=" font-size: 10px; ">Стаж: {{ offer.driver_offer.driving_experience }}лет </span>
                                         <p style="font-size:12px; margin-left: -10px ">
                                             {% if offer.driver_offer.average_rating < 0.5 %}
@@ -275,16 +301,16 @@
                             <div class="table-block-2">
 
                                 <div class="tenge">
-                                    <p style="font-size: 11px">Время: </p>
-                                    <div style="background-color: #FCE406; border-radius: 25px; width: 60px; padding: 0 3px; height: 14px ">
-                                        <p style="font-size: 11px">{{ offer.time }} минут</p>
+                                    <p style="font-size: 12px">Время: </p>
+                                    <div style="background-color: #FCE406; border-radius: 25px; width: 67px; padding: 0 3px; height: 15px ">
+                                        <p style="font-size: 12px">{{ offer.time }} минут</p>
                                     </div>
                                 </div>
                                 {% if order.to_address != 'договориться на месте' %}
                                     <div class="tenge" style="margin-left: 5px">
-                                        <p style="font-size: 11px">Цена:</p>
-                                        <div style="background-color: #FCE406; border-radius: 25px; padding: 0 3px; width: 60px; height: 14px">
-                                            <p style="font-size: 11px"> {{ offer.price|add:500 }} тг</p></div>
+                                        <p style="font-size: 12px">Цена:</p>
+                                        <div style="background-color: #FCE406; border-radius: 25px; padding: 0 3px; width: 67px; height: 15px">
+                                            <p style="font-size: 12px"> {{ offer.price }} тг</p></div>
 
                                     </div>
                                 {% endif %}
@@ -315,10 +341,10 @@
             success: function e() {
                 console.log(e);
             },
-         });
+        });
     });
 
-      $('#choose_driver').on('submit', function () {
+    $('#choose_driver').on('submit', function () {
         event.preventDefault();
         console.log('123asd');
         $.ajax({
@@ -328,7 +354,7 @@
             success: function e() {
                 console.log(e);
             },
-         });
+        });
     });
     $('#id_modal').scroll(function () {
         sessionStorage.scrollTopModal = $('#id_modal').scrollTop();
@@ -348,9 +374,8 @@
             success: function e() {
                 console.log(e);
             },
-         });
+        });
     });
-
 
 
 </script>

@@ -39,7 +39,7 @@ class HomeView(generic.TemplateView):
         user_id_list = []
         for session in active_sessions:
             data = session.get_decoded()
-            user_id_list.append(data.get('_auth_user_id', None))
+            user_id_list.append(int(data.get('_auth_user_id', None)))
         count_online_drivers = User.objects.filter(id__in=user_id_list, is_free=True, city__name=city).count()
         list(messages.get_messages(request))
         cities = City.objects.all()
@@ -54,10 +54,13 @@ class HomeView(generic.TemplateView):
             user_ip = get_client_ip(request)
             from_address = request.POST['from_address']
             to_address = request.POST['to_address']
+            second_address = request.POST['second_address']
+            third_address = request.POST['third_address']
+            fourth_address = request.POST['fourth_address']
             phone_number = request.POST['phone_number']
             city = City.objects.get(name=request.POST['city'])
             order = Order.objects.create(user_ip=user_ip, from_address=from_address, to_address=to_address,
-                                         phone_number=phone_number, city=city)
+                                         phone_number=phone_number, city=city, second_address=second_address, third_address=third_address, fourth_address=fourth_address)
             update_order_status_notselected(order_id=order.id, verbose_name='task' + str(order.id))
 
             for message in messages.get_messages(request):

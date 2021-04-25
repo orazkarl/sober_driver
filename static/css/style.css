@@ -240,12 +240,12 @@ body {
 }
 
 .input-to {
-    width: 290px;
-    /*margin: 0;*/
-    /*margin-bottom: 15px;*/
-    /*box-sizing: border-box;*/
-    /*border-right: none;*/
-    /*border-radius: 5px 0 0 5px;*/
+    width: 258px;
+    margin: 0;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border-right: none;
+    border-radius: 5px 0 0 5px;
 }
 
 .btn-geo {
@@ -375,7 +375,7 @@ body {
 
 .orders-index-1 {
     width: 350px;
-    height: 50px;
+    height: 70px;
     border: solid 1px #ccc;
     border-radius: 25px;
     background-color: #fff;
@@ -427,6 +427,7 @@ body {
 
     position: absolute;
     top: 45px;
+
     left: 15px;
 }
 
@@ -434,15 +435,16 @@ body {
     font-weight: 400;
     font-size: 16px;
 
-    width: 80px;
-    height: 48px;
-    border-radius: 0 25px 25px 0;
+    /*width: 80px;*/
+    /*height: 48px;*/
+    border-radius: 25px;
     background-color: #FCE406;
 
     position: absolute;
-    right: 0px;
-    bottom: 0px;
-    display: flex;
+    padding: 5px;
+    left: 120px;
+    bottom: 10px;
+    /*display: flex;*/
     align-items: center;
     text-align: center;
     cursor: pointer;
@@ -461,13 +463,14 @@ body {
 
     display: flex;
     width: 365px;
-    height: 130px;
+    height: 135px;
     border-radius: 25px;
     background-color: #fff;
     box-sizing: border-box;
     border: 1px solid #ccc;
 
     margin: 0 auto;
+    margin-top: 10px;
     cursor: default;
 }
 
@@ -485,7 +488,9 @@ body {
 
 .div-for-img {
     width: 85px;
-    height: 68px;
+    /*height: 70px;*/
+    /*width: 70px;*/
+    /*text-align: center;*/
     /*border-radius: 50%;*/
     /*overflow: hidden    ;*/
 }
@@ -519,7 +524,7 @@ body {
 
 .table-block-3 {
     display: flex;
-    margin: 97px 0 0 10px;
+    margin: 90px 0 0 7px;
     align-items: center;
     text-align: center;
 
@@ -558,7 +563,7 @@ body {
     font-weight: 400;
 
 
-    width: 350px;
+    width: 250px;
     height: 65px;
     border-radius: 25px;
     background-color: #fff;

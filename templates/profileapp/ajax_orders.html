@@ -19,6 +19,16 @@
                                 {{ order.to_address }}
                             {% endif %}
                         </p>
+                         {% if order.second_address %}
+                            <p>2-й адрес: {{ order.second_address }}</p>
+                        {% endif %}
+                        {% if order.third_address %}
+                            <p>3-й адрес: {{ order.third_address }}</p>
+                        {% endif %}
+                        {% if order.fourth_address %}
+                            <p>4-й адрес: {{ order.fourth_address }}</p>
+                        {% endif %}
+
                         {% if order.to_address != 'договориться на месте' %}
                             <p class="">Ваша цена:
                                 {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}
@@ -53,8 +63,22 @@
                     <span class="in-fact">{{ order.to_address }}</span>
                 {% else %}
                     {{ order.to_address }}
-                {% endif %}</p>
+                {% endif %}
+                </p>
+             {% if order.second_address %}
+                            <p>2-й адрес: {{ order.second_address }}</p>
+                        {% endif %}
+                        {% if order.third_address %}
+                            <p>3-й адрес: {{ order.third_address }}</p>
+                        {% endif %}
+                        {% if order.fourth_address %}
+                            <p>4-й адрес: {{ order.fourth_address }}</p>
+                        {% endif %}
                 {% if order.selected_driver == request.user %}
+                    <p>Номер клиента:
+                        {{ order.phone_number }}
+
+                    </p>
                     {% if order.to_address != 'договориться на месте' %}
                         <p>Ваша цена:
                             {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}
@@ -64,6 +88,7 @@
                     <p>Ваша время:
                         {% for offer in order.offers.all %}{% if offer.driver_offer == request.user %}{{ offer.time }}
                         {% endif %}{% endfor %} минут</p>
+
                 {% else %}
                     {% for offer in order.offers.all %}
                         {% if offer.driver_offer == request.user %}

@@ -6,7 +6,7 @@
     <div class="city-in-orders">
         <p>{{ request.user.city }}</p>
     </div>
-    <div class="orders" style="height: 70px">
+    <div class="orders" >
         <div class="orders-row">
             <div class="orders-left">
                 <p>Откуда: {{ order.from_address }}</p>
@@ -15,6 +15,15 @@
                 {% else %}
                     {{ order.to_address }}
                 {% endif %}</p>
+             {% if order.second_address %}
+                            <p>2-й адрес: {{ order.second_address }}</p>
+                        {% endif %}
+                        {% if order.third_address %}
+                            <p>3-й адрес: {{ order.third_address }}</p>
+                        {% endif %}
+                        {% if order.fourth_address %}
+                            <p>4-й адрес: {{ order.fourth_address }}</p>
+                        {% endif %}
             </div>
             <div class="orders-right">
                 <p>Время заявки: {{ order.created }}</p>

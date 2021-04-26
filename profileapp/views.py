@@ -11,6 +11,12 @@ from django.http import JsonResponse
 from django.db import models
 from django.contrib.auth.decorators import user_passes_test
 
+
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+import sys
+
 def pass_anketa(user):
     if user.trip_from_price \
             and user.trip_hour_price \
@@ -28,6 +34,16 @@ def pass_anketa(user):
         return True
     return False
 
+
+def compressImage(uploadedImage):
+    imageTemproary = Image.open(uploadedImage)
+    outputIoStream = BytesIO()
+    imageTemproaryResized = imageTemproary.resize((1020, 573))
+    imageTemproary.save(outputIoStream, format='JPEG', quality=60)
+    outputIoStream.seek(0)
+    uploadedImage = InMemoryUploadedFile(outputIoStream, 'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0],'image/jpeg', sys.getsizeof(outputIoStream), None)
+
+    return uploadedImage
 
 @method_decorator([login_required, user_passes_test(pass_anketa, login_url='/anketa/')], name='dispatch')
 class ProfileView(generic.TemplateView):
@@ -172,7 +188,7 @@ class SettingsView(generic.TemplateView):
         elif 'change_avatar' in request.POST:
             if request.FILES:
                 avatar = request.FILES['avatar']
-                user.avatar = avatar
+                user.avatar = compressImage(avatar)
                 user.save()
                 messages.add_message(request, messages.SUCCESS, 'Фото изменено')
         elif 'change_driver_license_number' in request.POST:
@@ -244,7 +260,7 @@ class AnketaView(generic.TemplateView):
         elif 'add_avatar' in request.POST:
             if request.FILES:
                 avatar = request.FILES['avatar']
-                user.avatar = avatar
+                user.avatar = compressImage(avatar)
                 user.save()
         elif 'add_driver_license_number' in request.POST:
             driver_license_number = request.POST['driver_license_number']

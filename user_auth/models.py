@@ -8,6 +8,7 @@ import numpy as np
 from ckeditor.fields import RichTextField
 
 
+
 class UserManager(BaseUserManager):
     def create_superuser(self, phone_number, country_code, password=None, **extra_fields):
         if not phone_number:
@@ -91,6 +92,9 @@ class User(AbstractUser):
             return 0
 
         return round(avg_rating)
+
+
+
 
 
 class PrivacyPolicy(models.Model):

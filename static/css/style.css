@@ -281,6 +281,7 @@ body {
     justify-content: center;
 
     cursor: pointer;
+    -webkit-appearance: none;
 }
 
 .btn-in-index:active {
@@ -510,7 +511,7 @@ body {
 .table-block-2 {
     display: flex;
     justify-content: space-between;
-    margin: 95px 0 0 -281px;
+    margin: 100px 0 0 -281px;
     /*align-items: center;*/
     /*border-right: 1px solid #ccc;*/
     /*padding: 5px 12px 5px 5px;*/
@@ -524,10 +525,9 @@ body {
 
 .table-block-3 {
     display: flex;
-    margin: 90px 0 0 7px;
+    margin: 100px 0 0 7px;
     align-items: center;
     text-align: center;
-
 
 
 }
@@ -543,18 +543,18 @@ body {
     cursor: pointer;
     color: #fff;
     background-color: #48CC4D;
-        border: none;
-     border-radius: 25px;
+    border: none;
+    border-radius: 25px;
     height: 25px;
     width: 120px;
 }
 
 .table-block-3 button {
-     background-color: #48CC4D;
-        border: none;
-     cursor: pointer;
+    background-color: #48CC4D;
+    border: none;
+    cursor: pointer;
     color: #fff;
-     border-radius: 25px;
+    border-radius: 25px;
     height: 25px;
     width: 110px;
 }

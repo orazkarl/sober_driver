@@ -15,6 +15,8 @@ from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
+from PIL import ExifTags
+from django.core.files import File
 
 
 def pass_anketa(user):
@@ -36,15 +38,35 @@ def pass_anketa(user):
 
 
 def compressImage(uploadedImage):
-    imageTemproary = Image.open(uploadedImage)
-    outputIoStream = BytesIO()
-    # imageTemproaryResized = imageTemproary.resize((1020, 573))
-    imageTemproary.save(outputIoStream, format='JPEG', quality=60)
-    # outputIoStream.seek(0)
-    uploadedImage = InMemoryUploadedFile(outputIoStream, 'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0],
-                                         'image/jpeg', sys.getsizeof(outputIoStream), None)
+    pilImage = Image.open(BytesIO(uploadedImage.read()))
+    for orientation in ExifTags.TAGS.keys():
+        if ExifTags.TAGS[orientation] == 'Orientation':
+            break
+    exif = dict(pilImage._getexif().items())
+    if 'orientation' in exif:
+        if exif['orientation']:
+            if exif[orientation] == 3:
+                pilImage = pilImage.rotate(180, expand=True)
+            elif exif[orientation] == 6:
+                pilImage = pilImage.rotate(270, expand=True)
+            elif exif[orientation] == 8:
+                pilImage = pilImage.rotate(90, expand=True)
 
-    return uploadedImage
+    output = BytesIO()
+    pilImage.save(output, format='JPEG', quality=75)
+    output.seek(0)
+    image = File(output, uploadedImage.name)
+
+
+    # imageTemproary = Image.open(uploadedImage)
+    # outputIoStream = BytesIO()
+    # # imageTemproaryResized = imageTemproary.resize((1020, 573))
+    # imageTemproary.save(outputIoStream, format='JPEG', quality=60)
+    # # outputIoStream.seek(0)
+    # uploadedImage = InMemoryUploadedFile(outputIoStream, 'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0],
+    #                                      'image/jpeg', sys.getsizeof(outputIoStream), None)
+
+    return image
 
 
 @method_decorator([login_required, user_passes_test(pass_anketa, login_url='/anketa/')], name='dispatch')

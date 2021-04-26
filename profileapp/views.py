@@ -11,11 +11,11 @@ from django.http import JsonResponse
 from django.db import models
 from django.contrib.auth.decorators import user_passes_test
 
-
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import sys
+
 
 def pass_anketa(user):
     if user.trip_from_price \
@@ -38,12 +38,14 @@ def pass_anketa(user):
 def compressImage(uploadedImage):
     imageTemproary = Image.open(uploadedImage)
     outputIoStream = BytesIO()
-    imageTemproaryResized = imageTemproary.resize((1020, 573))
+    # imageTemproaryResized = imageTemproary.resize((1020, 573))
     imageTemproary.save(outputIoStream, format='JPEG', quality=60)
-    outputIoStream.seek(0)
-    uploadedImage = InMemoryUploadedFile(outputIoStream, 'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0],'image/jpeg', sys.getsizeof(outputIoStream), None)
+    # outputIoStream.seek(0)
+    uploadedImage = InMemoryUploadedFile(outputIoStream, 'ImageField', "%s.jpg" % uploadedImage.name.split('.')[0],
+                                         'image/jpeg', sys.getsizeof(outputIoStream), None)
 
     return uploadedImage
+
 
 @method_decorator([login_required, user_passes_test(pass_anketa, login_url='/anketa/')], name='dispatch')
 class ProfileView(generic.TemplateView):
@@ -60,12 +62,21 @@ class ProfileView(generic.TemplateView):
         count_orders_day = orders.filter(created__gte=datetime.today() - timedelta(days=1)).count()
         count_orders_week = orders.filter(created__gte=datetime.today() - timedelta(days=7)).count()
         count_orders_month = orders.filter(selected_driver=request.user, status='finished',
-                                                  created__gte=datetime.today() - timedelta(days=30)).count()
+                                           created__gte=datetime.today() - timedelta(days=30)).count()
         count_orders_all = orders.count()
-        offer_orders = OfferOrder.objects.filter(driver_offer=request.user,order__status='finished')
-        amount_income_day = offer_orders.filter(order__created__gte=datetime.today() - timedelta(days=1)).aggregate(models.Sum('price'))['price__sum']
-        amount_income_week = offer_orders.filter(order__created__gte=datetime.today() - timedelta(days=7)).aggregate(models.Sum('price'))['price__sum']
-        amount_income_month = offer_orders.filter(order__created__gte=datetime.today() - timedelta(days=30)).aggregate(models.Sum('price'))['price__sum']
+        offer_orders = OfferOrder.objects.filter(driver_offer=request.user, order__status='finished')
+        amount_income_day = \
+            offer_orders.filter(order__created__gte=datetime.today() - timedelta(days=1)).aggregate(
+                models.Sum('price'))[
+                'price__sum']
+        amount_income_week = \
+            offer_orders.filter(order__created__gte=datetime.today() - timedelta(days=7)).aggregate(
+                models.Sum('price'))[
+                'price__sum']
+        amount_income_month = \
+            offer_orders.filter(order__created__gte=datetime.today() - timedelta(days=30)).aggregate(
+                models.Sum('price'))[
+                'price__sum']
         amount_income_all = offer_orders.aggregate(models.Sum('price'))['price__sum']
 
         self.extra_context = {
@@ -103,6 +114,7 @@ class OrdersView(generic.ListView):
     template_name = 'profileapp/orders.html'
     model = Order
 
+
 def getOrders(request):
     user = request.user
 
@@ -110,7 +122,8 @@ def getOrders(request):
         orders = Order.objects.filter(city=user.city, selected_driver=None).exclude(status='finished').exclude(
             status='canceled').exclude(status='notselected')
     else:
-        orders = Order.objects.filter(selected_driver=user).exclude(status='finished').exclude(status='canceled').exclude(status='notselected')
+        orders = Order.objects.filter(selected_driver=user).exclude(status='finished').exclude(
+            status='canceled').exclude(status='notselected')
     return render(request, 'profileapp/ajax_orders.html', {'orders': orders})
 
 

@@ -69,7 +69,7 @@ def compressImage(uploadedImage):
     print(111)
 
     output = BytesIO()
-    pilImage.save(output, format='JPEG', quality=75)
+    pilImage.save(output, format='JPEG', quality=25)
     output.seek(0)
     image = File(output, uploadedImage.name)
 

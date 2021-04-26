@@ -464,7 +464,7 @@ body {
 
     display: flex;
     width: 365px;
-    height: 135px;
+    height: 140px;
     border-radius: 25px;
     background-color: #fff;
     box-sizing: border-box;
@@ -525,7 +525,7 @@ body {
 
 .table-block-3 {
     display: flex;
-    margin: 100px 0 0 7px;
+    margin: 95px 0 0 7px;
     align-items: center;
     text-align: center;
 

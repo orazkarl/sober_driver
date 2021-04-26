@@ -31,7 +31,10 @@
         </div>
     </div>
 
-    <div class="orders offer-form" style="text-align: center; height: 105px">
+    <div class="orders offer-form" style="text-align: center; height: 135px">
+        <p>
+            Уважаемый водитель! Укажите точное время прибытия. Клиент может уехать не дождавшись вас.
+        </p>
         {% if offer %}
             <div class="text-in-registration-window">Цена:</div>
             <input type="number" class="registration-input" name="price" placeholder="Цена" value="{{ offer.price }}"
@@ -51,7 +54,7 @@
                 {% else %}
                     <style>
                         .orders {
-                            height: 70px !important;
+                            height: 110px !important;
                         }
                     </style>
                 {% endif %}

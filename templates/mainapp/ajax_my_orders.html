@@ -101,7 +101,6 @@
             <div class="table">
                 <div class="table-block-1">
                     <div class="div-for-img">
-
                         <div style="border-radius: 50%; overflow: hidden; width: 60px; height: 60px; margin: 0 auto">
                             <img src="{{ order.selected_driver.avatar.url }}"
                                  style="width: 65px; margin: 0 auto; "
@@ -180,16 +179,7 @@
                     {% endif %}
                 </div>
                 <div class="table-block-3">
-                    <a href="tel:+
-
-
-
-
-
-
-
-
-                            {{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}">+{{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}</a>
+                    <a href="tel:+{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}">+{{ order.selected_driver.country_code }}{{ order.selected_driver.phone_number }}</a>
                 </div>
             </div>
             {% if order.review %}

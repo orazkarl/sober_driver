@@ -99,21 +99,21 @@
             </div>
             <div class="div-from" id="id_second_address" style="display: none">
                 <input class="input-to " type="text" name="second_address" placeholder="Второй адрес"
-                       maxlength="25" >
+                       maxlength="25"  id="id_second_address_input">
                 <a href="#" onclick="displayThirdAddress()"><img class="geo-plus" src="/static/img/blue+.png"
                                                                  alt=""></a>
 
             </div>
             <div class="div-from" id="id_third_address" style="display: none">
                 <input class="input-to " type="text" name="third_address" placeholder="Третий адрес"
-                       maxlength="25" >
+                       maxlength="25"  id="id_third_address_input">
                 <a href="#" onclick="displayFourthAddress()"><img class="geo-plus" src="/static/img/blue+.png"
                                                                   alt=""></a>
 
             </div>
             <div class="div-from" id="id_fourth_address" style="display: none">
                 <input class="input-from" type="text" name="fourth_address" placeholder="Четвертый адрес"
-                       maxlength="25" >
+                       maxlength="25" id="id_fourth_address_input" >
 
 
             </div>
@@ -229,9 +229,12 @@
             },
         });
         document.getElementById('id_from_address').value = '';
-        document.getElementById('id_to_address').value = '';
-        document.getElementById('id_to_address').style.display = '';
+        document.getElementById('id_to_address_input').value = '';
+        document.getElementById('id_to_address_input').style.display = '';
         document.getElementById('id_phone_number').value = '';
+        document.getElementById('id_second_address_input').value = '';
+        document.getElementById('id_third_address_input').value = '';
+        document.getElementById('id_fourth_address_input').value = '';
         document.getElementById('id_second_address').style.display = 'none';
         document.getElementById('id_third_address').style.display = 'none';
         document.getElementById('id_fourth_address').style.display = 'none';

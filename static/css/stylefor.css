@@ -254,7 +254,7 @@ footer {
     width: 352px;
     padding: 5px 10px;
     padding-bottom: 15px;
-    height: 140px;
+    height: 150px;
     border-radius: 25px;
 
     border: 1px solid #00c2e0;
@@ -324,6 +324,7 @@ footer {
     border: none;
 
     padding: 5px 15px 5px 15px;
+    -webkit-appearance: none;
 }
 
 .orders-text-1 {

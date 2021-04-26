@@ -19,7 +19,7 @@
                                 {{ order.to_address }}
                             {% endif %}
                         </p>
-                         {% if order.second_address %}
+                        {% if order.second_address %}
                             <p>2-й адрес: {{ order.second_address }}</p>
                         {% endif %}
                         {% if order.third_address %}
@@ -55,7 +55,12 @@
         </form>
     {% endif %}
 
-    <div class="orders">
+    <div class="orders" style="height:{% if order.fourth_address %} 160px
+    {% elif order.third_address %}
+        140px
+    {% elif order.second_address %}
+        120px
+    {% endif %}">
         <div class="orders-row">
             <div class="orders-left">
                 <p>Откуда: {{ order.from_address }}</p>
@@ -65,15 +70,15 @@
                     {{ order.to_address }}
                 {% endif %}
                 </p>
-             {% if order.second_address %}
-                            <p>2-й адрес: {{ order.second_address }}</p>
-                        {% endif %}
-                        {% if order.third_address %}
-                            <p>3-й адрес: {{ order.third_address }}</p>
-                        {% endif %}
-                        {% if order.fourth_address %}
-                            <p>4-й адрес: {{ order.fourth_address }}</p>
-                        {% endif %}
+                {% if order.second_address %}
+                    <p>2-й адрес: {{ order.second_address }}</p>
+                {% endif %}
+                {% if order.third_address %}
+                    <p>3-й адрес: {{ order.third_address }}</p>
+                {% endif %}
+                {% if order.fourth_address %}
+                    <p>4-й адрес: {{ order.fourth_address }}</p>
+                {% endif %}
                 {% if order.selected_driver == request.user %}
                     <p>Номер клиента:
                         {{ order.phone_number }}
@@ -154,6 +159,14 @@
     $('#id_modal').scroll(function () {
         sessionStorage.scrollTopModal = $('#id_modal').scrollTop();
     });
+
+
+    $('#btn-open-offer').on("click", function (e) {
+        e.preventDefault(); // cancel click
+        var page = $(this).attr('href');
+        $(document.body).load(page);
+    });
+
     $(document).ready(function () {
         if (sessionStorage.scrollTopModal != "undefined") {
             $('#id_modal').scrollTop(sessionStorage.scrollTopModal);
@@ -162,12 +175,6 @@
         if (show_modal === 'false') {
             document.getElementById("id_modal").style.display = "none";
         }
-    });
-
-    $('#btn-open-offer').on("click", function (e) {
-        e.preventDefault(); // cancel click
-        var page = $(this).attr('href');
-        $(document.body).load(page);
     });
 
 </script>

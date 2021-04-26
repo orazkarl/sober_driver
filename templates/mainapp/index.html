@@ -1,3 +1,4 @@
+{% load i18n %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -18,10 +19,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
+
         .share-animate {
-            font-size: 35px;
-            -webkit-text-stroke: 3px #48CC4D;
-            color: #00cc66;
+            margin-top: -24px;
+            margin-left: 22px;
+            display: block;
+            width: 10px;
+            height: 10px;
+            text-align: center;
+            border-radius: 50%;
+            background: none;
+            -webkit-animation: pulse 1.5s infinite;
+
+        }
+
+        .pulse-button:hover {
+            -webkit-animation: none;
+            border-radius: 50%;
+        }
+
+        @-webkit-keyframes pulse {
+            0% {
+            transform(scale(.9));
+            }
+            70% {
+            transform(scale(1));
+                box-shadow: 0 0 0 25px #00cc66;
+            }
+            100% {
+            transform(scale(.9));
+                box-shadow: 0 0 0 0 #00cc66;
+            }
         }
     </style>
 </head>
@@ -30,9 +58,10 @@
 <div class="page"> <!-- ------------------Logo-------------- -->
     <div style="position: absolute; left: 83%; top: 13px  ">
         <button class="share-button" type="button">
-            <span> <i class="fa fa-share-alt" style="    color: #00cc66;
+            <span> <i class="fa fa-share-alt  " style="    color: #00cc66;
             font-size: 35px;
             -webkit-text-stroke: 3px #F0F8FF;"></i></span>
+            <div class="share-animate"></div>
         </button>
 
     </div>
@@ -90,30 +119,32 @@
                     договориться на месте
                 </a>
             </div>
-            <div class="div-from"  id="id_to_address" >
-                <input class="input-to " type="text" name="to_address" placeholder="Куда поедем" id="id_to_address_input"
-                      maxlength="25" required>
-                <a href="#" onclick="displaySecondAddress()" id="plus-address"><img class="geo-plus" src="/static/img/blue+.png"
-                                                                  alt=""></a>
+            <div class="div-from" id="id_to_address">
+                <input class="input-to " type="text" name="to_address" placeholder="Куда поедем"
+                       id="id_to_address_input"
+                       maxlength="25" required>
+                <a href="#" onclick="displaySecondAddress()" id="plus-address"><img class="geo-plus"
+                                                                                    src="/static/img/blue+.png"
+                                                                                    alt=""></a>
 
             </div>
             <div class="div-from" id="id_second_address" style="display: none">
                 <input class="input-to " type="text" name="second_address" placeholder="Второй адрес"
-                       maxlength="25"  id="id_second_address_input">
+                       maxlength="25" id="id_second_address_input">
                 <a href="#" onclick="displayThirdAddress()"><img class="geo-plus" src="/static/img/blue+.png"
                                                                  alt=""></a>
 
             </div>
             <div class="div-from" id="id_third_address" style="display: none">
                 <input class="input-to " type="text" name="third_address" placeholder="Третий адрес"
-                       maxlength="25"  id="id_third_address_input">
+                       maxlength="25" id="id_third_address_input">
                 <a href="#" onclick="displayFourthAddress()"><img class="geo-plus" src="/static/img/blue+.png"
                                                                   alt=""></a>
 
             </div>
             <div class="div-from" id="id_fourth_address" style="display: none">
                 <input class="input-from" type="text" name="fourth_address" placeholder="Четвертый адрес"
-                       maxlength="25" id="id_fourth_address_input" >
+                       maxlength="25" id="id_fourth_address_input">
 
 
             </div>
@@ -268,11 +299,10 @@
 
     function displaySecondAddress() {
         var temp = document.getElementById('id_second_address');
-        if (temp.style.display === 'none'){
+        if (temp.style.display === 'none') {
             temp.style.display = ''
             document.getElementById('id_btn_agree').style.display = 'none'
-        }
-        else {
+        } else {
             temp.style.display = 'none';
             document.getElementById('id_third_address').style.display = 'none'
             document.getElementById('id_fourth_address').style.display = 'none'
@@ -284,10 +314,9 @@
 
     function displayThirdAddress() {
         var temp = document.getElementById('id_third_address');
-        if (temp.style.display === 'none'){
+        if (temp.style.display === 'none') {
             temp.style.display = ''
-        }
-        else {
+        } else {
             temp.style.display = 'none';
             document.getElementById('id_fourth_address').style.display = 'none'
 
@@ -296,10 +325,9 @@
 
     function displayFourthAddress() {
         var temp = document.getElementById('id_fourth_address');
-        if (temp.style.display === 'none'){
+        if (temp.style.display === 'none') {
             temp.style.display = ''
-        }
-        else {
+        } else {
             temp.style.display = 'none';
 
         }

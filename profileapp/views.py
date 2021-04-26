@@ -39,18 +39,34 @@ def pass_anketa(user):
 
 def compressImage(uploadedImage):
     pilImage = Image.open(BytesIO(uploadedImage.read()))
-    for orientation in ExifTags.TAGS.keys():
-        if ExifTags.TAGS[orientation] == 'Orientation':
-            break
-    exif = dict(pilImage._getexif().items())
-    if 'orientation' in exif:
-        if exif['orientation']:
-            if exif[orientation] == 3:
-                pilImage = pilImage.rotate(180, expand=True)
-            elif exif[orientation] == 6:
-                pilImage = pilImage.rotate(270, expand=True)
-            elif exif[orientation] == 8:
-                pilImage = pilImage.rotate(90, expand=True)
+    try:
+        for orientation in ExifTags.TAGS.keys():
+            if ExifTags.TAGS[orientation] == 'Orientation':
+                break
+        exif = dict(pilImage._getexif().items())
+
+        if exif[orientation] == 3:
+            pilImage = pilImage.rotate(180, expand=True)
+        elif exif[orientation] == 6:
+            pilImage = pilImage.rotate(270, expand=True)
+        elif exif[orientation] == 8:
+            pilImage = pilImage.rotate(90, expand=True)
+    except (AttributeError, KeyError, IndexError):
+        # cases: image don't have getexif
+        pass
+    # for orientation in ExifTags.TAGS.keys():
+    #     if ExifTags.TAGS[orientation] == 'Orientation':
+    #         break
+    # exif = dict(pilImage._getexif().items())
+    # if 'orientation' in exif:
+    #     if exif['orientation']:
+    #         if exif[orientation] == 3:
+    #             pilImage = pilImage.rotate(180, expand=True)
+    #         elif exif[orientation] == 6:
+    #             pilImage = pilImage.rotate(270, expand=True)
+    #         elif exif[orientation] == 8:
+    #             pilImage = pilImage.rotate(90, expand=True)
+    print(111)
 
     output = BytesIO()
     pilImage.save(output, format='JPEG', quality=75)

@@ -48,12 +48,12 @@
 
                     {% if order.selected_driver %}
                         <span class="cancel-span-5" style="font-size: 13px; top: {% if order.fourth_address %}
-                110px
-            {% elif order.third_address %}
-                85px
-            {% elif order.second_address %}
-                65px
-            {% endif %}">Уважаемые клиент сейчас вам позвонит водитель , прежде чем передать управление водителю в
+                            110px
+                        {% elif order.third_address %}
+                            85px
+                        {% elif order.second_address %}
+                            65px
+                        {% endif %}">Уважаемые клиент сейчас вам позвонит водитель , прежде чем передать управление водителю в
                             обязательном порядке проверьте удостоверение личности и водительские удостоверения
                            водителя</span>
                     {% endif %}
@@ -106,9 +106,9 @@
                                  style="width: 65px; margin: 0 auto; "
                                  alt="">
                         </div>
-                        <div style="margin: -3px 0 0 17px">
-                            <span style=" font-size: 10px; ">Стаж: {{ order.selected_driver.driving_experience }}лет </span>
-                            <p style="font-size:12px; margin-left: -10px ">
+                        <div style="margin: 0 auto; width: 80px">
+                            <span style=" font-size: 10px; margin-left: 10px ">Стаж: {{ order.selected_driver.driving_experience }}лет </span>
+                            <p style="font-size:12px">
                                 {% if order.selected_driver.average_rating < 0.5 %}
                                     <span
                                             style="color: #FCE406;font-size: 17px">☆☆☆☆☆</span>
@@ -241,9 +241,9 @@
                                              style="width: 65px; margin: 0 auto; "
                                              alt="">
                                     </div>
-                                    <div style="margin: 0 0 0 17px">
-                                        <span style=" font-size: 10px; ">Стаж: {{ offer.driver_offer.driving_experience }}лет </span>
-                                        <p style="font-size:12px; margin-left: -10px ">
+                                    <div style="margin: 0 auto; width: 80px">
+                                        <span style=" font-size: 10px; margin-left: 10px ">Стаж: {{ offer.driver_offer.driving_experience }}лет </span>
+                                        <p style="font-size:12px;">
                                             {% if offer.driver_offer.average_rating < 0.5 %}
                                                 <span
                                                         style="color: #FCE406;font-size: 17px">☆☆☆☆☆</span>

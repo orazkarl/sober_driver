@@ -92,8 +92,8 @@
         </div>
 
         {% if order.selected_driver %}
-            <div style="margin: 0 auto; width: 130px; margin-top: 7px">
-            <span style="background-color: #FCE406; border-radius: 25px; font-size: 15px; padding: 4px 10px;">
+            <div style="margin: 0 auto; width: 345px; margin-top: 7px">
+            <span style="background-color: #FCE406; border-radius: 25px; font-size: 15px; padding: 4px 10px; ">
                             Ваш водитель
                         </span>
 
@@ -107,8 +107,11 @@
                                  alt="">
                         </div>
                         <div style="margin: 0 auto; width: 80px">
-                            <span style=" font-size: 10px; margin-left: 10px ">Стаж: {{ order.selected_driver.driving_experience }}лет </span>
-                            <p style="font-size:12px">
+                            <br>
+                            <p style=" font-size: 10px; text-align: center">{{ order.selected_driver.first_name }} </p>
+                            <p style=" font-size: 10px; text-align: center">
+                                Стаж: {{ order.selected_driver.driving_experience }}лет </p>
+                            <p style="font-size:12px; text-align: center">
                                 {% if order.selected_driver.average_rating < 0.5 %}
                                     <span
                                             style="color: #FCE406;font-size: 17px">☆☆☆☆☆</span>
@@ -242,8 +245,11 @@
                                              alt="">
                                     </div>
                                     <div style="margin: 0 auto; width: 80px">
-                                        <span style=" font-size: 10px; margin-left: 10px ">Стаж: {{ offer.driver_offer.driving_experience }}лет </span>
-                                        <p style="font-size:12px;">
+                                        <br>
+                                        <p style=" font-size: 10px; text-align: center">{{ offer.driver_offer.first_name }} </p>
+                                        <p style=" font-size: 10px; text-align: center">
+                                            Стаж: {{ offer.driver_offer.driving_experience }}лет </p>
+                                        <p style="font-size:12px; text-align: center">
                                             {% if offer.driver_offer.average_rating < 0.5 %}
                                                 <span
                                                         style="color: #FCE406;font-size: 17px">☆☆☆☆☆</span>

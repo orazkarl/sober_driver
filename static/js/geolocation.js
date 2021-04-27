@@ -19,8 +19,8 @@ function init() {
             balloonContentBody: 'Мое местоположение'
         });
         myMap.geoObjects.add(result.geoObjects);
-
         sendRequest(result.geoObjects.get(0).geometry.getCoordinates());
+        document.querySelector('#error-geolocation').innerHTML = result.geoObjects.get(0).geometry.getCoordinates()
         myMap.setCenter([result.geoObjects.get(0).geometry.getCoordinates()[0], result.geoObjects.get(0).geometry.getCoordinates()[1]], 14, {checkZoomRange: true});
 
     });
@@ -32,7 +32,7 @@ function init() {
 
 function sendRequest(state) {
     const Http = new XMLHttpRequest();
-    const url = 'https://geocode-maps.yandex.ru/1.x?geocode=' + state[1] + ',' + state[0] + '&apikey=7af4d9cc-1a22-44c4-82cf-dbd6503a6696';
+    const url = 'https://geocode-maps.yandex.ru/1.x?geocode=' + state[1] + ',' + state[0] + '&apikey=7af4d9cc-1a22-44c4-82cf-dbd6503a6696&kind=house';
     Http.open("GET", url);
     Http.send();
 
@@ -44,10 +44,9 @@ function sendRequest(state) {
 
         if (text.getElementsByTagName("GeocoderMetaData")[0]) {
             var value = text.getElementsByTagName("GeocoderMetaData")[0].getElementsByTagName("Address")[0];
-            if (value.getElementsByTagName('Component')[2]) {
+            if (value.getElementsByTagName('Component')[2].getElementsByTagName("kind")[0].childNodes[0].nodeValue === 'locality') {
                 var city = value.getElementsByTagName('Component')[2].getElementsByTagName("name")[0].childNodes[0].nodeValue;
-                console.log(value)
-                if (value.getElementsByTagName('Component')[3]) {
+                if (value.getElementsByTagName('Component')[3].getElementsByTagName("kind")[0].childNodes[0].nodeValue === 'street') {
                     var address = value.getElementsByTagName('Component')[3].getElementsByTagName("name")[0].childNodes[0].nodeValue + ',' + value.getElementsByTagName('Component')[4].getElementsByTagName("name")[0].childNodes[0].nodeValue;
                     document.querySelector('#id_cities').style.display = 'block'
                     var cities = []
@@ -64,16 +63,15 @@ function sendRequest(state) {
                         document.querySelector('#error-geolocation').innerHTML = 'Город "' + city + '" не обслуживается'
                     }
                 } else {
-                    document.querySelector('#error-geolocation').innerHTML = 'Местоположения не обслуживается'
-
+                    document.querySelector('#error-geolocation').innerHTML = 'Местоположения не найдено'
                 }
 
             } else {
-                document.querySelector('#error-geolocation').innerHTML = 'Местоположения не обслуживается'
+                document.querySelector('#error-geolocation').innerHTML = 'Город не найден'
             }
 
         } else {
-            document.querySelector('#error-geolocation').innerHTML = 'Местоположения не обслуживается'
+            document.querySelector('#error-geolocation').innerHTML = 'Местоположения не найдено'
         }
 
 

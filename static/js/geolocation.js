@@ -1,4 +1,5 @@
 function geoYandex() {
+    document.getElementById('map').style.display = '';
     ymaps.ready(init);
     var myMap;
 }
@@ -9,7 +10,6 @@ function init() {
             center: [43.2566700, 76.9286100],
             zoom: 10
         });
-
     geolocation.get({
         provider: 'browser',
         mapStateAutoApply: false,
@@ -64,16 +64,16 @@ function sendRequest(state) {
                         document.querySelector('#error-geolocation').innerHTML = 'Город "' + city + '" не обслуживается'
                     }
                 } else {
-                    document.querySelector('#error-geolocation').innerHTML = 'Местоположения не найдена'
+                    document.querySelector('#error-geolocation').innerHTML = 'Местоположения не обслуживается'
 
                 }
 
             } else {
-                document.querySelector('#error-geolocation').innerHTML = 'Местоположения не найдена'
+                document.querySelector('#error-geolocation').innerHTML = 'Местоположения не обслуживается'
             }
 
         } else {
-            document.querySelector('#error-geolocation').innerHTML = 'Местоположения не найдена'
+            document.querySelector('#error-geolocation').innerHTML = 'Местоположения не обслуживается'
         }
 
 

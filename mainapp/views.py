@@ -37,9 +37,10 @@ class HomeView(generic.TemplateView):
         city = 'Алматы'
         active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
         user_id_list = []
+
         for session in active_sessions:
             data = session.get_decoded()
-            user_id_list.append(int(data.get('_auth_user_id', None)))
+            user_id_list.append(data.get('_auth_user_id', None))
         count_online_drivers = User.objects.filter(id__in=user_id_list, is_free=True, city__name=city).count()
         list(messages.get_messages(request))
         cities = City.objects.all()

@@ -1,5 +1,5 @@
 function geoYandex() {
-    document.getElementById('map').style.display = '';
+    // document.getElementById('map').style.display = '';
     ymaps.ready(init);
     var myMap;
 }
@@ -20,7 +20,7 @@ function init() {
         });
         myMap.geoObjects.add(result.geoObjects);
         sendRequest(result.geoObjects.get(0).geometry.getCoordinates());
-        document.querySelector('#error-geolocation').innerHTML = result.geoObjects.get(0).geometry.getCoordinates()
+        // document.querySelector('#error-geolocation').innerHTML = result.geoObjects.get(0).geometry.getCoordinates()
         myMap.setCenter([result.geoObjects.get(0).geometry.getCoordinates()[0], result.geoObjects.get(0).geometry.getCoordinates()[1]], 14, {checkZoomRange: true});
 
     });
